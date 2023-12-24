@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "synchro",
+	"version": "${version}",
+	"name": "Synchro",
+	"description": "It's my first Minecraft mod! How's it look like?",
+	"authors": [
+		"PajangForever"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/synchro/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"name.synchro.Synchro"
+		],
+		"client": [
+			"name.synchro.SynchroClient"
+		],
+		"fabric-datagen": [
+			"name.synchro.SynchroDataGenerator"
+		]
+	},
+	"mixins": [
+		"synchro.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.3",
+		"minecraft": "~1.19.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

@@ -1,0 +1,94 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "AND": [
+          {"OR": [{"up": false}, {"down": false}, {"north": true}, {"south": true}, {"east": true}, {"west": true}]},
+          {"OR": [{"up": true}, {"down": true}, {"north": false}, {"south": false}, {"east": true}, {"west": true}]},
+          {"OR": [{"up": true}, {"down": true}, {"north": true}, {"south": true}, {"east": false}, {"west": false}]},
+          {"OR": [{"up": false}, {"down": true}, {"north": true}, {"south": true}, {"east": true}, {"west": true}]},
+          {"OR": [{"up": true}, {"down": false}, {"north": true}, {"south": true}, {"east": true}, {"west": true}]},
+          {"OR": [{"up": true}, {"down": true}, {"north": false}, {"south": true}, {"east": true}, {"west": true}]},
+          {"OR": [{"up": true}, {"down": true}, {"north": true}, {"south": false}, {"east": true}, {"west": true}]},
+          {"OR": [{"up": true}, {"down": true}, {"north": true}, {"south": true}, {"east": false}, {"west": true}]},
+          {"OR": [{"up": true}, {"down": true}, {"north": true}, {"south": true}, {"east": true}, {"west": false}]}
+        ]
+      },
+      "apply": {
+        "model": "synchro:block/cable_node"
+      }
+    },
+    {
+      "when": {
+        "OR":[
+          {"up": true},
+          {"up": false,"down": true,"north": false, "south": false, "east": false, "west": false}
+        ]
+      },
+      "apply": {
+        "model": "synchro:block/cable_line",
+        "x": 270,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR":[
+          {"down": true},
+          {"up": true,"down": false,"north": false, "south": false, "east": false, "west": false}
+        ]
+      },
+      "apply": {
+        "model": "synchro:block/cable_line",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "OR":[
+          {"east": true},
+          {"up": false,"down": false,"north": false, "south": false, "east": false, "west": true}
+        ]
+      },
+      "apply": {
+        "model": "synchro:block/cable_line",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR":[
+          {"north": true},
+          {"up": false,"down": false,"north": false, "south": true, "east": false, "west": false}
+        ]
+      },
+      "apply": {
+        "model": "synchro:block/cable_line"
+      }
+    },
+    {
+      "when": {
+        "OR":[
+          {"west": true},
+          {"up": false,"down": false,"north": false, "south": false, "east": true, "west": false}
+        ]
+      },
+      "apply": {
+        "model": "synchro:block/cable_line",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "OR":[
+          {"south": true},
+          {"up": false,"down": false,"north": true, "south": false, "east": false, "west": false}
+        ]
+      },
+      "apply": {
+        "model": "synchro:block/cable_line",
+        "y": 180
+      }
+    }
+  ]
+}

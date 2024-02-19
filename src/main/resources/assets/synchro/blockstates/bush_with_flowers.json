@@ -1,0 +1,14 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "synchro:block/bush_without_flowers"
+      }
+    },
+    {
+      "apply": {
+        "model": "synchro:block/flowers_on_bush"
+      }
+    }
+    ]
+}

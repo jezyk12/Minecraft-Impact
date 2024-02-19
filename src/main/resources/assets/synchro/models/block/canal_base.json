@@ -1,0 +1,20 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "minecraft:block/dirt"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 6, 16],
+			"faces": {
+				"north": { "texture": "#particle"},
+				"east": { "texture": "#particle"},
+				"south": { "texture": "#particle"},
+				"west": { "texture": "#particle"},
+				"up": { "texture": "#particle"},
+				"down": { "texture": "#particle"}
+			}
+		}
+	]
+}

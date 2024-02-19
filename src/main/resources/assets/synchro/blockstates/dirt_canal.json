@@ -1,0 +1,79 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "synchro:block/canal_base"
+      }
+    },
+    {
+      "when": {
+        "east": "default"
+      },
+      "apply": {
+        "model": "synchro:block/canal_wall",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "north": "default"
+      },
+      "apply": {
+        "model": "synchro:block/canal_wall"
+      }
+    },
+    {
+      "when": {
+        "west": "default"
+      },
+      "apply": {
+        "model": "synchro:block/canal_wall",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "south": "default"
+      },
+      "apply": {
+        "model": "synchro:block/canal_wall",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [{"north": "default"}, {"west": "default"}]
+      },
+      "apply": {
+        "model": "synchro:block/canal_corner"
+      }
+    },
+    {
+      "when": {
+        "OR": [{"east": "default"}, {"north": "default"}]
+      },
+      "apply": {
+        "model": "synchro:block/canal_corner",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [{"south": "default"}, {"east": "default"}]
+      },
+      "apply": {
+        "model": "synchro:block/canal_corner",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [{"west": "default"}, {"south": "default"}]
+      },
+      "apply": {
+        "model": "synchro:block/canal_corner",
+        "y": 270
+      }
+    }
+  ]
+}

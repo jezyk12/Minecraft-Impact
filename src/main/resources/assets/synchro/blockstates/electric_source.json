@@ -1,0 +1,112 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "up"
+      },
+      "apply": {
+        "model": "synchro:block/electric_source",
+        "x": 270,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "down"
+      },
+      "apply": {
+        "model": "synchro:block/electric_source",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east"
+      },
+      "apply": {
+        "model": "synchro:block/electric_source",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "north"
+      },
+      "apply": {
+        "model": "synchro:block/electric_source"
+      }
+    },
+    {
+      "when": {
+        "facing": "west"
+      },
+      "apply": {
+        "model": "synchro:block/electric_source",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "south"
+      },
+      "apply": {
+        "model": "synchro:block/electric_source",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "up": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal",
+        "x": 270,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "down": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "east": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "north": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal"
+      }
+    },
+    {
+      "when": {
+        "west": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "south": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal",
+        "y": 180
+      }
+    }
+  ]
+}

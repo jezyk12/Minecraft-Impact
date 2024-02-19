@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_farmland",
+  "textures": {
+    "dirt": "synchro:block/fertile_dirt",
+    "top": "synchro:block/fertile_farmland"
+  }
+}

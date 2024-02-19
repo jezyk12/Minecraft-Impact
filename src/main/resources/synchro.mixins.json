@@ -1,11 +1,25 @@
 {
-	"required": true,
-	"package": "name.synchro.mixin",
-	"compatibilityLevel": "JAVA_17",
-	"mixins": [
-		"ExampleMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "name.synchro.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BarrelBlockMixin",
+    "ChestBlockMixin",
+    "CropBlockMixin",
+    "DispenserBlockMixin",
+    "ExampleMixin",
+    "FarmerVillagerTaskMixin",
+    "HoeItemMixin",
+    "HopperBlockMixin",
+    "ServerPlayerEntityMixin"
+  ],
+  "client": [
+    "BackgroundRendererMixin",
+    "CamaraMixin",
+    "InGameHudMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

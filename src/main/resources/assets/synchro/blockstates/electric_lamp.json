@@ -1,0 +1,74 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "lit": false
+      },
+      "apply": {
+        "model": "synchro:block/electric_lamp"
+      }
+    },
+    {
+      "when": {
+        "lit": true
+      },
+      "apply": {
+        "model": "synchro:block/electric_lamp_on"
+      }
+    },
+    {
+      "when": {
+        "up": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal",
+        "x": 270,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "down": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "east": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "north": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal"
+      }
+    },
+    {
+      "when": {
+        "west": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "south": true
+      },
+      "apply": {
+        "model": "synchro:block/linked_signal",
+        "y": 180
+      }
+    }
+  ]
+}

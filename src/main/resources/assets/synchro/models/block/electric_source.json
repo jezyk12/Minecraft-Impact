@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube_directional",
+  "textures": {
+    "north":"synchro:block/electric_source_panel",
+    "south":"synchro:block/electric_side",
+    "west":"synchro:block/electric_side",
+    "east":"synchro:block/electric_side",
+    "up":"synchro:block/electric_side",
+    "down":"synchro:block/electric_side",
+    "particle": "synchro:block/electric_side"
+  }
+}

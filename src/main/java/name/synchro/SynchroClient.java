@@ -16,7 +16,10 @@ import static com.mojang.text2speech.Narrator.LOGGER;
 @Environment(EnvType.CLIENT)
 public class SynchroClient implements ClientModInitializer {
     public static boolean applyNewHud = true;
-
+    public static float debugNum0 = 0.0f;
+    public static float debugNum1 = 1.0f;
+    public static float debugNum2 = 1.0f;
+    public static float debugNum3 = 1.0f;
     @Override
     public void onInitializeClient() {
         RegisterClientNetworking.registerAll();

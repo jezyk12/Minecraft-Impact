@@ -18,7 +18,10 @@ public enum HudColors {
     HUNGER_BAR_NORMAL(0xffb88458),
     HUNGER_BAR_SATURATION(0x7fD4AF37),
     HUNGER_BAR_HUNGER(0xff748458),
-    HUNGER_BAR_EXHAUSTION(0x3f000000);
+    HUNGER_BAR_EXHAUSTION(0x3f000000),
+    AIR_BAR_OUTLINE(0x1f0094FF),
+    AIR_BAR_DROWNING(0x7f7f0000),
+    AIR_BAR_NORMAL(0xff0094FF);
 
     public static final Map<InGameHud.HeartType, HudColors> HEART_TYPE_COLOR_MAP =
             Maps.newHashMap(ImmutableMap.of(

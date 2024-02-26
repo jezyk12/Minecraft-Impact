@@ -1,9 +1,13 @@
 package name.synchro.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 import name.synchro.SynchroClient;
 import name.synchro.mixinHelper.HudColors;
+import name.synchro.mixinHelper.PlayerEntityDuck;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
@@ -13,14 +17,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import static net.minecraft.client.gui.DrawableHelper.GUI_ICONS_TEXTURE;
 
@@ -32,21 +35,42 @@ public abstract class InGameHudMixin {
     @Unique private static final int H_OUT = 9;
     @Unique private static final int OX = 8;
 
-    @Unique float lastHealthFloat;
-    @Unique float changingHealthFloat;
-    @Unique long lastTime;
-    @Unique boolean damaging = false;
-    @Shadow public abstract TextRenderer getTextRenderer();
+    @Unique private final int MIDDLE_X = this.scaledWidth / 2;
+    @Unique private final int MIDDLE_Y = this.scaledHeight / 2;
 
+    @Unique private float lastHealthFloat;
+    @Unique private float changingHealthFloat;
+    @Unique private long lastTime;
+    @Unique private boolean damaging = false;
+    @Unique private String displayHealth;
+    @Unique private String displayHunger;
+    @Unique private String displayArmor;
+    @Unique private String displayAir;
+    @Unique private String displayExp;
+    @Unique private boolean haveSaturation;
+    @Unique private boolean haveAbsorption;
+    @Unique private boolean haveArmor;
+    @Unique private boolean lackingAir;
+    @Unique private int iconsTakePlace;
+    @Unique private int iconTextsTakePlace;
+
+    @Shadow public abstract TextRenderer getTextRenderer();
     @Shadow public abstract void drawHeart(MatrixStack matrices, InGameHud.HeartType type, int x, int y, int v, boolean blinking, boolean halfHeart);
 
-    @Shadow private int ticks;
+    @Shadow private int scaledWidth;
+    @Shadow private int scaledHeight;
+
+    @Shadow @Final private MinecraftClient client;
+
+    @Shadow protected abstract PlayerEntity getCameraPlayer();
 
     @Inject(method = "renderHealthBar",
             at=@At("HEAD"),
             cancellable = true)
     private void renderHealthBarMixin(MatrixStack matrices, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci){
         if (SynchroClient.applyNewHud) {
+            x = scaledWidth / 2 - 91;
+            y = scaledHeight - 39;
             InGameHud.HeartType heartType = InGameHud.HeartType.fromPlayerState(player);
             int color = HudColors.HEART_TYPE_COLOR_MAP.get(heartType).color;
             float playerHealth = player.getHealth();
@@ -78,11 +102,10 @@ public abstract class InGameHudMixin {
             y += 1;
             if (damaging) InGameHud.fill(matrices, x, y, x+lastHealthLength, y+H_BAR, HudColors.HEALTH_BAR_DAMAGING.color);
             InGameHud.fill(matrices, x, y, healthBarLength > 0 ? x + healthBarLength : x, y+H_BAR, color);
-            InGameHud.fill(matrices, x, y, absorptionLength > 0 ? absorptionLength < L_BAR ? x+absorptionLength : x+L_BAR : x, y+H_BAR, HudColors.HEALTH_BAR_ABSORBING.color);
-            String extraDisplay = absorptionHealth > 0 ? " + %.1f".formatted(absorptionHealth) : " / %.1f".formatted(playerMaxHealth);
-            String displayHealthValues = "%.1f".formatted(playerHealth) + extraDisplay;
-            InGameHud.drawCenteredTextWithShadow(matrices, this.getTextRenderer(), Text.of(displayHealthValues), x+L_BAR/2, y, absorptionLength <= 0 ? 0xffffff : 0xcfcf00);
-            RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE);
+            haveAbsorption = absorptionLength > 0;
+            InGameHud.fill(matrices, x, y, haveAbsorption ? absorptionLength < L_BAR ? x+absorptionLength : x+L_BAR : x, y+H_BAR, HudColors.HEALTH_BAR_ABSORBING.color);
+            String extraDisplay = haveAbsorption ? " + %.1f".formatted(absorptionHealth) : " / %.1f".formatted(playerMaxHealth);
+            this.displayHealth = "%.1f".formatted(playerHealth) + extraDisplay;
             ci.cancel();
         }
     }
@@ -107,10 +130,12 @@ public abstract class InGameHudMixin {
                                  @Local(ordinal = 9)/*s*/ int y,
                                  @Local(ordinal = 11)/*u*/ int armorValue){
         if (SynchroClient.applyNewHud){
+            x = scaledWidth / 2 - 92;
+            y = scaledHeight - 49;
             if (armorValue > 0){
-                InGameHud.drawTexture(matrices, x, y, 34, 9, 9, 9);
-                InGameHud.drawTextWithShadow(matrices, getTextRenderer(), Text.of("+" + armorValue), x + 10, y, 0xffffff);
-                RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE);
+                drawStatusIcon(matrices, x, y,34,9);
+                this.displayArmor = "+" + armorValue;
+                this.haveArmor = true;
             }
         }
     }
@@ -136,9 +161,11 @@ public abstract class InGameHudMixin {
                                   @Local(ordinal = 4)/*n*/ int x,
                                   @Local(ordinal = 5)/*o*/ int y){
         if (SynchroClient.applyNewHud){
+            x = scaledWidth / 2 + 91;
+            y = scaledHeight - 39;
             float saturation = hungerManager.getSaturationLevel();
             float exhaustion = hungerManager.getExhaustion();
-            boolean haveSaturation = true;
+            haveSaturation = true;
             boolean inHunger = playerEntity.hasStatusEffect(StatusEffects.HUNGER);
             int foodLength = foodLevel * L_BAR / 20;
             int saturationLength = MathHelper.ceil(saturation * L_BAR / 20);
@@ -159,12 +186,163 @@ public abstract class InGameHudMixin {
                 InGameHud.fill(matrices, x-saturationLength, y, x-saturationLength+exhaustionLength, y+H_BAR, HudColors.HUNGER_BAR_EXHAUSTION.color);
             }
             float displaySaturation = saturation - exhaustion/4;
-            String displayHungerValues = "%.1f".formatted(foodLevel - (haveSaturation || foodLevel < 1 ? 0f : exhaustion/4f))
+            this.displayHunger = "%.1f".formatted(foodLevel - (haveSaturation || foodLevel < 1 ? 0f : exhaustion/4f))
                     + (haveSaturation ? " + %.1f".formatted(displaySaturation > 0 ? displaySaturation : 0f ) : " / 20.0");
-            InGameHud.drawCenteredTextWithShadow(matrices, getTextRenderer(), Text.of(displayHungerValues),x-L_BAR/2,y, haveSaturation ? 0xcfcf00 : 0xffffff);
+        }
+    }
+
+    @ModifyArg(method = {"renderStatusBars"},
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/util/math/MathHelper;ceil(D)I",
+                    ordinal = 0))
+    private double skipOriginalAirDrawing0(double value/*ab*/){
+        if (SynchroClient.applyNewHud){
+            return 0;
+        }
+        else return value;
+    }
+    @ModifyArg(method = {"renderStatusBars"},
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/util/math/MathHelper;ceil(D)I",
+                    ordinal = 1))
+    private double skipOriginalAirDrawing1(double value/*ac*/){
+        if (SynchroClient.applyNewHud){
+            return 0;
+        }
+        else return value;
+    }
+
+    @Inject(method = {"renderStatusBars"},
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/util/math/MathHelper;ceil(D)I",
+                    ordinal = 1,
+                    shift = At.Shift.AFTER))
+    private void drawNewAirBar(MatrixStack matrices, CallbackInfo ci,
+                               @Local(ordinal = 4)/*n*/ int x,
+                               @Local(ordinal = 10)/*t*/ int y,
+                               @Local(ordinal = 15)/*z*/ int air,
+                               @Local(ordinal = 14)/*y*/ int maxAir){
+        if (SynchroClient.applyNewHud){
+            x = scaledWidth / 2 + 91;
+            y = scaledHeight - 49;
+            int filledLength = MathHelper.floor(L_BAR * (1 - (float) air / maxAir));
+            x -= OX;
+            InGameHud.drawTexture(matrices, x, y, 16, 18, 9, 9);
+            InGameHud.fill(matrices, x-L_OUT, y, x, y+H_OUT, HudColors.AIR_BAR_OUTLINE.color);
+            if (air < 0) InGameHud.fill(matrices, x-L_OUT, y, x-L_OUT+Math.abs(air*L_OUT/20), y+H_OUT, HudColors.AIR_BAR_DROWNING.color);
+            x -= 1;
+            y += 1;
+            InGameHud.fill(matrices, x-L_BAR, y, x-L_BAR+Math.min(filledLength, L_BAR), y+H_BAR, HudColors.AIR_BAR_NORMAL.color);
+            this.displayAir = Math.max(air * 100 / maxAir, 0) + " %";
+            this.lackingAir = true;
+        }
+    }
+
+    @WrapOperation(method = "renderExperienceBar",
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Ljava/lang/String;FFI)I"))
+    private int skipOriginalExpDisplay(TextRenderer instance, MatrixStack matrices, String text, float x, float y, int color, Operation<Integer> original){
+        if (SynchroClient.applyNewHud){
+            return 0;
+        }
+        else return original.call(instance, matrices, text, x, y, color);
+    }
+
+    @Inject(method = "renderExperienceBar",
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/util/profiler/Profiler;pop()V",
+                    shift = At.Shift.BEFORE))
+    private void drawNewExpDisplay(MatrixStack matrices, int x, CallbackInfo ci){
+        if (SynchroClient.applyNewHud){
+            int expLevel = 0;
+            int expValue = 0;
+            int expNext = 1145141919;
+            int x0 = 0;
+            int y0 = -58;
+            if (this.client.player != null) {
+                expLevel = this.client.player.experienceLevel;
+                expNext =  this.client.player.getNextLevelExperience();
+                expValue = (int) (this.client.player.experienceProgress * expNext);
+            }
+            String displayExp = expValue + " / " + expNext;
+            matrices.push();
+            float scale = 0.6f;
+            y0 = (int) (y0 * 0.5 / scale);
+            matrices.scale(scale, scale, 1f);
+            matrices.translate((float) scaledWidth / scale / 2, (float) scaledHeight / scale, 0f);
+            int w = this.getTextRenderer().getWidth(String.valueOf(expLevel));
+            drawBoldText(matrices, displayExp, x0-150, y0, 0xffffff);
+            drawBoldText(matrices, String.valueOf(expLevel), x0+150-w, y0, 8453920);
+            matrices.pop();
+        }
+    }
+
+    @Unique
+    private void drawBoldText(MatrixStack matrices, String string, int x, int y, int color){
+        this.getTextRenderer().draw(matrices, string, (float)(x + 1), (float)y, 0);
+        this.getTextRenderer().draw(matrices, string, (float)(x - 1), (float)y, 0);
+        this.getTextRenderer().draw(matrices, string, (float)x, (float)(y + 1), 0);
+        this.getTextRenderer().draw(matrices, string, (float)x, (float)(y - 1), 0);
+        this.getTextRenderer().draw(matrices, string, (float)x, (float)y, color);
+    }
+
+    @Inject(method = "renderStatusBars", at = @At("HEAD"))
+    private void initRendering(MatrixStack matrices, CallbackInfo ci){
+        if (SynchroClient.applyNewHud){
+            this.haveArmor = false;
+            this.lackingAir = false;
+            this.iconsTakePlace = 0;
+            this.iconTextsTakePlace = 0;
+        }
+    }
+
+    @Inject(method = "renderStatusBars",at = @At(value = "TAIL"),locals = LocalCapture.CAPTURE_FAILHARD)
+    private void endRendering(MatrixStack matrices, CallbackInfo ci){
+        if (SynchroClient.applyNewHud){
+            int x = scaledWidth / 2 - 92;
+            int y = scaledHeight - 49;
+            PlayerEntity player = this.getCameraPlayer();
+            int fireTicks;
+            if (player instanceof PlayerEntityDuck playerEntity) fireTicks = playerEntity.getTheFireTicks();
+            else fireTicks = -20;
+            boolean onFire = fireTicks > 0;
+            String displayFire = (fireTicks > 199 ? "%.0f": "%.1f").formatted((float) fireTicks / 20) + "s";
+            int frozenTicks = player.getFrozenTicks();
+            boolean onFrozen = frozenTicks > 0;
+            String displayFrozen = frozenTicks * 100 / 140 + "%";
+            if (onFire) drawStatusIcon(matrices, x, y, 65, 54);
+            if (onFrozen) drawStatusIcon(matrices, x, y, 75, 54);
+
+            //render texts
+            TextRenderer textRenderer = this.getTextRenderer();
+            matrices.push();
+            matrices.scale(0.8f,0.8f,1.0f);
+            matrices.translate((float) scaledWidth / 0.8 / 2, scaledHeight / 0.8, 0f);
+            int x1 =  -91;
+            int y1 =  -59;
+            InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, Text.of(displayHealth), x1 + 38, y1 + 12, haveAbsorption ? 0xcfcf00 : 0xffffff);
+            InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, Text.of(displayHunger), x1 + 143, y1 + 12, haveSaturation ? 0xcfcf00 : 0xffffff);
+            if (lackingAir) InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, Text.of(displayAir), x1 + 143, y1, 0xffffff );
+            if (haveArmor) drawStatusIconText(matrices, textRenderer, x1, y1, Text.of(displayArmor));
+            if (onFire) drawStatusIconText(matrices, textRenderer, x1, y1, Text.of(displayFire));
+            if (onFrozen) drawStatusIconText(matrices, textRenderer, x1, y1, Text.of(displayFrozen));
+            matrices.pop();
             RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE);
         }
     }
 
+    @Unique
+    private void drawStatusIcon(MatrixStack matrices, int x, int y, int u, int v){
+        x += iconsTakePlace * 29;
+        InGameHud.drawTexture(matrices, x, y, u, v, 9, 9);
+        InGameHud.drawTexture(matrices, x + 10, y, 1, 113, 18, 9);
+        iconsTakePlace += 1;
+    }
 
+    @Unique
+    private void drawStatusIconText(MatrixStack matrices, TextRenderer textRenderer, int x, int y, Text text){
+        x += iconTextsTakePlace * 36;
+        InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, text, x, y, 0xffffff);
+        iconTextsTakePlace += 1;
+    }
 }

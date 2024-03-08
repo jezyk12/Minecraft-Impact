@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "age=0": {"model": "synchro:block/banana_block_stage_0"},
+    "age=1": {"model": "synchro:block/banana_block_stage_1"},
+    "age=2": {"model": "synchro:block/banana_block_stage_2"},
+    "age=3": {"model": "synchro:block/banana_block_stage_3"}
+  }
+}

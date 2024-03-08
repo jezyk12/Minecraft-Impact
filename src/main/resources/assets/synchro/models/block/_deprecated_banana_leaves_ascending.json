@@ -1,0 +1,22 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "synchro:block/banana_leaves_full",
+		"1": "synchro:block/banana_leaves_full"
+	},
+	"elements": [
+		{
+			"from": [1, -8, 7.5],
+			"to": [15, 8, 8.5],
+			"rotation": {"angle": -45, "axis": "x", "origin": [0, 0, 0], "rescale": true},
+			"faces": {
+				"north": {"uv": [1, 16, 15, 0], "rotation": 180, "texture": "#1"},
+				"east": {"uv": [1, 0, 2, 16], "texture": "#1"},
+				"south": {"uv": [1, 0, 15, 16], "texture": "#1"},
+				"west": {"uv": [1, 0, 2, 16], "rotation": 180, "texture": "#1"},
+				"up": {"uv": [1, 0, 1, 14], "rotation": 270, "texture": "#1"},
+				"down": {"uv": [1, 2, 2, 16], "rotation": 90, "texture": "#1"}
+			}
+		}
+	]
+}

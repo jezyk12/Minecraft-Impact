@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "synchro:block/banana_stem_top_item",
+    "side": "synchro:block/banana_stem_side_item"
+  }
+}

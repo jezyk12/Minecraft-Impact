@@ -1,0 +1,23 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "synchro:block/banana_block_side_stage_1",
+		"1": "synchro:block/banana_block_top_stage_1",
+		"2": "synchro:block/banana_block_bottom_stage_1",
+		"particle": "synchro:block/banana_block_side_stage_1"
+	},
+	"elements": [
+		{
+			"from": [4, 4, 4],
+			"to": [12, 16, 12],
+			"faces": {
+				"north": {"uv": [4, 0, 12, 12], "texture": "#0"},
+				"east": {"uv": [4, 0, 12, 12], "texture": "#0"},
+				"south": {"uv": [4, 0, 12, 12], "texture": "#0"},
+				"west": {"uv": [4, 0, 12, 12], "texture": "#0"},
+				"up": {"uv": [4, 4, 12, 12], "texture": "#1"},
+				"down": {"uv": [4, 4, 12, 12], "texture": "#2"}
+			}
+		}
+	]
+}

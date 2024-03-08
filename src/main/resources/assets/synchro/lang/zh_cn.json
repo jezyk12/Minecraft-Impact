@@ -5,6 +5,8 @@
   "block.synchro.electric_source": "电源",
   "block.synchro.mixed_ore": "矿石",
   "category.synchro.synchro": "Synchro",
+  "config.synchro.apply_new_hud": "应用新式状态栏",
+  "config.synchro.done": "Done",
   "info.synchro.biting": "正在啃食",
   "info.synchro.content": "含量",
   "info.synchro.test_info": "测试消息",
@@ -22,6 +24,11 @@
   "ore.synchro.gold": "金",
   "ore.synchro.iron": "铁",
   "ore.synchro.redstone": "红石",
+  "title.synchro.config_screen": "配置",
+  "title.synchro.debug_screen": "调试",
   "title.synchro.electric_lamp": "电灯工作情况",
-  "title.synchro.electric_source": "电源工作情况"
+  "title.synchro.electric_source": "电源工作情况",
+  "title.synchro.guidance_screen": "向导",
+  "tooltip.synchro.config_button": "配置",
+  "tooltip.synchro.debug_screen_button": "调试选项"
 }

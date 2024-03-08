@@ -1,0 +1,7 @@
+{
+  "parent": "synchro:block/tinted_column",
+  "textures": {
+    "end": "synchro:block/banana_stem_end",
+    "side": "synchro:block/banana_stem_side"
+  }
+}

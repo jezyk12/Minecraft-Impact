@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "synchro:block/peanut_bush_stage_2"
+  }
+}

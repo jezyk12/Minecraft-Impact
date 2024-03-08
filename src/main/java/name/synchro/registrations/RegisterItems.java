@@ -27,6 +27,12 @@ public class RegisterItems {
             new Item(new FabricItemSettings().food(new FoodComponent.Builder().hunger(4).saturationModifier(0.3f).build())),SYNCHRO_BASIC);
     public static final Cockroach COCKROACH = registerItem("cockroach",
             new Cockroach(new FabricItemSettings().maxCount(16)),SYNCHRO_BASIC);
+    public static final Item PEANUT = registerItem("peanut",
+            new AliasedBlockItem(RegisterBlocks.PEANUT_BUSH_BLOCK, new FabricItemSettings().food(new FoodComponent.Builder().hunger(2).saturationModifier(0.2f).build())),SYNCHRO_BASIC);
+    public static final Item BANANA = registerItem("banana",
+            new Item(new FabricItemSettings().food(new FoodComponent.Builder().hunger(6).saturationModifier(0.8f).build())), SYNCHRO_BASIC);
+    public static final Item PLANT_FIBRE = registerItem("plant_fibre",
+            new Item(new FabricItemSettings()), SYNCHRO_BASIC);
 
     protected static <T extends Item> T registerItem(String path, T item, ItemGroup itemGroup) {
         T registeredItem = Registry.register(

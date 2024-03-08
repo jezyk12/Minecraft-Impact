@@ -11,5 +11,7 @@ public class RegisterColorProviders {
         ColorProviderRegistry.BLOCK.register(new BushWithFlowersColorProvider(),RegisterBlocks.BUSH_WITH_FLOWERS);
         ColorProviderRegistry.BLOCK.register(new VanillaGrassColorProvider(),RegisterBlocks.BUSH);
         ColorProviderRegistry.BLOCK.register(new VanillaGrassColorProvider(),RegisterBlocks.TOMATO_BUSH);
+        ColorProviderRegistry.BLOCK.register(new VanillaGrassColorProvider(),RegisterBlocks.BANANA_STEM);
+        ColorProviderRegistry.BLOCK.register(new VanillaGrassColorProvider(),RegisterBlocks.BANANA_LEAVES);
     }
 }

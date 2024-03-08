@@ -133,7 +133,9 @@ public abstract class InGameHudMixin {
             x = scaledWidth / 2 - 92;
             y = scaledHeight - 49;
             if (armorValue > 0){
-                drawStatusIcon(matrices, x, y,34,9);
+                RenderSystem.setShaderTexture(0, SynchroClient.MOD_ICONS);
+                drawStatusIcon(matrices, x, y,18,0);
+                RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE);
                 this.displayArmor = "+" + armorValue;
                 this.haveArmor = true;
             }
@@ -310,8 +312,10 @@ public abstract class InGameHudMixin {
             int frozenTicks = player.getFrozenTicks();
             boolean onFrozen = frozenTicks > 0;
             String displayFrozen = frozenTicks * 100 / 140 + "%";
-            if (onFire) drawStatusIcon(matrices, x, y, 65, 54);
-            if (onFrozen) drawStatusIcon(matrices, x, y, 75, 54);
+            RenderSystem.setShaderTexture(0, SynchroClient.MOD_ICONS);
+            if (onFire) drawStatusIcon(matrices, x, y, 0, 0);
+            if (onFrozen) drawStatusIcon(matrices, x, y, 9, 0);
+            RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE);
 
             //render texts
             TextRenderer textRenderer = this.getTextRenderer();
@@ -335,7 +339,7 @@ public abstract class InGameHudMixin {
     private void drawStatusIcon(MatrixStack matrices, int x, int y, int u, int v){
         x += iconsTakePlace * 29;
         InGameHud.drawTexture(matrices, x, y, u, v, 9, 9);
-        InGameHud.drawTexture(matrices, x + 10, y, 1, 113, 18, 9);
+        InGameHud.drawTexture(matrices, x + 10, y, 0, 10, 18, 9);
         iconsTakePlace += 1;
     }
 

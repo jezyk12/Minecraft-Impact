@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "synchro:block/peanut_stage0"
+    },
+    "age=1": {
+      "model": "synchro:block/peanut_stage0"
+    },
+    "age=2": {
+      "model": "synchro:block/peanut_stage1"
+    },
+    "age=3": {
+      "model": "synchro:block/peanut_stage1"
+    },
+    "age=4": {
+      "model": "synchro:block/peanut_stage2"
+    },
+    "age=5": {
+      "model": "synchro:block/peanut_stage2"
+    },
+    "age=6": {
+      "model": "synchro:block/peanut_stage2"
+    },
+    "age=7": {
+      "model": "synchro:block/peanut_stage3"
+    }
+  }
+}

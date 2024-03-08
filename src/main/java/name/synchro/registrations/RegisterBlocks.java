@@ -20,6 +20,8 @@ import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_BASIC;
 public class RegisterBlocks {
     public static final MixedOre MIXED_ORE = registerBlock("mixed_ore",
             new MixedOre(FabricBlockSettings.of(Material.STONE).strength(0.1f)),SYNCHRO_BASIC);
+    public static final SlopeBlock WOODEN_SLOPE = registerBlock("wooden_slope",
+            new SlopeBlock(Blocks.OAK_PLANKS.getDefaultState(), FabricBlockSettings.of(Material.WOOD).sounds(BlockSoundGroup.WOOD).strength(0.1f).nonOpaque()), SYNCHRO_BASIC);
     public static final CableBlock CABLE = registerBlock("cable",
             new CableBlock(FabricBlockSettings.of(Material.METAL).strength(0.1f).nonOpaque()),SYNCHRO_BASIC);
     public static final ElectricSourceBlock ELECTRIC_SOURCE = registerBlock("electric_source",
@@ -43,10 +45,20 @@ public class RegisterBlocks {
             new FertileFarmlandBlock(FabricBlockSettings.of(Material.SOIL).strength(0.1f).sounds(BlockSoundGroup.GRAVEL)),SYNCHRO_BASIC);
     public static final GasBlock WATER_VAPOR_BLOCK = registerBlock("water_vapor",
             new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.WATER_VAPOR_GAS),SYNCHRO_BASIC);
-    public static ToIntFunction<BlockState> createLightLevelFromLitBlockState(int litLevel) {
+    public static final PeanutBushBlock PEANUT_BUSH_BLOCK = registerBlock("peanut_bush",
+            new PeanutBushBlock(FabricBlockSettings.of(Material.PLANT).nonOpaque().noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).drops(new Identifier(Synchro.MOD_ID, "blocks/peanut_bush"))), SYNCHRO_BASIC);
+    public static final BananaStem BANANA_STEM = registerBlock("banana_stem",
+            new BananaStem(FabricBlockSettings.of(Material.PLANT).strength(0.1f).sounds(BlockSoundGroup.STEM)), SYNCHRO_BASIC);
+    public static final BananaLeavesBlock BANANA_LEAVES = registerBlock("banana_leaves",
+            new BananaLeavesBlock(FabricBlockSettings.of(Material.PLANT).strength(0.1f).nonOpaque().sounds(BlockSoundGroup.GRASS)), SYNCHRO_BASIC);
+    public static final BananaBlock BANANA_BLOCK = registerBlock("banana_block",
+            new BananaBlock(FabricBlockSettings.of(Material.PLANT).sounds(BlockSoundGroup.WOOD).breakInstantly().nonOpaque()), SYNCHRO_BASIC);
+
+
+    private static ToIntFunction<BlockState> createLightLevelFromLitBlockState(int litLevel) {
         return state -> state.get(Properties.LIT) ? litLevel : 0;
     }
-    protected static <T extends Block> T registerBlock(String path, T block, ItemGroup itemGroup){
+    private static <T extends Block> T registerBlock(String path, T block, ItemGroup itemGroup){
         RegisterItems.registerItem(path, new BlockItem(block,new FabricItemSettings()), itemGroup);
         return Registry.register(Registries.BLOCK, new Identifier(Synchro.MOD_ID, path), block);
     }

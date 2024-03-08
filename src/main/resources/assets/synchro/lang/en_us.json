@@ -19,9 +19,16 @@
   "ore.synchro.redstone": "Redstone",
   "title.synchro.electric_lamp": "Electric Lamp Performance",
   "title.synchro.electric_source": "Electric Source Performance",
+  "title.synchro.guidance_screen": "Guidance",
+  "title.synchro.config_screen": "Config",
+  "title.synchro.debug_screen": "Debug",
+  "tooltip.synchro.debug_screen_button": "Debug Options",
+  "tooltip.synchro.config_button": "Config",
   "name.synchro.voltage": "Voltage",
   "name.synchro.current": "Current",
   "name.synchro.power": "Power",
   "name.synchro.guidance": "Guidance",
-  "category.synchro.synchro": "Synchro"
+  "category.synchro.synchro": "Synchro",
+  "config.synchro.apply_new_hud": "Apply New HUD",
+  "config.synchro.done": "Done"
 }

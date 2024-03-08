@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=east,shape=normal": {
+      "model": "synchro:block/banana_leaves_bottom",
+      "y": 270
+    },
+    "facing=east,shape=ascending": {
+      "model": "synchro:block/banana_leaves_ascending",
+      "y": 270
+    },
+    "facing=east,shape=descending": {
+      "model": "synchro:block/banana_leaves_descending",
+      "y": 270
+    },
+    "facing=north,shape=normal": {
+      "model": "synchro:block/banana_leaves_bottom",
+      "y": 180
+    },
+    "facing=north,shape=ascending": {
+      "model": "synchro:block/banana_leaves_ascending",
+      "y": 180
+    },
+    "facing=north,shape=descending": {
+      "model": "synchro:block/banana_leaves_descending",
+      "y": 180
+    },
+    "facing=south,shape=normal": {
+      "model": "synchro:block/banana_leaves_bottom"
+    },
+    "facing=south,shape=ascending": {
+      "model": "synchro:block/banana_leaves_ascending"
+    },
+    "facing=south,shape=descending": {
+      "model": "synchro:block/banana_leaves_descending"
+    },
+    "facing=west,shape=normal": {
+      "model": "synchro:block/banana_leaves_bottom",
+      "y": 90
+    },
+    "facing=west,shape=ascending": {
+      "model": "synchro:block/banana_leaves_ascending",
+      "y": 90
+    },
+    "facing=west,shape=descending": {
+      "model": "synchro:block/banana_leaves_descending",
+      "y": 90
+    }
+  }
+}

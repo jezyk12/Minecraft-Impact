@@ -1,0 +1,39 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "east"
+      },
+      "apply": {
+        "model": "synchro:block/banana_leaves",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "north"
+      },
+      "apply": {
+        "model": "synchro:block/banana_leaves",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south"
+      },
+      "apply": {
+        "model": "synchro:block/banana_leaves"
+      }
+    },
+    {
+      "when": {
+        "facing": "west"
+      },
+      "apply": {
+        "model": "synchro:block/banana_leaves",
+        "y": 90
+      }
+    }
+  ]
+}

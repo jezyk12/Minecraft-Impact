@@ -1,0 +1,6 @@
+{
+  "parent": "synchro:block/slopes/slope_outer",
+  "textures": {
+    "all": "minecraft:block/weathered_cut_copper"
+  }
+}

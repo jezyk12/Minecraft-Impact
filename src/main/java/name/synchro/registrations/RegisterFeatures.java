@@ -13,8 +13,25 @@ import net.minecraft.world.gen.feature.PlacedFeature;
 import java.util.function.Predicate;
 
 public class RegisterFeatures {
-    public static final RegistryKey<PlacedFeature> BANANA_TREE_PLACED =
+    public static final RegistryKey<PlacedFeature> BANANA_TREE_FEATURE =
             addPlacedFeature("banana_tree", BiomeSelectors.foundInOverworld(), GenerationStep.Feature.VEGETAL_DECORATION);
+    public static final RegistryKey<PlacedFeature> SEKITE_FEATURE =
+            addPlacedFeature("sekite", BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
+    public static final RegistryKey<PlacedFeature> AOITE_FEATURE =
+            addPlacedFeature("aoite", BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
+    public static final RegistryKey<PlacedFeature> MIDORITE_FEATURE =
+            addPlacedFeature("midorite", BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
+    public static final RegistryKey<PlacedFeature> MURAXKITE_FEATURE =
+            addPlacedFeature("muraxkite", BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
+    public static final RegistryKey<PlacedFeature> GUMITE_FEATURE =
+            addPlacedFeature("gumite", BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
+    public static final RegistryKey<PlacedFeature> NGANITE_FEATURE =
+            addPlacedFeature("nganite", BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
+    public static final RegistryKey<PlacedFeature> HAAKITE_FEATURE =
+            addPlacedFeature("haakite", BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
+    public static final RegistryKey<PlacedFeature> BAAKITE_FEATURE =
+            addPlacedFeature("baakite", BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
+
 
     private static RegistryKey<PlacedFeature> addPlacedFeature(String path, Predicate<BiomeSelectionContext> biomeSelector, GenerationStep.Feature step){
         RegistryKey<PlacedFeature> key =

@@ -1,0 +1,21 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "synchro:block/millstone_movable",
+		"particle": "synchro:block/millstone_movable"
+	},
+	"elements": [
+		{
+			"from": [5, 0, 0],
+			"to": [11, 6, 16],
+			"faces": {
+				"north": {"uv": [8, 11, 13, 16], "texture": "#0"},
+				"east": {"uv": [0, 13, 8, 16], "texture": "#0"},
+				"south": {"uv": [8, 11, 13, 16], "texture": "#0"},
+				"west": {"uv": [0, 13, 8, 16], "texture": "#0"},
+				"up": {"uv": [0, 13, 8, 16], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [0, 13, 8, 16], "rotation": 90, "texture": "#0"}
+			}
+		}
+	]
+}

@@ -12,12 +12,16 @@
     "HoeItemMixin",
     "HopperBlockMixin",
     "PlayerEntityMixin",
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "SnowballEntityMixin"
   ],
   "client": [
     "BackgroundRendererMixin",
     "CamaraMixin",
-    "InGameHudMixin"
+    "GameRendererMixin",
+    "HeldItemRendererMixin",
+    "InGameHudMixin",
+    "MinecraftClientMixin"
   ],
   "server": [],
   "injectors": {

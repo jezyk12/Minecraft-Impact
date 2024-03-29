@@ -10,6 +10,7 @@ public class Synchro implements ModInitializer {
 	public static final String MOD_ID = "synchro";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+
 	@Override
 	public void onInitialize() {
 		SynchroStandardStatic.initialAll();
@@ -22,7 +23,7 @@ public class Synchro implements ModInitializer {
 		RegisterFluids.registerAll();
 		RegisterScreenHandlers.registerAll();
 		RegisterRecipes.registerAll();
-		RegisterColorProviders.registerAll();
+		RegisterEntities.registerAll();
 		LOGGER.info("Mod Synchro has been initialized.");
 	}
 }

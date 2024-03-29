@@ -1,0 +1,6 @@
+{
+  "parent": "synchro:block/slopes/slope_straight",
+  "textures": {
+    "all": "minecraft:block/stone"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "synchro:item/cracked_ores_outline",
+    "layer1": "synchro:item/cracked_ores_part_1",
+    "layer2": "synchro:item/cracked_ores_part_2"
+  }
+}

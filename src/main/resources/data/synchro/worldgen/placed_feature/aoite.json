@@ -1,0 +1,48 @@
+{
+  "feature": "synchro:aoite",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 3
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:weighted_list",
+        "distribution": [
+          {
+            "weight": 1,
+            "data": {
+              "type": "minecraft:trapezoid",
+              "min_inclusive": {
+                "absolute": -30
+              },
+              "max_inclusive": {
+                "absolute": 150
+              },
+              "plateau": 120
+            }
+          },
+          {
+            "weight": 2,
+            "data": {
+              "type": "minecraft:uniform",
+              "min_inclusive": {
+                "absolute": -50
+              },
+              "max_inclusive": {
+                "absolute": 310
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

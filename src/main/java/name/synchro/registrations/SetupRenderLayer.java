@@ -1,9 +1,11 @@
 package name.synchro.registrations;
 
 import name.synchro.Synchro;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.render.RenderLayer;
-
+@Environment(EnvType.CLIENT)
 public class SetupRenderLayer {
     public static void setupAll(){
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.CABLE, RenderLayer.getTranslucent());
@@ -15,7 +17,6 @@ public class SetupRenderLayer {
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.WATER_VAPOR_BLOCK, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putFluid(RegisterFluids.WATER_VAPOR_GAS,RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.BANANA_BLOCK, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.WOODEN_SLOPE, RenderLayer.getCutout());
         Synchro.LOGGER.debug("Set up all render layers for "+Synchro.MOD_ID);
     }
 }

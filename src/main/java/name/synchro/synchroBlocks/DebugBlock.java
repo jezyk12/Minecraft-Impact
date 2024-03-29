@@ -1,5 +1,6 @@
 package name.synchro.synchroBlocks;
 
+import name.synchro.blockEntities.DebugBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -21,6 +22,6 @@ public class DebugBlock extends Block implements BlockEntityProvider {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new DebugBlockEntity(pos, state);
     }
 }

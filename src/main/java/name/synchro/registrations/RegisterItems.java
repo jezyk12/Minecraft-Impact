@@ -4,6 +4,7 @@ import name.synchro.Synchro;
 import name.synchro.synchroItems.Cockroach;
 import name.synchro.synchroItems.DataRod;
 import name.synchro.synchroItems.RawMixedOre;
+import name.synchro.synchroItems.SnowballLauncher;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.*;
@@ -15,7 +16,7 @@ import net.minecraft.util.Rarity;
 import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_BASIC;
 
 public class RegisterItems {
-    public static final RawMixedOre MIXED_RAW_ORE = registerItem("raw_mixed_ore",
+    public static final RawMixedOre RAW_MIXED_ORE = registerItem("raw_mixed_ore",
             new RawMixedOre(new FabricItemSettings()),SYNCHRO_BASIC);
     public static final Item CABLE_ITEM = registerItem("cable_item",
             new BlockItem(RegisterBlocks.CABLE,new FabricItemSettings()),SYNCHRO_BASIC);
@@ -32,6 +33,12 @@ public class RegisterItems {
     public static final Item BANANA = registerItem("banana",
             new Item(new FabricItemSettings().food(new FoodComponent.Builder().hunger(6).saturationModifier(0.8f).build())), SYNCHRO_BASIC);
     public static final Item PLANT_FIBRE = registerItem("plant_fibre",
+            new Item(new FabricItemSettings()), SYNCHRO_BASIC);
+    public static final SnowballLauncher SNOWBALL_LAUNCHER = registerItem("snowball_launcher",
+            new SnowballLauncher(new FabricItemSettings().maxDamage(256).rarity(Rarity.RARE)), SYNCHRO_BASIC);
+    public static final SpawnEggItem DUCK_SPAWN_EGG = registerItem("duck_spawn_egg",
+            new SpawnEggItem(RegisterEntities.DUCK, 0xF4D03F, 0x273746, new FabricItemSettings()), SYNCHRO_BASIC);
+    public static final Item CRACKED_ORES = registerItem("cracked_ores",
             new Item(new FabricItemSettings()), SYNCHRO_BASIC);
 
     protected static <T extends Item> T registerItem(String path, T item, ItemGroup itemGroup) {

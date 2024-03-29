@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 
 import static name.synchro.synchroItems.RawMixedOre.AVAILABLE_ORE_LIST;
-import static name.synchro.registrations.RegisterItems.MIXED_RAW_ORE;
+import static name.synchro.registrations.RegisterItems.RAW_MIXED_ORE;
 import static name.synchro.registrations.RegisterRecipes.MIX_ORE_RECIPE;
 
 public class MixOreRecipe extends SpecialCraftingRecipe {
@@ -54,7 +54,7 @@ public class MixOreRecipe extends SpecialCraftingRecipe {
             }
 
         }
-        ItemStack result = new ItemStack(MIXED_RAW_ORE,totalCount);
+        ItemStack result = new ItemStack(RAW_MIXED_ORE,totalCount);
         for(String ore:AVAILABLE_ORE_LIST){
             resultNbt.putInt(ore,nbtMap.get(ore)/totalCount);
         }

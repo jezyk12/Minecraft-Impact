@@ -6,17 +6,22 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 import name.synchro.SynchroClient;
 import name.synchro.mixinHelper.HudColors;
+import name.synchro.mixinHelper.MinecraftClientDuck;
 import name.synchro.mixinHelper.PlayerEntityDuck;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -46,13 +51,15 @@ public abstract class InGameHudMixin {
     @Unique private String displayHunger;
     @Unique private String displayArmor;
     @Unique private String displayAir;
-    @Unique private String displayExp;
     @Unique private boolean haveSaturation;
     @Unique private boolean haveAbsorption;
     @Unique private boolean haveArmor;
     @Unique private boolean lackingAir;
     @Unique private int iconsTakePlace;
     @Unique private int iconTextsTakePlace;
+    @Unique @Nullable private Entity focusingEntity;
+    @Unique private int beginFocusingTick = -114514;
+    @Unique private float focusedEntityHealth;
 
     @Shadow public abstract TextRenderer getTextRenderer();
     @Shadow public abstract void drawHeart(MatrixStack matrices, InGameHud.HeartType type, int x, int y, int v, boolean blinking, boolean halfHeart);
@@ -63,6 +70,12 @@ public abstract class InGameHudMixin {
     @Shadow @Final private MinecraftClient client;
 
     @Shadow protected abstract PlayerEntity getCameraPlayer();
+
+    @Shadow @Final private static int WHITE;
+
+    @Shadow public abstract int getTicks();
+
+    @Shadow @Final private static Identifier WIDGETS_TEXTURE;
 
     @Inject(method = "renderHealthBar",
             at=@At("HEAD"),
@@ -273,7 +286,7 @@ public abstract class InGameHudMixin {
             matrices.scale(scale, scale, 1f);
             matrices.translate((float) scaledWidth / scale / 2, (float) scaledHeight / scale, 0f);
             int w = this.getTextRenderer().getWidth(String.valueOf(expLevel));
-            drawBoldText(matrices, displayExp, x0-150, y0, 0xffffff);
+            drawBoldText(matrices, displayExp, x0-150, y0, WHITE);
             drawBoldText(matrices, String.valueOf(expLevel), x0+150-w, y0, 8453920);
             matrices.pop();
         }
@@ -289,7 +302,7 @@ public abstract class InGameHudMixin {
     }
 
     @Inject(method = "renderStatusBars", at = @At("HEAD"))
-    private void initRendering(MatrixStack matrices, CallbackInfo ci){
+    private void initRenderingStatusBars(MatrixStack matrices, CallbackInfo ci){
         if (SynchroClient.applyNewHud){
             this.haveArmor = false;
             this.lackingAir = false;
@@ -299,7 +312,7 @@ public abstract class InGameHudMixin {
     }
 
     @Inject(method = "renderStatusBars",at = @At(value = "TAIL"),locals = LocalCapture.CAPTURE_FAILHARD)
-    private void endRendering(MatrixStack matrices, CallbackInfo ci){
+    private void endRenderingStatusBars(MatrixStack matrices, CallbackInfo ci){
         if (SynchroClient.applyNewHud){
             int x = scaledWidth / 2 - 92;
             int y = scaledHeight - 49;
@@ -324,9 +337,9 @@ public abstract class InGameHudMixin {
             matrices.translate((float) scaledWidth / 0.8 / 2, scaledHeight / 0.8, 0f);
             int x1 =  -91;
             int y1 =  -59;
-            InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, Text.of(displayHealth), x1 + 38, y1 + 12, haveAbsorption ? 0xcfcf00 : 0xffffff);
-            InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, Text.of(displayHunger), x1 + 143, y1 + 12, haveSaturation ? 0xcfcf00 : 0xffffff);
-            if (lackingAir) InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, Text.of(displayAir), x1 + 143, y1, 0xffffff );
+            InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, Text.of(displayHealth), x1 + 38, y1 + 12, haveAbsorption ? 0xcfcf00 : WHITE);
+            InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, Text.of(displayHunger), x1 + 143, y1 + 12, haveSaturation ? 0xcfcf00 : WHITE);
+            if (lackingAir) InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, Text.of(displayAir), x1 + 143, y1, WHITE );
             if (haveArmor) drawStatusIconText(matrices, textRenderer, x1, y1, Text.of(displayArmor));
             if (onFire) drawStatusIconText(matrices, textRenderer, x1, y1, Text.of(displayFire));
             if (onFrozen) drawStatusIconText(matrices, textRenderer, x1, y1, Text.of(displayFrozen));
@@ -346,7 +359,44 @@ public abstract class InGameHudMixin {
     @Unique
     private void drawStatusIconText(MatrixStack matrices, TextRenderer textRenderer, int x, int y, Text text){
         x += iconTextsTakePlace * 36;
-        InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, text, x, y, 0xffffff);
+        InGameHud.drawCenteredTextWithShadow(matrices, textRenderer, text, x, y, WHITE);
         iconTextsTakePlace += 1;
+    }
+
+    @Inject(method = "renderHotbar", at = @At(value = "TAIL"))
+    private void renderFocusedEntityData(float tickDelta, MatrixStack matrices, CallbackInfo ci){
+        if (SynchroClient.applyNewHud && this.client instanceof MinecraftClientDuck thisClient){
+            if (thisClient.getFocusedEntity() != null){
+                beginFocusingTick = this.getTicks();
+                focusingEntity = thisClient.getFocusedEntity();
+            }
+            else if (focusingEntity != null) {
+                int delay = focusingEntity.isAlive() ? 40 : 20;
+                if (this.getTicks() - beginFocusingTick > delay) {
+                    focusingEntity = null;
+                }
+
+            }
+            if (focusingEntity != null && focusingEntity instanceof LivingEntity that) {
+                String name= that.getName().getString();
+                float thatHealth = that.getHealth();
+                if (Math.abs(thatHealth - focusedEntityHealth)  > 0.00001){
+                    focusedEntityHealth = thatHealth;
+                    beginFocusingTick = this.getTicks();
+                }
+                String healthDisplay = "%.1f / %.1f".formatted(thatHealth, that.getMaxHealth());
+                InGameHud.fill(matrices, 2, 2, 82, 36, 0xcfffffff);
+                InGameHud.fill(matrices, 3, 3, 81, 35, 0xcf000000);
+                RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE);
+                this.drawHeart(matrices, InGameHud.HeartType.CONTAINER, 5, 15, 0, false, false);
+                this.drawHeart(matrices, InGameHud.HeartType.NORMAL, 5, 15, 0, false, false);
+                RenderSystem.setShaderTexture(0, SynchroClient.MOD_ICONS);
+                InGameHud.drawTexture(matrices, 5, 25, 9, 0 ,9,9);
+                getTextRenderer().draw(matrices, name, 5, 5, WHITE);
+                getTextRenderer().draw(matrices, healthDisplay, 15, 15, WHITE);
+                getTextRenderer().draw(matrices, that.getFrozenTicks() * 100 / 140 + " %", 15, 25, WHITE);
+                RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
+            }
+        }
     }
 }

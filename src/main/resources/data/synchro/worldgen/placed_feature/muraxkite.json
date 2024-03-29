@@ -1,0 +1,48 @@
+{
+  "feature": "synchro:muraxkite",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 2
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:weighted_list",
+        "distribution": [
+          {
+            "weight": 9,
+            "data": {
+              "type": "minecraft:trapezoid",
+              "min_inclusive": {
+                "absolute": -60
+              },
+              "max_inclusive": {
+                "absolute": 0
+              },
+              "plateau": 20
+            }
+          },
+          {
+            "weight": 1,
+            "data": {
+              "type": "minecraft:uniform",
+              "min_inclusive": {
+                "absolute": 0
+              },
+              "max_inclusive": {
+                "absolute": 15
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

@@ -13,21 +13,61 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 public class SlopeBlock extends StairsBlock {
+    public static final Set<SlopeBlock> SLOPE_BLOCKS = new HashSet<>();
     private static final int SLOPE_PART_AMOUNT = 16;
+    private static final HashMap<SlopeState, VoxelShape> SLOPE_SHAPES;
+    static {
+        SLOPE_SHAPES = new HashMap<>();
+        for (Direction direction: Direction.Type.HORIZONTAL){
+            for (StairShape stairShape: StairShape.values()){
+                SLOPE_SHAPES.put(new SlopeState(direction, false, stairShape),
+                        generateSlopeShape(direction, false, stairShape));
+                SLOPE_SHAPES.put(new SlopeState(direction, true, stairShape),
+                        generateSlopeShape(direction, true, stairShape));
+            }
+        }
+    }
+    private record SlopeState(Direction direction, boolean flip, StairShape stairShape){
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            SlopeState that = (SlopeState) o;
+            return flip == that.flip && direction == that.direction && stairShape == that.stairShape;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(direction, flip, stairShape);
+        }
+    }
 
     public SlopeBlock(BlockState baseBlockState, Settings settings) {
-        super(baseBlockState, settings);
+        super(baseBlockState, settings.hardness(baseBlockState.getBlock().getHardness())
+                .resistance(baseBlockState.getBlock().getBlastResistance())
+                .sounds(baseBlockState.getSoundGroup())
+                .nonOpaque());
+        SLOPE_BLOCKS.add(this);
     }
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return generateSlopeShape(state.get(FACING), state.get(HALF).equals(BlockHalf.TOP), state.get(SHAPE));
+        return getSlopeShape(state.get(FACING), state.get(HALF).equals(BlockHalf.TOP), state.get(SHAPE));
     }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return super.getOutlineShape(state, world, pos, context);
+    }
+
+    private static VoxelShape getSlopeShape(Direction direction, boolean flip, StairShape stairShape){
+        return SLOPE_SHAPES.get(new SlopeState(direction, flip, stairShape));
     }
 
     public static VoxelShape generateSlopeShape(Direction direction, boolean flip, StairShape stairShape){
@@ -57,14 +97,14 @@ public class SlopeBlock extends StairsBlock {
                             degree - (stairShape.equals(StairShape.INNER_LEFT) ? 0 : 90), flip);
                     VoxelShape shapeToBeSub = VoxelShapes.cuboid(boxToBeSub);
                     VoxelShape shapeToSub = VoxelShapes.cuboid(minPos, bigPosBigger, minPos, maxPos, bigPosBiggerPlus, maxPos);
-                    part = VoxelShapes.combine(shapeToSub, shapeToBeSub, (a, b) -> a && !b);
+                    part = VoxelShapes.combineAndSimplify(shapeToSub, shapeToBeSub, (a, b) -> a && !b);
                 }
                 case OUTER_LEFT, OUTER_RIGHT ->{
                     Box box = new Box(bigPosBigger, bigPosBigger, bigPosBigger, maxPos, bigPosBiggerPlus, maxPos);
                     part = VoxelShapes.cuboid(transformBox(box, degree - (stairShape.equals(StairShape.OUTER_LEFT) ? 0 : 90), flip));
                 }
             }
-            shape = VoxelShapes.union(shape, part);
+            shape = VoxelShapes.combineAndSimplify(shape, part, (a, b) -> a || b);
         }
         return shape;
     }

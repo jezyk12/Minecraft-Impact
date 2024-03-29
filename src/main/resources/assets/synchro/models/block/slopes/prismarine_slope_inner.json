@@ -1,0 +1,6 @@
+{
+  "parent": "synchro:block/slopes/slope_inner",
+  "textures": {
+    "all": "minecraft:block/prismarine"
+  }
+}

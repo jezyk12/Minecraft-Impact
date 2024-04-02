@@ -2,6 +2,7 @@ package name.synchro;
 
 import name.synchro.networkLink.networkAlgorithm.NetworkSearchHandler;
 import name.synchro.registrations.*;
+import name.synchro.util.IrregularVoxelShapes;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ public class Synchro implements ModInitializer {
 		RegisterScreenHandlers.registerAll();
 		RegisterRecipes.registerAll();
 		RegisterEntities.registerAll();
+		IrregularVoxelShapes.addAndLoadAllShapes();
 		LOGGER.info("Mod Synchro has been initialized.");
 	}
 }

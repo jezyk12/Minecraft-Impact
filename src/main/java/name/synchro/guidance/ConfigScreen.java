@@ -26,6 +26,7 @@ public class ConfigScreen extends GuidanceScreen{
         grid.getMainPositioner().marginX(10).marginBottom(5).alignHorizontalCenter().alignHorizontalCenter();
         GridWidget.Adder adder = grid.createAdder(2);
         adder.add(applyNewHudButton());
+        adder.add(displayExtraCollisionsButton());
         adder.add(ButtonWidget.builder(Text.translatable("config.synchro.done"), button -> {this.close();}).build());
         grid.refreshPositions();
         SimplePositioningWidget.setPos(grid, 0, topY + 50, this.width, this.height, 0.5f, 0.0f);
@@ -35,6 +36,12 @@ public class ConfigScreen extends GuidanceScreen{
     private CyclingButtonWidget<Boolean> applyNewHudButton(){
         CyclingButtonWidget<Boolean> buttonWidget = CyclingButtonWidget.onOffBuilder().build(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, Text.translatable("config.synchro.apply_new_hud"), (button, value) -> SynchroClient.applyNewHud = value);
         buttonWidget.setValue(SynchroClient.applyNewHud);
+        return buttonWidget;
+    }
+
+    private CyclingButtonWidget<Boolean> displayExtraCollisionsButton(){
+        CyclingButtonWidget<Boolean> buttonWidget = CyclingButtonWidget.onOffBuilder().build(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, Text.translatable("config.synchro.display_extra_collisions"), (button, value) -> SynchroClient.displayExtraCollisions = value);
+        buttonWidget.setValue(SynchroClient.displayExtraCollisions);
         return buttonWidget;
     }
 }

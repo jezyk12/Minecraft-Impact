@@ -3,9 +3,7 @@ package name.synchro.blockEntities;
 import com.google.common.collect.ImmutableMap;
 import name.synchro.registrations.RegisterBlockEntities;
 import name.synchro.registrations.RegisterItems;
-import name.synchro.util.EntityEmployable;
-import name.synchro.util.ProcessingTicker;
-import name.synchro.util.RotationManager;
+import name.synchro.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -25,21 +23,24 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class MillstoneBlockEntity extends BlockEntity implements SidedInventory, EntityEmployable, ProcessingTicker, RotationManager {
+public class MillstoneBlockEntity extends BlockEntity implements SidedInventory, EntityEmployable, ProcessingTicker, RotationManager, BlockEntityExtraCollisionProvider {
     private static final String INVENTORY = "inventory";
     public static final int SLOT_INPUT = 0;
     public static final int SLOT_OUTPUT = 1;
     private static final String PROCESSING_TICKS = "processing";
     private static final String ROTATION_NBT = "rotation";
+    public static final String SHAPE_KEY_PREFIX = "millstone_";
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
     private final List<LivingEntity> employees = new ArrayList<>();
     private int processingTicks = 0;
     private final RotationManager.RotationProvider rotationProvider;
     private final Random random = new Random();
+    private static final VoxelShape EXTRA_COLLISION = Block.createCuboidShape(-3, -3, -3, 3, 3, 3);
     public static final ImmutableMap<Item, ItemStack> MILLSTONE_RECIPES =
             ImmutableMap.of(
                     Blocks.OAK_PLANKS.asItem(), new ItemStack(RegisterItems.PLANT_FIBRE, 4),
@@ -247,4 +248,22 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     public RotationProvider getRotationProvider() {
         return this.rotationProvider;
     }
+
+    @Override
+    public Set<VoxelShape> getExtraCollisions() {
+        HashSet<VoxelShape> extraCollisions = new HashSet<>();
+        getExtraCollisionsOrigin(0f).forEach((voxelShape) ->
+                extraCollisions.add(voxelShape.offset(this.pos.getX(), this.pos.getY(), this.pos.getZ())));
+        return extraCollisions;
+    }
+
+    public Set<VoxelShape> getExtraCollisionsOrigin(float tickDelta){
+        float rotation = this.getRecentRotation(Objects.requireNonNull(world).getTime(), tickDelta);
+        double dx = 0.5 - Math.sin(Math.toRadians(rotation));
+        double dy = 1.0625;
+        double dz = 0.5 - Math.cos(Math.toRadians(rotation));
+        String rotationKey = SHAPE_KEY_PREFIX + ((int)(720 - rotation + 0.5) % 180);
+        return new HashSet<>(Collections.singletonList(IrregularVoxelShapes.getShape(rotationKey).offset(dx, dy, dz)));
+    }
+
 }

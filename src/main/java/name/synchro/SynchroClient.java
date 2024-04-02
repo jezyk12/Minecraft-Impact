@@ -17,12 +17,11 @@ import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 
-import static com.mojang.text2speech.Narrator.LOGGER;
-
 @Environment(EnvType.CLIENT)
 public class SynchroClient implements ClientModInitializer {
     public static final Identifier MOD_ICONS = new Identifier(Synchro.MOD_ID, "textures/gui/mod_icons.png");
     public static boolean applyNewHud = true;
+    public static boolean displayExtraCollisions = false;
     public static float debugNum0 = 0.0f;
     public static float debugNum1 = 1.0f;
     public static float debugNum2 = 1.0f;
@@ -45,6 +44,6 @@ public class SynchroClient implements ClientModInitializer {
         Guidance.setupKeyBinding();
         RegisterClientScreens.registerAll();
         RegisterEntityRendering.registerAll();
-        LOGGER.info("Mod Synchro has been initialized in client.");
+        Synchro.LOGGER.info("Mod Synchro has been initialized in client.");
     }
 }

@@ -2,6 +2,7 @@ package name.synchro.blockEntityRenderers;
 
 import name.synchro.blockEntities.MillstoneBlockEntity;
 import name.synchro.blockModels.SynchroModelLoadingPlugin;
+import name.synchro.util.BlockEntityExtraCollisionProvider;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.BlockModelRenderer;
@@ -29,6 +30,7 @@ public class MillstoneBlockEntityRenderer implements BlockEntityRenderer<Millsto
     public void render(MillstoneBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         BakedModel movableModel = this.bakedModelManager.getModel(SynchroModelLoadingPlugin.MILLSTONE_MOVABLE_ID);
         BakedModel woodModel = this.bakedModelManager.getModel(SynchroModelLoadingPlugin.MILLSTONE_WOOD_ID);
+        BlockEntityExtraCollisionProvider.displayCollisions(entity.getExtraCollisionsOrigin(tickDelta), matrices, vertexConsumers.getBuffer(RenderLayer.getLines()));
         matrices.push();
         matrices.translate(0f, 12 / 16f, 0f);
         float rotation = entity.getRecentRotation(Objects.requireNonNull(entity.getWorld()).getTime(), tickDelta);;
@@ -39,8 +41,4 @@ public class MillstoneBlockEntityRenderer implements BlockEntityRenderer<Millsto
         matrices.pop();
     }
 
-    @Override
-    public boolean rendersOutsideBoundingBox(MillstoneBlockEntity blockEntity) {
-        return true;
-    }
 }

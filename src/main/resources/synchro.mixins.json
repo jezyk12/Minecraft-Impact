@@ -5,10 +5,11 @@
   "mixins": [
     "BarrelBlockMixin",
     "ChestBlockMixin",
+    "ChickenEntityMixin",
+    "CowEntityMixin",
     "CropBlockMixin",
     "DispenserBlockMixin",
     "EntityMixin",
-    "ExampleMixin",
     "FarmerVillagerTaskMixin",
     "HoeItemMixin",
     "HopperBlockMixin",

@@ -59,6 +59,8 @@ public class RegisterBlocks {
             new Block(FabricBlockSettings.of(Material.WOOD).sounds(BlockSoundGroup.STEM).strength(0.1f)), SYNCHRO_BASIC);
     public static final Millstone MILLSTONE = registerBlock("millstone",
             new Millstone(FabricBlockSettings.of(Material.STONE).strength(2.0f).nonOpaque().sounds(BlockSoundGroup.STONE)), SYNCHRO_BASIC);
+    public static final StrawNestBlock STRAW_NEST = registerBlock("straw_nest",
+            new StrawNestBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).strength(0.1f).sounds(BlockSoundGroup.GRASS)), SYNCHRO_BASIC);
 
     // Slope Blocks
     public static final SlopeBlock OAK_PLANKS_SLOPE = registerFlammableBlock("oak_planks_slope",

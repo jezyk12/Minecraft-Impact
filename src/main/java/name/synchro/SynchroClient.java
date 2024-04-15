@@ -1,7 +1,5 @@
 package name.synchro;
 
-import name.synchro.blockEntityRenderers.DebugBlockEntityRenderer;
-import name.synchro.blockEntityRenderers.MillstoneBlockEntityRenderer;
 import name.synchro.blockModels.SynchroModelLoadingPlugin;
 import name.synchro.guidance.Guidance;
 import name.synchro.registrations.*;
@@ -12,7 +10,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -34,8 +31,7 @@ public class SynchroClient implements ClientModInitializer {
             debugNumbers.add(1.0f);
         }
         DebugRendering.renderAll();
-        BlockEntityRendererFactories.register(RegisterBlockEntities.DEBUG_BLOCK_ENTITY, DebugBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(RegisterBlockEntities.MILLSTONE_BLOCK_ENTITY, MillstoneBlockEntityRenderer::new);
+        RegisterBlockEntityRenderers.registerAll();
         RegisterColorProviders.registerAll();
         ModelLoadingPlugin.register(new SynchroModelLoadingPlugin());
         RegisterClientNetworking.registerAll();

@@ -1,10 +1,7 @@
 package name.synchro.registrations;
 
 import name.synchro.Synchro;
-import name.synchro.blockEntities.DebugBlockEntity;
-import name.synchro.blockEntities.ElectricLampBlockEntity;
-import name.synchro.blockEntities.ElectricSourceBlockEntity;
-import name.synchro.blockEntities.MillstoneBlockEntity;
+import name.synchro.blockEntities.*;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
@@ -24,7 +21,10 @@ public class RegisterBlockEntities {
    public static final BlockEntityType<MillstoneBlockEntity> MILLSTONE_BLOCK_ENTITY = Registry.register(
             Registries.BLOCK_ENTITY_TYPE, new Identifier(Synchro.MOD_ID, "millstone_block_entity"),
             FabricBlockEntityTypeBuilder.create(MillstoneBlockEntity::new, RegisterBlocks.MILLSTONE).build());
-    public static void registerAll() {
+   public static final BlockEntityType<StrawNestBlockEntity> STRAW_NEST_BLOCK_ENTITY = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE, new Identifier(Synchro.MOD_ID, "straw_nest_block_entity"),
+            FabricBlockEntityTypeBuilder.create(StrawNestBlockEntity::new, RegisterBlocks.STRAW_NEST).build());
+   public static void registerAll() {
         Synchro.LOGGER.debug("Registered mod block entities for" + Synchro.MOD_ID);
     }
 }

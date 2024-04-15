@@ -17,19 +17,20 @@ public class IrregularVoxelShapes {
      * Defines how many parts will be split to from 1-block-length when fitting irregular voxel shape with small unit cubes.
      * <p>Rising this number can increase the quality of irregular voxel shapes but could cause serious lag. Recommended: 16</p>
      */
-    private static final int SLICES = 32;
+    private static final int SLICES = 16;
     /**
      * All voxel shapes should be preloaded and stored in this static map or else that will cause serious lag.
      */
     protected static final Map<String, VoxelShape> LOADED_SHAPES = new HashMap<>();
 
     public static void addAndLoadAllShapes(){
-        Synchro.LOGGER.info("Loading all complex voxel shapes...");
+        Synchro.LOGGER.info("Loading all irregular voxel shapes...");
         long start = System.currentTimeMillis();
         for (int i = 0; i < 180; i += 1){
-            IrregularVoxelShapes.addShape(MillstoneBlockEntity.SHAPE_KEY_PREFIX + i, IrregularVoxelShapes.createRotatedCube(Direction.Axis.Y, 7 / 16d, 1d, 7 / 16d, i));
+            IrregularVoxelShapes.addShape(MillstoneBlockEntity.WOOD_PREFIX + i, IrregularVoxelShapes.createRotatedCube(Direction.Axis.Y, 7 / 16d, 1d, 7 / 16d, i));
+            IrregularVoxelShapes.addShape(MillstoneBlockEntity.TOP_PREFIX + i, IrregularVoxelShapes.createRotatedCube(Direction.Axis.Y, 10 / 16d, 14 / 16d, 14 / 16d, i));
         }
-        Synchro.LOGGER.info("All complex voxel shapes have been loaded. Took " + (System.currentTimeMillis() - start) + " ms.");
+        Synchro.LOGGER.info("All irregular voxel shapes have been loaded. Took " + (System.currentTimeMillis() - start) + " ms for " + LOADED_SHAPES.size() + "shapes.");
     }
 
     protected static void addShape(String name, VoxelShape shape){

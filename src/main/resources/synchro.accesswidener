@@ -6,3 +6,5 @@ accessible method net/minecraft/client/gui/hud/InGameHud$HeartType fromPlayerSta
 accessible method net/minecraft/client/gui/hud/InGameHud drawHeart (Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIIZZ)V
 accessible field net/minecraft/client/render/model/json/JsonUnbakedModel textureMap Ljava/util/Map;
 accessible field net/minecraft/client/render/model/json/JsonUnbakedModel parentId Lnet/minecraft/util/Identifier;
+accessible field net/minecraft/entity/mob/MobEntity goalSelector Lnet/minecraft/entity/ai/goal/GoalSelector;
+accessible field net/minecraft/entity/mob/MobEntity targetSelector Lnet/minecraft/entity/ai/goal/GoalSelector;

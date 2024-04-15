@@ -1,6 +1,7 @@
 package name.synchro.synchroBlocks;
 
 import name.synchro.blockEntities.MillstoneBlockEntity;
+import name.synchro.employment.Employer;
 import name.synchro.registrations.RegisterBlockEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
@@ -10,6 +11,8 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
@@ -31,9 +34,16 @@ public class Millstone extends Block implements BlockEntityProvider {
         if (blockEntity instanceof MillstoneBlockEntity millstoneBlockEntity) {
             if (hit.getSide().equals(Direction.UP)) {
                 ItemStack handStack = player.getStackInHand(hand);
-                if (handStack.isEmpty()){
+                if (handStack.isOf(Items.WHEAT)) {
+                    if (world instanceof ServerWorld serverWorld){
+                        player.getStackInHand(hand).decrement(1);
+                        Employer.employSuitableMob(serverWorld, millstoneBlockEntity, 4.0);
+                    }
+                    return ActionResult.SUCCESS;
+                }
+                else if (handStack.isEmpty()){
                     if (!world.isClient){
-                        ItemStack ingredientStack = millstoneBlockEntity.getStack(MillstoneBlockEntity.SLOT_INPUT);
+                        ItemStack ingredientStack = millstoneBlockEntity.getStack(MillstoneBlockEntity.SLOT_INPUT).copy();
                         if (!ingredientStack.isEmpty()){
                             ItemScatterer.spawn(world, pos.getX() + 0.5f, pos.getY() + 1.5f, pos.getZ() + 0.5f, ingredientStack.copy());
                             millstoneBlockEntity.setStack(MillstoneBlockEntity.SLOT_INPUT, ItemStack.EMPTY);
@@ -92,5 +102,17 @@ public class Millstone extends Block implements BlockEntityProvider {
             };
         }
         return null;
+    }
+
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.hasBlockEntity() && !state.isOf(newState.getBlock())) {
+            if (world instanceof ServerWorld serverWorld && serverWorld.getBlockEntity(pos) instanceof MillstoneBlockEntity millstoneBlockEntity) {
+                dropStack(world, pos, millstoneBlockEntity.getStack(MillstoneBlockEntity.SLOT_INPUT));
+                dropStack(world, pos, millstoneBlockEntity.getStack(MillstoneBlockEntity.SLOT_OUTPUT));
+                Employer.discardEmployer(serverWorld, millstoneBlockEntity);
+            }
+            world.removeBlockEntity(pos);
+        }
     }
 }

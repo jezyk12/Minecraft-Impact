@@ -1,6 +1,6 @@
 package name.synchro.specialRecipes;
 
-import name.synchro.synchroItems.RawMixedOre;
+import name.synchro.items.RawMixedOre;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import java.util.HashMap;
 
-import static name.synchro.synchroItems.RawMixedOre.AVAILABLE_ORE_LIST;
+import static name.synchro.items.RawMixedOre.AVAILABLE_ORE_LIST;
 import static name.synchro.registrations.RegisterItems.RAW_MIXED_ORE;
 import static name.synchro.registrations.RegisterRecipes.MIX_ORE_RECIPE;
 

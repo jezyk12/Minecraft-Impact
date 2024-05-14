@@ -2,7 +2,7 @@ package name.synchro.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
-import name.synchro.synchroBlocks.AbstractFarmlandBlock;
+import name.synchro.blocks.AbstractFarmlandBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

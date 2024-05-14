@@ -4,6 +4,7 @@ import name.synchro.employment.BlockEntityWorkerManager;
 import name.synchro.employment.Employer;
 import name.synchro.employment.StrawNestWorkerManager;
 import name.synchro.registrations.RegisterBlockEntities;
+import name.synchro.util.NbtTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -19,7 +20,6 @@ import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
 public class StrawNestBlockEntity extends BlockEntity implements SidedInventory, Employer {
-    private static final String EGG_SLOT = "eggSlot";
     public static final int[] SLOTS = {0};
     private final BlockEntityWorkerManager workerManager;
     ItemStack eggSlot = ItemStack.EMPTY;
@@ -96,17 +96,17 @@ public class StrawNestBlockEntity extends BlockEntity implements SidedInventory,
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        NbtCompound eggSlotNbt = nbt.getCompound(EGG_SLOT);
+        NbtCompound eggSlotNbt = nbt.getCompound(NbtTags.EGG_SLOT);
         this.eggSlot = ItemStack.fromNbt(eggSlotNbt);
-        this.workerManager.setEmploymentFromNbt(nbt.getCompound(Employer.EMPLOYEES));
+        this.workerManager.setEmploymentFromNbt(nbt.getCompound(NbtTags.EMPLOYEES));
     }
 
     @Override
     protected void writeNbt(NbtCompound toWriteNbt) {
         NbtCompound eggSlotNbt = new NbtCompound();
         this.eggSlot.writeNbt(eggSlotNbt);
-        toWriteNbt.put(EGG_SLOT, eggSlotNbt);
-        toWriteNbt.put(Employer.EMPLOYEES, this.workerManager.getEmploymentNbt());
+        toWriteNbt.put(NbtTags.EGG_SLOT, eggSlotNbt);
+        toWriteNbt.put(NbtTags.EMPLOYEES, this.workerManager.getEmploymentNbt());
         super.writeNbt(toWriteNbt);
     }
 

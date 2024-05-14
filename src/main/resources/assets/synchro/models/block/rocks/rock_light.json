@@ -1,0 +1,6 @@
+{
+  "parent": "synchro:block/rocks/rock",
+  "textures": {
+    "all": "synchro:block/rocks/rock_light"
+  }
+}

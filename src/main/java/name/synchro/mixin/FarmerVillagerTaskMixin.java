@@ -2,7 +2,7 @@ package name.synchro.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import name.synchro.synchroBlocks.AbstractFarmlandBlock;
+import name.synchro.blocks.AbstractFarmlandBlock;
 import net.minecraft.block.FarmlandBlock;
 import net.minecraft.entity.ai.brain.task.FarmerVillagerTask;
 import org.spongepowered.asm.mixin.Mixin;

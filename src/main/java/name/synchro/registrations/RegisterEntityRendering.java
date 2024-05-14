@@ -1,8 +1,8 @@
 package name.synchro.registrations;
 
 import name.synchro.Synchro;
-import name.synchro.synchroEntities.DuckEntityModel;
-import name.synchro.synchroEntities.DuckEntityRenderer;
+import name.synchro.entities.DuckEntityModel;
+import name.synchro.entities.DuckEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;

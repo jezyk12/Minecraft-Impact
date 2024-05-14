@@ -1,7 +1,7 @@
 package name.synchro.registrations;
 
 import name.synchro.Synchro;
-import name.synchro.synchroEntities.DuckEntity;
+import name.synchro.entities.DuckEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.*;

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "synchro:item/crushed_ores_0",
+    "layer1": "synchro:item/crushed_ores_1",
+    "layer2": "synchro:item/crushed_ores_2"
+  }
+}

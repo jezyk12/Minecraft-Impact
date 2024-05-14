@@ -1,25 +1,25 @@
 package name.synchro.registrations;
 
 import name.synchro.Synchro;
-import name.synchro.synchroBlocks.*;
+import name.synchro.blocks.*;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.Material;
+import net.minecraft.block.PlantBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
-
-import java.util.function.ToIntFunction;
 
 import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_BASIC;
 import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_DECORATION;
-
+@SuppressWarnings("unused")
 public class RegisterBlocks {
     // Basic Blocks
     public static final MixedOre MIXED_ORE = registerBlock("mixed_ore",
@@ -30,7 +30,7 @@ public class RegisterBlocks {
             new ElectricSourceBlock(FabricBlockSettings.of(Material.METAL).strength(0.1f)),SYNCHRO_BASIC);
     public static final ElectricLampBlock ELECTRIC_LAMP = registerBlock("electric_lamp",
             new ElectricLampBlock(FabricBlockSettings.of(Material.METAL)
-                    .luminance(createLightLevelFromLitBlockState(15)).strength(0.1f)),SYNCHRO_BASIC);
+                    .luminance(state -> 15).strength(0.1f)),SYNCHRO_BASIC);
     public static final DebugBlock DEBUG_BLOCK = registerBlock("debug_block",
             new DebugBlock(FabricBlockSettings.of(Material.METAL).strength(0.1f)),SYNCHRO_BASIC);
     public static final DirtCanalBlock DIRT_CANAL = registerBlock("dirt_canal",
@@ -45,8 +45,6 @@ public class RegisterBlocks {
             new FertileDirtBlock(FabricBlockSettings.of(Material.SOIL).strength(0.1f).sounds(BlockSoundGroup.GRAVEL)),SYNCHRO_BASIC);
     public static final FertileFarmlandBlock FERTILE_FARMLAND = registerBlock("fertile_farmland",
             new FertileFarmlandBlock(FabricBlockSettings.of(Material.SOIL).strength(0.1f).sounds(BlockSoundGroup.GRAVEL)),SYNCHRO_BASIC);
-    public static final GasBlock WATER_VAPOR_BLOCK = registerBlock("water_vapor",
-            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.WATER_VAPOR_GAS),SYNCHRO_BASIC);
     public static final PeanutBushBlock PEANUT_BUSH_BLOCK = registerBlock("peanut_bush",
             new PeanutBushBlock(FabricBlockSettings.of(Material.PLANT).nonOpaque().noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).drops(new Identifier(Synchro.MOD_ID, "blocks/peanut_bush"))), SYNCHRO_BASIC);
     public static final BananaStem BANANA_STEM = registerFlammableBlock("banana_stem",
@@ -61,6 +59,20 @@ public class RegisterBlocks {
             new Millstone(FabricBlockSettings.of(Material.STONE).strength(2.0f).nonOpaque().sounds(BlockSoundGroup.STONE)), SYNCHRO_BASIC);
     public static final StrawNestBlock STRAW_NEST = registerBlock("straw_nest",
             new StrawNestBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).strength(0.1f).sounds(BlockSoundGroup.GRASS)), SYNCHRO_BASIC);
+
+    //Gases
+    public static final GasBlock WATER_VAPOR_BLOCK = registerBlock("water_vapor",
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.WATER_VAPOR_GAS), SYNCHRO_BASIC);
+    public static final GasBlock HOT_STEAM_BLOCK = registerBlock("hot_steam",
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.HOT_STEAM_GAS), SYNCHRO_BASIC);
+    public static final GasBlock SULFURIC_GAS_BLOCK = registerBlock("sulfuric_gas",
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.SULFURIC_GAS), SYNCHRO_BASIC);
+    public static final GasBlock CHLORIC_GAS_BLOCK = registerBlock("chloric_gas",
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.CHLORIC_GAS), SYNCHRO_BASIC);
+    public static final GasBlock STRONGLY_REDUCING_GAS_BLOCK = registerBlock("strongly_reducing_gas",
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.STRONGLY_REDUCING_GAS), SYNCHRO_BASIC);
+    public static final GasBlock STRONGLY_OXIDIZING_GAS_BLOCK = registerBlock("strongly_oxidizing_gas",
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.STRONGLY_OXIDIZING_GAS), SYNCHRO_BASIC);
 
     // Slope Blocks
     public static final SlopeBlock OAK_PLANKS_SLOPE = registerFlammableBlock("oak_planks_slope",
@@ -185,11 +197,24 @@ public class RegisterBlocks {
             new OresRockBlock(FabricBlockSettings.of(Material.STONE).strength(3.0f)), SYNCHRO_BASIC);
     public static final OresRockBlock BAAKITE = registerBlock("baakite",
             new OresRockBlock(FabricBlockSettings.of(Material.STONE).strength(3.0f)), SYNCHRO_BASIC);
+    public static final Rock ROCK_COARSE = registerBlock("rock_coarse",
+            new Rock(FabricBlockSettings.of(Material.STONE).strength(1.0f)), SYNCHRO_BASIC);
+    public static final Rock ROCK_CRACKED = registerBlock("rock_cracked",
+            new Rock(FabricBlockSettings.of(Material.STONE).strength(1.0f)), SYNCHRO_BASIC);
+    public static final Rock ROCK_DARK = registerBlock("rock_dark",
+            new Rock(FabricBlockSettings.of(Material.STONE).strength(1.0f)), SYNCHRO_BASIC);
+    public static final Rock ROCK_LIGHT = registerBlock("rock_light",
+            new Rock(FabricBlockSettings.of(Material.STONE).strength(1.0f)), SYNCHRO_BASIC);
+    public static final Rock ROCK_SCRATCH = registerBlock("rock_scratch",
+            new Rock(FabricBlockSettings.of(Material.STONE).strength(1.0f)), SYNCHRO_BASIC);
+    public static final Rock ROCK_SHINY = registerBlock("rock_shiny",
+            new Rock(FabricBlockSettings.of(Material.STONE).strength(1.0f)), SYNCHRO_BASIC);
+    public static final Rock ROCK_SMOOTH = registerBlock("rock_smooth",
+            new Rock(FabricBlockSettings.of(Material.STONE).strength(1.0f)), SYNCHRO_BASIC);
+    public static final Rock ROCK_STRATIFORM = registerBlock("rock_stratiform",
+            new Rock(FabricBlockSettings.of(Material.STONE).strength(1.0f)), SYNCHRO_BASIC);
 
     // Others
-    private static ToIntFunction<BlockState> createLightLevelFromLitBlockState(int litLevel) {
-        return state -> state.get(Properties.LIT) ? litLevel : 0;
-    }
 
     private static void registerAllBlocksAboutCopper(){
         OxidizableBlocksRegistry.registerOxidizableBlockPair(CUT_COPPER_SLOPE, EXPOSED_CUT_COPPER_SLOPE);
@@ -200,8 +225,13 @@ public class RegisterBlocks {
         OxidizableBlocksRegistry.registerWaxableBlockPair(WAXED_EXPOSED_CUT_COPPER_SLOPE, WAXED_CUT_COPPER_SLOPE);
     }
 
+    private static <T extends Block> T registerBlock(String path, T block){
+        RegisterItems.registerItem(path, new BlockItem(block, new FabricItemSettings()));
+        return Registry.register(Registries.BLOCK, new Identifier(Synchro.MOD_ID, path), block);
+    }
+
     private static <T extends Block> T registerBlock(String path, T block, ItemGroup itemGroup){
-        RegisterItems.registerItem(path, new BlockItem(block,new FabricItemSettings()), itemGroup);
+        RegisterItems.registerItem(path, new BlockItem(block, new FabricItemSettings()), itemGroup);
         return Registry.register(Registries.BLOCK, new Identifier(Synchro.MOD_ID, path), block);
     }
 

@@ -16,6 +16,10 @@ public class SetupRenderLayer {
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.BANANA_LEAVES, RenderLayer.getCutoutMipped());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.WATER_VAPOR_BLOCK, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putFluid(RegisterFluids.WATER_VAPOR_GAS,RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putFluid(RegisterFluids.SULFURIC_GAS,RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putFluid(RegisterFluids.CHLORIC_GAS,RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putFluid(RegisterFluids.STRONGLY_OXIDIZING_GAS,RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putFluid(RegisterFluids.STRONGLY_REDUCING_GAS,RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.BANANA_BLOCK, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(RegisterBlocks.STRAW_NEST, RenderLayer.getCutout());
         Synchro.LOGGER.debug("Set up all render layers for "+Synchro.MOD_ID);

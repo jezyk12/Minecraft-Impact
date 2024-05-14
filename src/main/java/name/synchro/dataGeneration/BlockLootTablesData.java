@@ -2,7 +2,7 @@ package name.synchro.dataGeneration;
 
 import name.synchro.registrations.RegisterBlocks;
 import name.synchro.registrations.RegisterItems;
-import name.synchro.synchroBlocks.SlopeBlock;
+import name.synchro.blocks.SlopeBlock;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;

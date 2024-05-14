@@ -1,6 +1,6 @@
 package name.synchro.mixin;
 
-import name.synchro.synchroItems.Cockroach;
+import name.synchro.items.Cockroach;
 import net.minecraft.block.BarrelBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;

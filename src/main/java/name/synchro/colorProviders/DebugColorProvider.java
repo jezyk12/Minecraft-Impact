@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.item.ItemStack;
 
+@Deprecated
 @Environment(EnvType.CLIENT)
 public class DebugColorProvider implements ItemColorProvider {
     @Override

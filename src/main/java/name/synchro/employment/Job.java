@@ -2,6 +2,7 @@ package name.synchro.employment;
 
 import name.synchro.mobGoals.GoBackAndLayEggGoal;
 import name.synchro.mobGoals.KeepInWorkingAreaGoal;
+import name.synchro.mobGoals.PushMillstoneGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.MobEntity;
 
@@ -11,7 +12,10 @@ public enum Job {
             new KeepInWorkingAreaGoal(mob,2, 6)
     }),
 
-    PUSH_MILLSTONE(mob -> new Goal[]{new KeepInWorkingAreaGoal(mob, 3,6)}),
+    PUSH_MILLSTONE(mob -> new Goal[]{
+            new KeepInWorkingAreaGoal(mob, 3,6),
+            new PushMillstoneGoal(mob, 1.0)
+    }),
     ;
 
     public final Working working;

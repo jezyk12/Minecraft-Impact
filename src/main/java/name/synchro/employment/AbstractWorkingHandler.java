@@ -1,6 +1,7 @@
 package name.synchro.employment;
 
 import name.synchro.Synchro;
+import name.synchro.util.NbtTags;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -12,8 +13,8 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractWorkingHandler implements WorkingHandler {
     @Nullable
-    private Employer employer;
-    private final MobEntity mob;
+    protected Employer employer;
+    protected final MobEntity mob;
 
     protected AbstractWorkingHandler(MobEntity mob) {
         this.mob = mob;
@@ -26,12 +27,12 @@ public abstract class AbstractWorkingHandler implements WorkingHandler {
     }
 
     public void setEmploymentFromNbt(NbtCompound nbt, World world) {
-        if (nbt.contains(Employee.TYPE_BLOCK)) {
-            BlockPos blockPos = BlockPos.fromLong(nbt.getLong(Employee.TYPE_BLOCK));
+        if (nbt.contains(NbtTags.TYPE_BLOCK)) {
+            BlockPos blockPos = BlockPos.fromLong(nbt.getLong(NbtTags.TYPE_BLOCK));
             BlockEntity blockEntity = world.getBlockEntity(blockPos);
             if (blockEntity instanceof Employer blockEmployer) this.setEmployer(blockEmployer);
             else Synchro.LOGGER.warn("Cannot identify a BlockEntity as an employer at " + blockPos);
-        } else if (nbt.contains(Employee.TYPE_ENTITY)) {
+        } else if (nbt.contains(NbtTags.TYPE_ENTITY)) {
             Synchro.LOGGER.warn("Uncompleted feature: Entity as an employer");
         } else this.employer = null;
     }
@@ -40,7 +41,7 @@ public abstract class AbstractWorkingHandler implements WorkingHandler {
         NbtCompound nbt = new NbtCompound();
         if (this.employer != null){
             if (this.employer instanceof BlockEntity blockEntity){
-                nbt.putLong(Employee.TYPE_BLOCK, blockEntity.getPos().asLong());
+                nbt.putLong(NbtTags.TYPE_BLOCK, blockEntity.getPos().asLong());
             }
             else if (this.employer instanceof Entity){
                 Synchro.LOGGER.warn("Uncompleted feature: Entity as an employer");

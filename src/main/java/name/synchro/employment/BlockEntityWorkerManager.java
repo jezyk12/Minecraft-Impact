@@ -1,5 +1,6 @@
 package name.synchro.employment;
 
+import name.synchro.util.NbtTags;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
@@ -61,7 +62,7 @@ public abstract class BlockEntityWorkerManager implements WorkerManager {
 
     public void setEmploymentFromNbt(NbtCompound nbt) {
         this.employees.clear();
-        int amount = nbt.getInt(Employer.AMOUNT);
+        int amount = nbt.getInt(NbtTags.AMOUNT);
         for (int i = 0; i < amount; i++) {
             this.employees.add(nbt.getUuid(String.valueOf(i)));
         }
@@ -74,7 +75,7 @@ public abstract class BlockEntityWorkerManager implements WorkerManager {
             nbt.putUuid(String.valueOf(index), uuid);
             index++;
         }
-        nbt.putInt(Employer.AMOUNT, index);
+        nbt.putInt(NbtTags.AMOUNT, index);
         return nbt;
     }
 }

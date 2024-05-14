@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "minecraft:dirt"
+    },
+    {
+      "item": "minecraft:dirt"
+    },
+    {
+      "item": "minecraft:dirt"
+    },
+    {
+      "item": "minecraft:dirt"
+    },
+    {
+      "item": "synchro:plant_fibre"
+    },
+    {
+      "item": "synchro:plant_fibre"
+    },
+    {
+      "item": "synchro:plant_fibre"
+    },
+    {
+      "item": "synchro:plant_fibre"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "minecraft:packed_mud"
+  }
+}

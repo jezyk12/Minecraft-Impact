@@ -38,6 +38,8 @@ public class MillstoneBlockEntityRenderer implements BlockEntityRenderer<Millsto
         this.blockModelRenderer.render(entity.getWorld(), movableModel, entity.getCachedState(), entity.getPos().up(), matrices, vertexConsumers.getBuffer(RenderLayer.getSolid()), false, Objects.requireNonNull(entity.getWorld()).random, 0, overlay);
         matrices.translate(0f, 0.125f, -1f);
         this.blockModelRenderer.render(entity.getWorld(), woodModel, entity.getCachedState(), entity.getPos().up(), matrices, vertexConsumers.getBuffer(RenderLayer.getSolid()), false, Objects.requireNonNull(entity.getWorld()).random, 0, overlay);
+        matrices.translate(0f, 0f, -1f);
+        this.blockModelRenderer.render(entity.getWorld(), woodModel, entity.getCachedState(), entity.getPos().up(), matrices, vertexConsumers.getBuffer(RenderLayer.getSolid()), false, Objects.requireNonNull(entity.getWorld()).random, 0, overlay);
         matrices.pop();
     }
 

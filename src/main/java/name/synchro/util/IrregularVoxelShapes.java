@@ -27,7 +27,7 @@ public class IrregularVoxelShapes {
         Synchro.LOGGER.info("Loading all irregular voxel shapes...");
         long start = System.currentTimeMillis();
         for (int i = 0; i < 180; i += 1){
-            IrregularVoxelShapes.addShape(MillstoneBlockEntity.WOOD_PREFIX + i, IrregularVoxelShapes.createRotatedCube(Direction.Axis.Y, 7 / 16d, 1d, 7 / 16d, i));
+            IrregularVoxelShapes.addShape(MillstoneBlockEntity.WOOD_PREFIX + i, IrregularVoxelShapes.createRotatedCube(Direction.Axis.Y, 7 / 16d, 2d, 7 / 16d, i));
             IrregularVoxelShapes.addShape(MillstoneBlockEntity.TOP_PREFIX + i, IrregularVoxelShapes.createRotatedCube(Direction.Axis.Y, 10 / 16d, 14 / 16d, 14 / 16d, i));
         }
         Synchro.LOGGER.info("All irregular voxel shapes have been loaded. Took " + (System.currentTimeMillis() - start) + " ms for " + LOADED_SHAPES.size() + "shapes.");

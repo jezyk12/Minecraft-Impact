@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface Employer {
-    String EMPLOYEES = "employees";
-    String AMOUNT = "amount";
-
     static void employSuitableMob(ServerWorld world, Employer employer, double range) {
         if (range < 0) range = 0;
         Vec3d workingPosition = employer.getWorkerManager().getWorkingPosition();

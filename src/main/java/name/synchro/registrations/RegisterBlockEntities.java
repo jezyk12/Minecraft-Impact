@@ -2,6 +2,7 @@ package name.synchro.registrations;
 
 import name.synchro.Synchro;
 import name.synchro.blockEntities.*;
+import name.synchro.blocks.Rock;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
@@ -24,6 +25,9 @@ public class RegisterBlockEntities {
    public static final BlockEntityType<StrawNestBlockEntity> STRAW_NEST_BLOCK_ENTITY = Registry.register(
             Registries.BLOCK_ENTITY_TYPE, new Identifier(Synchro.MOD_ID, "straw_nest_block_entity"),
             FabricBlockEntityTypeBuilder.create(StrawNestBlockEntity::new, RegisterBlocks.STRAW_NEST).build());
+    public static final BlockEntityType<Rock.MutableBlockEntity> MUTABLE_ROCK_BLOCK_ENTITY = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE, new Identifier(Synchro.MOD_ID, "mutable_rock_block_entity"),
+            FabricBlockEntityTypeBuilder.create(Rock.MutableBlockEntity::new, RegisterBlocks.STRAW_NEST).build());
    public static void registerAll() {
         Synchro.LOGGER.debug("Registered mod block entities for" + Synchro.MOD_ID);
     }

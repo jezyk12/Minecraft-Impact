@@ -1,20 +1,21 @@
 package name.synchro.registrations;
 
 import name.synchro.Synchro;
-import name.synchro.synchroItems.Cockroach;
-import name.synchro.synchroItems.DataRod;
-import name.synchro.synchroItems.RawMixedOre;
-import name.synchro.synchroItems.SnowballLauncher;
+import name.synchro.items.*;
+import name.synchro.util.Metals;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.*;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
-import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_BASIC;
+import java.util.Map;
 
+import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_BASIC;
+@SuppressWarnings("unused")
 public class RegisterItems {
     public static final RawMixedOre RAW_MIXED_ORE = registerItem("raw_mixed_ore",
             new RawMixedOre(new FabricItemSettings()),SYNCHRO_BASIC);
@@ -38,8 +39,12 @@ public class RegisterItems {
             new SnowballLauncher(new FabricItemSettings().maxDamage(256).rarity(Rarity.RARE)), SYNCHRO_BASIC);
     public static final SpawnEggItem DUCK_SPAWN_EGG = registerItem("duck_spawn_egg",
             new SpawnEggItem(RegisterEntities.DUCK, 0xF4D03F, 0x273746, new FabricItemSettings()), SYNCHRO_BASIC);
-    public static final Item CRACKED_ORES = registerItem("cracked_ores",
-            new Item(new FabricItemSettings()), SYNCHRO_BASIC);
+    public static final OresMixture LUMP_ORES = registerItem("lump_ores",
+            new OresMixture(new FabricItemSettings()));
+    public static final OresMixture CRACKED_ORES = registerItem("cracked_ores",
+            new OresMixture(new FabricItemSettings()));
+    public static final OresMixture CRUSHED_ORES = registerItem("crushed_ores",
+            new OresMixture(new FabricItemSettings()));
 
     protected static <T extends Item> T registerItem(String path, T item, ItemGroup itemGroup) {
         T registeredItem = Registry.register(
@@ -47,7 +52,31 @@ public class RegisterItems {
         ItemGroupEvents.modifyEntriesEvent(itemGroup).register(entries -> entries.add(registeredItem));
         return registeredItem;
     }
+
+    protected static <T extends Item> T registerItem(String path, T item) {
+        return Registry.register(
+                Registries.ITEM, new Identifier(Synchro.MOD_ID, path), item);
+    }
+
+    private static void addItemsToItemGroup(){
+        NbtCompound emptyOresNbt = new NbtCompound();
+        Metals.writeMetalContentToNbt(emptyOresNbt, Map.of());
+        ItemStack emptyCrackedOresStack = new ItemStack(CRACKED_ORES);
+        ItemStack emptyLumpOresStack = new ItemStack(LUMP_ORES);
+        ItemStack emptyCrushedOresStack = new ItemStack(CRUSHED_ORES);
+        emptyCrackedOresStack.setNbt(emptyOresNbt.copy());
+        emptyCrushedOresStack.setNbt(emptyOresNbt.copy());
+        emptyLumpOresStack.setNbt(emptyOresNbt.copy());
+        ItemGroupEvents.modifyEntriesEvent(SYNCHRO_BASIC).register(entries -> {
+            entries.add(emptyLumpOresStack);
+            entries.add(emptyCrackedOresStack);
+            entries.add(emptyCrushedOresStack);
+        });
+    }
+
     public static void registerAll(){
+        addItemsToItemGroup();
         Synchro.LOGGER.debug("Registered mod items for"+Synchro.MOD_ID);
     }
+
 }

@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-import static name.synchro.synchroItems.RawMixedOre.*;
+import static name.synchro.items.RawMixedOre.*;
 
 public class RawMixedOreColorProvider implements ItemColorProvider {
 

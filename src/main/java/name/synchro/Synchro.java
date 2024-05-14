@@ -25,6 +25,7 @@ public class Synchro implements ModInitializer {
 		RegisterScreenHandlers.registerAll();
 		RegisterRecipes.registerAll();
 		RegisterEntities.registerAll();
+		RegisterEvents.registerAll();
 		IrregularVoxelShapes.addAndLoadAllShapes();
 		LOGGER.info("Mod Synchro has been initialized.");
 	}

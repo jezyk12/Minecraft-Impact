@@ -5,12 +5,14 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 import name.synchro.SynchroClient;
+import name.synchro.mixinHelper.CameraInGas;
 import name.synchro.mixinHelper.HudColors;
 import name.synchro.mixinHelper.MinecraftClientDuck;
 import name.synchro.mixinHelper.PlayerEntityDuck;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.Camera;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -397,6 +399,24 @@ public abstract class InGameHudMixin {
                 getTextRenderer().draw(matrices, that.getFrozenTicks() * 100 / 140 + " %", 15, 25, WHITE);
                 RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
             }
+        }
+    }
+
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;lerp(FFF)F", ordinal = 0, shift = At.Shift.AFTER))
+    private void beforeRenderingHud(MatrixStack matrices, float tickDelta, CallbackInfo ci){
+        drawGasOverlay(matrices, tickDelta);
+    }
+
+    @Unique
+    private void drawGasOverlay(MatrixStack matrices, float tickDelta){
+        Camera camera = this.client.gameRenderer.getCamera();
+        int gasSubmersionColor = CameraInGas.getGasOverlayColor(this.client.world, camera);
+        if (gasSubmersionColor != -1){
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(false);
+            InGameHud.fill(matrices, 0, 0, this.scaledWidth, this.scaledHeight, -90, gasSubmersionColor);
+            RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
         }
     }
 }

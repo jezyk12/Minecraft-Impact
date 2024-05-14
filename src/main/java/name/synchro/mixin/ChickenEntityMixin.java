@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import name.synchro.employment.ChickenWorkingHandler;
 import name.synchro.employment.Employee;
+import name.synchro.util.NbtTags;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -36,12 +37,12 @@ public abstract class ChickenEntityMixin extends AnimalEntity implements Employe
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void readAdditionalNbt(NbtCompound nbt, CallbackInfo ci){
-        this.getWorkingHandler().setEmploymentFromNbt(nbt.getCompound(Employee.EMPLOYER), this.world);
+        this.getWorkingHandler().setEmploymentFromNbt(nbt.getCompound(NbtTags.EMPLOYER), this.world);
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeAdditionalNbt(NbtCompound toWriteNbt, CallbackInfo ci){
-        toWriteNbt.put(Employee.EMPLOYER, this.getWorkingHandler().getEmploymentNbt());
+        toWriteNbt.put(NbtTags.EMPLOYER, this.getWorkingHandler().getEmploymentNbt());
     }
 
     @Override

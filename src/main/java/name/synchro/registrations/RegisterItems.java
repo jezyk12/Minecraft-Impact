@@ -45,6 +45,8 @@ public class RegisterItems {
             new OresMixture(new FabricItemSettings()));
     public static final OresMixture CRUSHED_ORES = registerItem("crushed_ores",
             new OresMixture(new FabricItemSettings()));
+    public static final Item FRESH_FORAGE = registerItem("fresh_forage",
+            new Item(new FabricItemSettings().maxCount(64)),SYNCHRO_BASIC);
 
     protected static <T extends Item> T registerItem(String path, T item, ItemGroup itemGroup) {
         T registeredItem = Registry.register(

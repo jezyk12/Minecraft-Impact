@@ -1,11 +1,13 @@
 package name.synchro.blockEntities;
 
 import com.google.common.collect.ImmutableMap;
+import name.synchro.Synchro;
 import name.synchro.employment.BlockEntityWorkerManager;
 import name.synchro.employment.Employer;
 import name.synchro.employment.Job;
 import name.synchro.registrations.RegisterBlockEntities;
 import name.synchro.registrations.RegisterItems;
+import name.synchro.screenHandlers.MillstoneScreenHandler;
 import name.synchro.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -15,6 +17,7 @@ import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,7 +28,11 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -36,30 +43,42 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class MillstoneBlockEntity extends BlockEntity implements SidedInventory, ProcessingHandler, Rotatable, BlockEntityExtraCollisionProvider, Employer {
+public class MillstoneBlockEntity extends BlockEntity implements SidedInventory, Rotatable, BlockEntityExtraCollisionProvider, Employer, NamedScreenHandlerFactory {
     public static final int SLOT_INPUT = 0;
     public static final int SLOT_OUTPUT = 1;
+    public static final int SLOT_FEED = 2;
+    public static final int INV_SIZE = 3;
     public static final String WOOD_PREFIX = "millstone_wood:";
     public static final String TOP_PREFIX = "millstone_top:";
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
-    private int processingTime = 0;
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(INV_SIZE, ItemStack.EMPTY);
+    private int processingDegrees = 0;
+    private int progressOf24 = 0;
     private final RotationProvider rotationProvider;
     private final Random random = new Random();
     private final MillstoneWorkerManager workerManager;
-    public static final ImmutableMap<Item, ItemStack> MILLSTONE_RECIPES =
+    private boolean locked = false;
+    public static final ImmutableMap<Item, RecipeData> MILLSTONE_RECIPES =
             ImmutableMap.of(
-                    Blocks.OAK_PLANKS.asItem(), new ItemStack(RegisterItems.PLANT_FIBRE, 4),
-                    Blocks.SPRUCE_PLANKS.asItem(), new ItemStack(RegisterItems.PLANT_FIBRE, 4),
-                    Blocks.BIRCH_PLANKS.asItem(), new ItemStack(RegisterItems.PLANT_FIBRE, 4),
-                    Blocks.JUNGLE_PLANKS.asItem(), new ItemStack(RegisterItems.PLANT_FIBRE, 4),
-                    Blocks.ACACIA_PLANKS.asItem(), new ItemStack(RegisterItems.PLANT_FIBRE, 4),
-                    Blocks.DARK_OAK_PLANKS.asItem(), new ItemStack(RegisterItems.PLANT_FIBRE, 4),
-                    Items.STICK, new ItemStack(RegisterItems.PLANT_FIBRE, 1)
+                    Blocks.OAK_PLANKS.asItem(), new RecipeData(new ItemStack(RegisterItems.PLANT_FIBRE, 4), 360),
+                    Items.STICK, new RecipeData(new ItemStack(RegisterItems.PLANT_FIBRE, 1), 90)
             );
+    public static final ImmutableMap<Item, Integer> MILLSTONE_FEEDS =
+            ImmutableMap.of(
+                    RegisterItems.FRESH_FORAGE, 200,/*3600*/
+                    Items.WHEAT, 1200,
+                    Items.GRASS, 200,
+                    Items.FERN, 200
+            );
+    public record RecipeData(ItemStack stack, int degree) {}
+    public static final int INT_PROGRESS = 0;
+    public static final int INT_SPEED = 1;
+    public static final int INTEGERS_SIZE = 2;
+    private final PropertyDelegate propertyDelegate;
 
     public MillstoneBlockEntity(BlockPos pos, BlockState state) {
         super(RegisterBlockEntities.MILLSTONE_BLOCK_ENTITY, pos, state);
         this.rotationProvider = new RotationProvider(0L, 0);
+        this.propertyDelegate = new MillstonePropertyDelegate();
         this.workerManager = new MillstoneWorkerManager();
     }
 
@@ -70,7 +89,7 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
         for (int i = 0; i < this.inventory.size(); i++) {
             this.inventory.set(i, ItemStack.fromNbt(inv.getCompound(String.valueOf(i))));
         }
-        this.processingTime = nbt.getInt(NbtTags.PROCESSING_TICKS);
+        this.processingDegrees = nbt.getInt(NbtTags.PROCESSING_TICKS);
         this.setupRotationFromNbt(nbt.getCompound(NbtTags.ROTATION), world);
         this.workerManager.setEmploymentFromNbt(nbt.getCompound(NbtTags.EMPLOYEES));
     }
@@ -82,7 +101,7 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
             inv.put(String.valueOf(i), this.inventory.get(i).writeNbt(new NbtCompound()));
         }
         toWriteNbt.put(NbtTags.INVENTORY, inv);
-        toWriteNbt.putInt(NbtTags.PROCESSING_TICKS, this.processingTime);
+        toWriteNbt.putInt(NbtTags.PROCESSING_TICKS, this.processingDegrees);
         toWriteNbt.put(NbtTags.ROTATION, this.createRotationNbt(Objects.requireNonNull(world).getTime()));
         toWriteNbt.put(NbtTags.EMPLOYEES, this.workerManager.getEmploymentNbt());
         super.writeNbt(toWriteNbt);
@@ -90,17 +109,21 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
 
     @Override
     public int[] getAvailableSlots(Direction side) {
-        return switch (side) {
-            case UP -> new int[]{SLOT_INPUT};
-            case DOWN -> new int[]{SLOT_OUTPUT};
-            default -> new int[0];
-        };
+        if (side == Direction.UP) {
+            return new int[]{SLOT_INPUT, SLOT_FEED};
+        }
+        else return new int[]{SLOT_OUTPUT};
     }
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-        if (dir == Direction.UP && slot == SLOT_INPUT) {
-            return MILLSTONE_RECIPES.containsKey(stack.getItem());
+        if (dir == Direction.UP ){
+            if (slot == SLOT_INPUT) {
+                return MILLSTONE_RECIPES.containsKey(stack.getItem());
+            }
+            else if (slot == SLOT_FEED) {
+                return stack.isOf(Items.WHEAT);
+            }
         }
         return false;
     }
@@ -112,7 +135,7 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
 
     @Override
     public int size() {
-        return 2;
+        return INV_SIZE;
     }
 
     @Override
@@ -156,25 +179,16 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
         Objects.requireNonNull(world).updateListeners(pos, world.getBlockState(pos), world.getBlockState(pos), Block.NOTIFY_ALL);
     }
 
-    @Override
-    public int getProcessingTime() {
-        return this.processingTime;
-    }
-
-    @Override
-    public void setProcessingTime(int ticks) {
-        this.processingTime = ticks;
-    }
-
-    @Override
     public void tick() {
         int processMultiplier = Math.abs(this.rotationProvider.getSpeedMultiplier());
         boolean isWorking = processMultiplier > 0;
-        if (MILLSTONE_RECIPES.get(this.getStack(SLOT_INPUT).getItem()) != null) {
-            ItemStack processing = Objects.requireNonNull(MILLSTONE_RECIPES.get(this.getStack(SLOT_INPUT).getItem())).copy();
+        RecipeData recipeData = MILLSTONE_RECIPES.get(this.getStack(SLOT_INPUT).getItem());
+        if (recipeData != null) {
+            ItemStack processing = recipeData.stack().copy();
+            int endDegrees = recipeData.degree();
             ItemStack products = this.getStack(SLOT_OUTPUT).copy();
             if (isWorking && canProcess(products, processing)) {
-                this.processingTime += processMultiplier;
+                this.processingDegrees += processMultiplier;
                 if (world instanceof ServerWorld serverWorld){
                     float y = pos.getY() + 12 / 16f;
                     float r = 0.5f;
@@ -185,7 +199,7 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
                     float z = pos.getZ() + 0.5f + dz;
                     serverWorld.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM, this.getStack(SLOT_INPUT).copy()), x, y ,z, 1, dx / 10f, 0.05f, dz / 10f, 0.1f);
                 }
-                if (processingTime >= 200) {
+                if (processingDegrees >= endDegrees) {
                     if (products.isEmpty()) {
                         this.setStack(SLOT_OUTPUT, processing);
                     } else {
@@ -193,15 +207,20 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
                         this.setStack(SLOT_OUTPUT, products);
                     }
                     this.removeStack(SLOT_INPUT,1);
-                    this.processingTime = 0;
+                    this.processingDegrees = 0;
                 }
+                this.progressOf24 = this.processingDegrees * 24 / endDegrees;
             }
         }
         else {
-            if (this.processingTime > 0)   this.processingTime = 0;
+            if (this.processingDegrees > 0) {
+                this.processingDegrees = 0;
+                this.progressOf24 = 0;
+            }
         }
         if (isWorking) {
             tryPushingEntity();
+            markDirty();
         }
      }
 
@@ -282,6 +301,29 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
         return this.workerManager;
     }
 
+    @Override
+    public Text getDisplayName() {
+        return Text.translatable(this.getCachedState().getBlock().getTranslationKey());
+    }
+
+    @Nullable
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+        return new MillstoneScreenHandler(syncId, playerInventory, this, propertyDelegate);
+    }
+
+    public void lock(){
+        this.locked = true;
+    }
+
+    public void unlock(){
+        this.locked = false;
+    }
+
+    public boolean isLocked(){
+        return this.locked;
+    }
+
     public class MillstoneWorkerManager extends BlockEntityWorkerManager {
         public MillstoneWorkerManager() {
             super(2, pos.toCenterPos());
@@ -325,6 +367,29 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
             int rotMob = (int) Math.toDegrees(Math.atan2(vecMob.x, vecMob.z));
             int degDiff = Math.floorMod(rotBlock + 180 - rotMob, 360);
             return degDiff >= 180 ? degDiff - 360 : degDiff;
+        }
+    }
+
+    private class MillstonePropertyDelegate implements PropertyDelegate {
+        @Override
+        public int get(int index) {
+            if (index == INT_PROGRESS) {
+                return progressOf24;
+            }
+            else if (index == INT_SPEED) {
+                return rotationProvider.getSpeedMultiplier();
+            }
+            return 0;
+        }
+
+        @Override
+        public void set(int index, int value) {
+            Synchro.LOGGER.warn("MillstonePropertyDelegate does not support setting values.");
+        }
+
+        @Override
+        public int size() {
+            return INTEGERS_SIZE;
         }
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface Employer {
-    static void employSuitableMob(ServerWorld world, Employer employer, double range) {
+    static boolean employSuitableMob(ServerWorld world, Employer employer, double range) {
         if (range < 0) range = 0;
         Vec3d workingPosition = employer.getWorkerManager().getWorkingPosition();
         List<Entity> entities = world.getOtherEntities(null, Box.of(workingPosition, 1 / 16d, 1 / 16d, 1 / 16d).expand(range),
@@ -33,19 +33,22 @@ public interface Employer {
                 minDistance = distance;
             }
         }
-        if (target != null && ((Employee) target).getWorkingHandler().join(employer)){
-            Vec3d targetPos = target.getEyePos();
-            Vec3d path = workingPosition.subtract(targetPos);
-            double distance = path.length();
-            Vec3d pathNormalized = path.normalize();
-            for (double i = 0; i < distance; i += 0.125) {
-                world.spawnParticles(ParticleTypes.HAPPY_VILLAGER,
-                        targetPos.x + pathNormalized.x * i,
-                        targetPos.y + pathNormalized.y * i,
-                        targetPos.z + pathNormalized.z * i,
-                        1, 0.0, 0.0, 0.0, 0.0);
-           }
-        }
+        if (target != null && ((Employee) target).getWorkingHandler().willingToWork())
+            if (((Employee) target).getWorkingHandler().join(employer)) {
+                Vec3d targetPos = target.getEyePos();
+                Vec3d path = workingPosition.subtract(targetPos);
+                double distance = path.length();
+                Vec3d pathNormalized = path.normalize();
+                for (double i = 0; i < distance; i += 0.125) {
+                    world.spawnParticles(ParticleTypes.HAPPY_VILLAGER,
+                            targetPos.x + pathNormalized.x * i,
+                            targetPos.y + pathNormalized.y * i,
+                            targetPos.z + pathNormalized.z * i,
+                            1, 0.0, 0.0, 0.0, 0.0);
+                }
+                return true;
+            }
+        return false;
     }
 
     static void discardEmployer(ServerWorld serverWorld, Employer employer) {

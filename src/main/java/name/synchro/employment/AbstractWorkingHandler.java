@@ -15,6 +15,7 @@ public abstract class AbstractWorkingHandler implements WorkingHandler {
     @Nullable
     protected Employer employer;
     protected final MobEntity mob;
+    public int workableTime = -1;
 
     protected AbstractWorkingHandler(MobEntity mob) {
         this.mob = mob;
@@ -35,6 +36,7 @@ public abstract class AbstractWorkingHandler implements WorkingHandler {
         } else if (nbt.contains(NbtTags.TYPE_ENTITY)) {
             Synchro.LOGGER.warn("Uncompleted feature: Entity as an employer");
         } else this.employer = null;
+        this.workableTime = nbt.getInt(NbtTags.WORKABLE_TIME);
     }
 
     public NbtCompound getEmploymentNbt() {
@@ -47,6 +49,7 @@ public abstract class AbstractWorkingHandler implements WorkingHandler {
                 Synchro.LOGGER.warn("Uncompleted feature: Entity as an employer");
             }
             else Synchro.LOGGER.warn("Unacceptable employer type");
+            nbt.putInt(NbtTags.WORKABLE_TIME, this.workableTime);
         }
         return nbt;
     }
@@ -82,6 +85,10 @@ public abstract class AbstractWorkingHandler implements WorkingHandler {
             }
             this.employer = null;
         }
+    }
+
+    public boolean willingToWork(){
+        return true;
     }
 
     @Override

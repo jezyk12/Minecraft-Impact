@@ -6,11 +6,9 @@ import name.synchro.registrations.RegisterItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.server.recipe.RecipeJsonProvider;
-import net.minecraft.data.server.recipe.RecipeProvider;
-import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.VanillaRecipeProvider;
+import net.minecraft.data.server.recipe.*;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
@@ -48,5 +46,10 @@ public class RecipesData extends FabricRecipeProvider {
                 .input(Blocks.MUD, 8).input(ItemTags.SAND)
                 .criterion("has_mud", RecipeProvider.conditionsFromItem(Blocks.MUD))
                 .offerTo(exporter, new Identifier(Synchro.MOD_ID, "clay_from_mud"));
+        ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, RegisterItems.FRESH_FORAGE, 4)
+                .pattern("abc").pattern("bcb").pattern("cba")
+                .input('a', Items.SWEET_BERRIES).input('b', Ingredient.ofItems(Items.GRASS, Items.FERN)).input('c', Items.WHEAT)
+                .criterion("has_wheat", RecipeProvider.conditionsFromItem(Items.WHEAT))
+                .offerTo(exporter, new Identifier(Synchro.MOD_ID, "fresh_forage"));
     }
 }

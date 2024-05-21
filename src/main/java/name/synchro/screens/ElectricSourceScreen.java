@@ -1,8 +1,8 @@
-package name.synchro.clientScreens;
+package name.synchro.screens;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import name.synchro.Synchro;
-import name.synchro.screenHandlers.ElectricConsumerScreenHandler;
+import name.synchro.screenHandlers.ElectricSourceScreenHandler;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -10,10 +10,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class ElectricConsumerScreen extends HandledScreen<ElectricConsumerScreenHandler> {
+public class ElectricSourceScreen extends HandledScreen<ElectricSourceScreenHandler> {
     private static final Identifier TEXTURE =
-            new Identifier(Synchro.MOD_ID, "textures/gui/electric_consumer_gui.png");
-    public ElectricConsumerScreen(ElectricConsumerScreenHandler handler, PlayerInventory inventory, Text title) {
+            new Identifier(Synchro.MOD_ID, "textures/gui/electric_source_gui.png");
+    public ElectricSourceScreen(ElectricSourceScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.backgroundWidth = 256;
         this.backgroundHeight = 128;

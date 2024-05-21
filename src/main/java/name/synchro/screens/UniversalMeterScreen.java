@@ -1,4 +1,4 @@
-package name.synchro.clientScreens;
+package name.synchro.screens;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import name.synchro.Synchro;

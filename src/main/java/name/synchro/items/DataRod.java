@@ -33,7 +33,7 @@ public class DataRod extends Item {
         if (!context.getWorld().isClient){
             World world = context.getWorld();
             if (world.getBlockEntity(context.getBlockPos()) instanceof MillstoneBlockEntity blockEntity){
-                blockEntity.getRotationProvider().updateSpeedMultiplier(world.getTime(), (blockEntity.getRotationProvider().getSpeedMultiplier() + 2) % 60);
+                blockEntity.updateSpeedMultiplier(world.getTime(), (blockEntity.getRotationProvider().getSpeedMultiplier() + 2) % 60);
                 world.updateListeners(context.getBlockPos(), world.getBlockState(context.getBlockPos()), world.getBlockState(context.getBlockPos()), Block.NOTIFY_ALL);
             }
         }

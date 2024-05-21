@@ -53,8 +53,8 @@ public class StrawNestBlock extends Block implements BlockEntityProvider {
             }
             else {
                 if (player.getStackInHand(hand).isOf(Items.WHEAT_SEEDS)){
-                    player.getStackInHand(hand).decrement(1);
-                    Employer.employSuitableMob(serverWorld, strawNestBlockEntity, 3.0);
+                    if (Employer.employSuitableMob(serverWorld, strawNestBlockEntity, 3.0))
+                        player.getStackInHand(hand).decrement(1);
                 }
             }
         }

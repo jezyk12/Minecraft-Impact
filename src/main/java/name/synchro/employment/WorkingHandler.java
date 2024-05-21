@@ -15,4 +15,7 @@ public interface WorkingHandler {
 
     int workingGoalPriority();
 
+    default boolean willingToWork() {
+        return true;
+    }
 }

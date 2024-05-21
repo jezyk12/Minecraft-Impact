@@ -54,7 +54,7 @@ public interface Rotatable {
          * <p> This should only be called when trying to change the rotation speed.</p>
          * @param timeNow Commonly be world.getTime()
          */
-        public void updateSpeedMultiplier(long timeNow, int newSpeedMultiplier) {
+        private void updateSpeedMultiplier(long timeNow, int newSpeedMultiplier) {
             int speedMultiplier = getSpeedMultiplier();
             long lastSpeedChangeTime = getLastSpeedChangeTime();
             long lastRotation = (timeNow - lastSpeedChangeTime) * speedMultiplier;
@@ -63,7 +63,7 @@ public interface Rotatable {
             setLastSpeedChangeTime(timeNow);
         }
 
-        public NbtCompound toNbt(long timeNow){
+        private NbtCompound toNbt(long timeNow){
             this.updateSpeedMultiplier(timeNow, getSpeedMultiplier());
             NbtCompound nbt = new NbtCompound();
             nbt.putInt(NbtTags.SPEED_MULTIPLIER, getSpeedMultiplier());

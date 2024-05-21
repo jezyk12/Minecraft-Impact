@@ -43,7 +43,7 @@ public class SynchroClient implements ClientModInitializer {
         SetupRenderLayer.setupAll();
         RegisterFluidRenderer.registerAll();
         Guidance.setupKeyBinding();
-        RegisterClientScreens.registerAll();
+        RegisterScreens.registerAll();
         RegisterEntityRendering.registerAll();
         Synchro.LOGGER.info("Mod Synchro has been initialized in client.");
     }

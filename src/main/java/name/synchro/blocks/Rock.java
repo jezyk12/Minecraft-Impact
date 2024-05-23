@@ -33,17 +33,17 @@ import java.util.Map;
 
 public class Rock extends Block implements BlockEntityProvider {
     public static final EnumProperty<Type> ROCK_TYPE = EnumProperty.of("type", Type.class);
-    private static final ImmutableMap<Item, OresMixture.Level> VANILLA_SUITABLE_TOOLS =
-            ImmutableMap.of(Items.WOODEN_PICKAXE, OresMixture.Level.LUMP,
-                    Items.GOLDEN_PICKAXE, OresMixture.Level.LUMP,
-                    Items.STONE_PICKAXE, OresMixture.Level.CRACKED,
-                    Items.IRON_PICKAXE, OresMixture.Level.CRACKED,
-                    Items.DIAMOND_PICKAXE, OresMixture.Level.CRUSHED,
-                    Items.NETHERITE_PICKAXE, OresMixture.Level.CRUSHED);
+    private static final ImmutableMap<Item, OresMixture.Type> VANILLA_SUITABLE_TOOLS =
+            ImmutableMap.of(Items.WOODEN_PICKAXE, OresMixture.Type.LUMP,
+                    Items.GOLDEN_PICKAXE, OresMixture.Type.LUMP,
+                    Items.STONE_PICKAXE, OresMixture.Type.CRACKED,
+                    Items.IRON_PICKAXE, OresMixture.Type.CRACKED,
+                    Items.DIAMOND_PICKAXE, OresMixture.Type.CRUSHED,
+                    Items.NETHERITE_PICKAXE, OresMixture.Type.CRUSHED);
 
     public Rock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(ROCK_TYPE, Type.NATURAL));
+        this.setDefaultState(this.getDefaultState().with(ROCK_TYPE, Rock.Type.NATURAL));
     }
 
     public enum Type implements StringIdentifiable {
@@ -70,14 +70,14 @@ public class Rock extends Block implements BlockEntityProvider {
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         if (ctx.getStack().hasNbt() && ctx.getStack().getNbt().contains(NbtTags.CONTENT))
-            return this.getDefaultState().with(ROCK_TYPE, Type.MUTABLE);
-        return this.getDefaultState().with(ROCK_TYPE, Type.ARTIFICIAL);
+            return this.getDefaultState().with(ROCK_TYPE, Rock.Type.MUTABLE);
+        return this.getDefaultState().with(ROCK_TYPE, Rock.Type.ARTIFICIAL);
     }
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         super.onPlaced(world, pos, state, placer, itemStack);
-        if (state.get(ROCK_TYPE) == Type.MUTABLE) {
+        if (state.get(ROCK_TYPE) == Rock.Type.MUTABLE) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof MutableBlockEntity mutableBlockEntity) {
                 NbtCompound itemStackNbt = itemStack.getNbt();
@@ -91,7 +91,7 @@ public class Rock extends Block implements BlockEntityProvider {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        if (state.get(ROCK_TYPE) == Type.MUTABLE) {
+        if (state.get(ROCK_TYPE) == Rock.Type.MUTABLE) {
             return new MutableBlockEntity(pos, state);
         }
         return null;
@@ -123,7 +123,7 @@ public class Rock extends Block implements BlockEntityProvider {
         }
     }
 
-    private ItemStack getDropStack(BlockState state, ServerWorld world, BlockPos pos, boolean wholeBlock, boolean keepNbt, OresMixture.Level level){
+    private ItemStack getDropStack(BlockState state, ServerWorld world, BlockPos pos, boolean wholeBlock, boolean keepNbt, OresMixture.Type type){
         ItemStack stack;
         if (wholeBlock) {
             stack = new ItemStack(state.getBlock().asItem(), 1);
@@ -133,7 +133,7 @@ public class Rock extends Block implements BlockEntityProvider {
                 stack.setNbt(nbt);
             }
         } else {
-            stack = switch (level){
+            stack = switch (type){
                 case LUMP -> new ItemStack(RegisterItems.LUMP_ORES, 1);
                 case CRACKED -> new ItemStack(RegisterItems.CRACKED_ORES, 1);
                 case CRUSHED -> new ItemStack(RegisterItems.CRUSHED_ORES, 1);

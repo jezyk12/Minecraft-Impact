@@ -24,10 +24,9 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
-
-import static name.synchro.SynchroStandardStatic.ALL_DIRECTIONS;
 
 public class ElectricSourceBlock extends AbstractNetworkBlock implements ElectricTerminalBlockProvider {
     public ElectricSourceBlock(Settings settings) {
@@ -53,7 +52,7 @@ public class ElectricSourceBlock extends AbstractNetworkBlock implements Electri
     }
     @Override
     public HashSet<Direction> getLinkableDirections(BlockState state) {
-        HashSet<Direction> linkableDirections = new HashSet<>(ALL_DIRECTIONS);
+        HashSet<Direction> linkableDirections = new HashSet<>(Arrays.stream(Direction.values()).toList());
         linkableDirections.remove(state.get(Properties.FACING));
         return linkableDirections;
     }

@@ -47,6 +47,8 @@ public class RegisterItems {
             new OresMixture(new FabricItemSettings()));
     public static final Item FRESH_FORAGE = registerItem("fresh_forage",
             new Item(new FabricItemSettings().maxCount(64)),SYNCHRO_BASIC);
+    public static final OresMixture ORES_DUST = registerItem("ores_dust",
+            new OresMixture(new FabricItemSettings()));
 
     protected static <T extends Item> T registerItem(String path, T item, ItemGroup itemGroup) {
         T registeredItem = Registry.register(
@@ -66,13 +68,16 @@ public class RegisterItems {
         ItemStack emptyCrackedOresStack = new ItemStack(CRACKED_ORES);
         ItemStack emptyLumpOresStack = new ItemStack(LUMP_ORES);
         ItemStack emptyCrushedOresStack = new ItemStack(CRUSHED_ORES);
+        ItemStack emptyOresDustStack = new ItemStack(ORES_DUST);
         emptyCrackedOresStack.setNbt(emptyOresNbt.copy());
         emptyCrushedOresStack.setNbt(emptyOresNbt.copy());
         emptyLumpOresStack.setNbt(emptyOresNbt.copy());
+        emptyOresDustStack.setNbt(emptyOresNbt.copy());
         ItemGroupEvents.modifyEntriesEvent(SYNCHRO_BASIC).register(entries -> {
             entries.add(emptyLumpOresStack);
             entries.add(emptyCrackedOresStack);
             entries.add(emptyCrushedOresStack);
+            entries.add(emptyOresDustStack);
         });
     }
 

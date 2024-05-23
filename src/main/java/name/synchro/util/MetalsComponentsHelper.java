@@ -28,6 +28,7 @@ public final class MetalsComponentsHelper {
     public static final int DRP_LUMP_ORES = 72000;  // 8 Ingots
     public static final int DRP_CRACKED_ORES = 54000;   // 6 Ingots
     public static final int DRP_CRUSHED_ORES = 36000;   // 4 Ingots
+    public static final int DRP_ORES_DUST = 27000;  // 3 Ingots
     public static final Metals.Attributes NO_ATTRIBUTES_BIAS = new Metals.Attributes(0, 0, 0, 0, 0, 0);
     public static final Metals.Attributes ALL_FIELD_NOT_BAD = new Metals.Attributes(1, 1, 1, 1, 1, 1);
     public static final BiomesFunction DEFAULT_BIOMES_FUNCTION = new BiomesFunction(18000, 8, 2, 1, NO_ATTRIBUTES_BIAS);

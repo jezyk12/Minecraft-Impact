@@ -36,7 +36,7 @@ public abstract class ScreenHandlerMixin {
     private boolean modifyInsertItem(ItemStack stack, ItemStack otherStack, Operation<Boolean> original,
                                      @Local Slot slot){
         if (stack.getItem() instanceof ItemSpeciallyCombinable specialItem) {
-            if (specialItem.canCombineToExistingStack(stack, otherStack)) {
+            if (slot.canInsert(stack) && specialItem.canCombineToExistingStack(stack, otherStack)) {
                 specialItem.combineToExistingStack(stack, otherStack);
                 slot.markDirty();
                 this.insertItemReturn = true;
@@ -55,7 +55,7 @@ public abstract class ScreenHandlerMixin {
     @Inject(method = "canInsertItemIntoSlot", at = @At("HEAD"), cancellable = true)
     private static void modifyCanInsertItemIntoSlot(@Nullable Slot slot, ItemStack stack, boolean allowOverflow, CallbackInfoReturnable<Boolean> cir){
         if (stack.getItem() instanceof ItemSpeciallyCombinable specialItem && slot != null) {
-            if (specialItem.canCombineToExistingStack(stack, slot.getStack())) {
+            if (slot.canInsert(stack) && specialItem.canCombineToExistingStack(stack, slot.getStack())) {
                 cir.setReturnValue(true);
                 cir.cancel();
             }

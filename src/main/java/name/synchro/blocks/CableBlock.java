@@ -1,6 +1,5 @@
 package name.synchro.blocks;
 
-import name.synchro.SynchroStandardStatic;
 import name.synchro.electricNetwork.ElectricConductorBlockProvider;
 import name.synchro.networkLink.networkBlockAPI.AbstractNetworkBlock;
 import net.minecraft.block.BlockState;
@@ -12,6 +11,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class CableBlock extends AbstractNetworkBlock implements ElectricConductorBlockProvider {
@@ -40,7 +40,7 @@ public class CableBlock extends AbstractNetworkBlock implements ElectricConducto
 
     @Override
     public HashSet<Direction> getLinkableDirections(BlockState state) {
-        return SynchroStandardStatic.ALL_DIRECTIONS;
+        return new HashSet<>(Arrays.stream(Direction.values()).toList());
     }
 
 }

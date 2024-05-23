@@ -41,7 +41,7 @@ public class OresMixture extends Item implements ContextualItemTooltipData, Item
 
     @Override
     public boolean onStackClicked(ItemStack cursorStack, Slot slot, ClickType clickType, PlayerEntity player) {
-        if (cursorStack.getItem() instanceof ItemSpeciallyCombinable) {
+        if (slot.canInsert(cursorStack) && cursorStack.getItem() instanceof ItemSpeciallyCombinable) {
             ItemStack slotStack = slot.getStack();
             if (slotStack.isEmpty()){
                 if (clickType.equals(ClickType.LEFT)){
@@ -66,17 +66,21 @@ public class OresMixture extends Item implements ContextualItemTooltipData, Item
         if (cursorStack.getItem() instanceof ItemSpeciallyCombinable specialItem) {
             if (specialItem.canCombineToExistingStack(cursorStack, stack)) {
                 if (clickType.equals(ClickType.LEFT)){
-                    cursorStackReference.set(specialItem.combineToExistingStack(cursorStack, stack));
-                    return true;
+                    if (slot.canTakeItems(player)){
+                        cursorStackReference.set(specialItem.combineToExistingStack(cursorStack, stack));
+                        return true;
+                    }
                 }
                 else if (clickType.equals(ClickType.RIGHT)){
-                    ItemStack unitStack = cursorStack.copy();
-                    unitStack.setCount(1);
-                    specialItem.combineToExistingStack(unitStack, stack);
-                    if (unitStack.getCount() < 1) {
-                        cursorStack.decrement(1);
-                        cursorStackReference.set(cursorStack);
-                        return true;
+                    if (slot.canInsert(cursorStack)){
+                        ItemStack unitStack = cursorStack.copy();
+                        unitStack.setCount(1);
+                        specialItem.combineToExistingStack(unitStack, stack);
+                        if (unitStack.getCount() < 1) {
+                            cursorStack.decrement(1);
+                            cursorStackReference.set(cursorStack);
+                            return true;
+                        }
                     }
                 }
             }
@@ -93,10 +97,11 @@ public class OresMixture extends Item implements ContextualItemTooltipData, Item
     public Optional<TooltipData> getTooltipDataConditionally(ItemStack stack, TooltipContext context, MinecraftClient client) {
         if (stack.hasNbt()){
             Map<Integer, Integer> contents = Metals.getMetalContentFromNbt(stack.getNbt());
-            return Optional.of(new CrackedOreTooltipData(contents, context.isAdvanced(), context.isCreative(), switch (Level.of(stack.getItem())){
+            return Optional.of(new CrackedOreTooltipData(contents, context.isAdvanced(), context.isCreative(), switch (Type.of(stack.getItem())){
                 case LUMP -> MetalsComponentsHelper.DRP_LUMP_ORES;
                 case CRACKED -> MetalsComponentsHelper.DRP_CRACKED_ORES;
                 case CRUSHED -> MetalsComponentsHelper.DRP_CRUSHED_ORES;
+                case DUST -> MetalsComponentsHelper.DRP_ORES_DUST;
                 default -> MetalsComponentsHelper.DRP_BLOCK;
             }, client));
         }
@@ -126,15 +131,17 @@ public class OresMixture extends Item implements ContextualItemTooltipData, Item
         return givenStack;
     }
 
-    public enum Level {
+    public enum Type {
         LUMP,
         CRACKED,
         CRUSHED,
+        DUST,
         NONE;
-        public static Level of(Item item){
+        public static Type of(Item item){
             if (item == RegisterItems.LUMP_ORES) return LUMP;
             else if (item == RegisterItems.CRACKED_ORES) return CRACKED;
             else if (item == RegisterItems.CRUSHED_ORES) return CRUSHED;
+            else if (item == RegisterItems.ORES_DUST) return DUST;
             else return NONE;
         }
     }

@@ -20,4 +20,13 @@ public interface ItemSpeciallyCombinable {
      * @return The remaining stack of givenStack after combining.
      */
     ItemStack combineToExistingStack(ItemStack givenStack, ItemStack existingStack);
+
+    default boolean canCompletelyCombineToExistingStack(ItemStack givenStack, ItemStack existingStack) {
+        if (canCombineToExistingStack(givenStack, existingStack)){
+            ItemStack stack1 = givenStack.copy();
+            ItemStack stack2 = existingStack.copy();
+            return combineToExistingStack(stack1, stack2).isEmpty();
+        }
+        return false;
+    }
 }

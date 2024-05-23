@@ -17,6 +17,7 @@ public class RegisterColorProviders {
         ColorProviderRegistry.ITEM.register(new OresMixtureColorProvider(), RegisterItems.LUMP_ORES);
         ColorProviderRegistry.ITEM.register(new OresMixtureColorProvider(), RegisterItems.CRACKED_ORES);
         ColorProviderRegistry.ITEM.register(new OresMixtureColorProvider(), RegisterItems.CRUSHED_ORES);
+        ColorProviderRegistry.ITEM.register(new OresMixtureColorProvider(), RegisterItems.ORES_DUST);
         ColorProviderRegistry.BLOCK.register(new RockColorProvider(), RegisterBlocks.ROCK_COARSE);
         ColorProviderRegistry.BLOCK.register(new RockColorProvider(), RegisterBlocks.ROCK_CRACKED);
         ColorProviderRegistry.BLOCK.register(new RockColorProvider(), RegisterBlocks.ROCK_DARK);

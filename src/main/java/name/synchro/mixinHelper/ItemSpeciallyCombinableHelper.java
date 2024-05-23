@@ -59,7 +59,7 @@ public class ItemSpeciallyCombinableHelper {
     }
 
     public static void onSlotInsert(Slot instance, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
-        if (stack.getItem() instanceof ItemSpeciallyCombinable specialItem){
+        if (instance.canInsert(stack) && stack.getItem() instanceof ItemSpeciallyCombinable specialItem){
             ItemStack slotStack = instance.getStack();
             if (slotStack.isEmpty()) {
                 instance.setStack(stack.copy());

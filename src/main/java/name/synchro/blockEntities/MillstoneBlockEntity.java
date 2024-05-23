@@ -8,10 +8,10 @@ import name.synchro.employment.Job;
 import name.synchro.registrations.RegisterBlockEntities;
 import name.synchro.registrations.RegisterItems;
 import name.synchro.screenHandlers.MillstoneScreenHandler;
+import name.synchro.specialRecipes.MillstoneRecipes;
 import name.synchro.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.Entity;
@@ -57,14 +57,9 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     private final Random random = new Random();
     private final MillstoneWorkerManager workerManager;
     private boolean locked = false;
-    public static final ImmutableMap<Item, RecipeData> MILLSTONE_RECIPES =
-            ImmutableMap.of(
-                    Blocks.OAK_PLANKS.asItem(), new RecipeData(new ItemStack(RegisterItems.PLANT_FIBRE, 4), 360),
-                    Items.STICK, new RecipeData(new ItemStack(RegisterItems.PLANT_FIBRE, 1), 90)
-            );
     public static final ImmutableMap<Item, Integer> MILLSTONE_FEEDS =
             ImmutableMap.of(
-                    RegisterItems.FRESH_FORAGE, 200,/*3600*/
+                    RegisterItems.FRESH_FORAGE, 3600,
                     Items.WHEAT, 1200,
                     Items.GRASS, 200,
                     Items.FERN, 200
@@ -119,10 +114,10 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
         if (dir == Direction.UP ){
             if (slot == SLOT_INPUT) {
-                return MILLSTONE_RECIPES.containsKey(stack.getItem());
+                return MillstoneRecipes.canInput(stack);
             }
             else if (slot == SLOT_FEED) {
-                return stack.isOf(Items.WHEAT);
+                return MILLSTONE_FEEDS.containsKey(stack.getItem());
             }
         }
         return false;
@@ -182,10 +177,10 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     public void tick() {
         int processMultiplier = Math.abs(this.rotationProvider.getSpeedMultiplier());
         boolean isWorking = processMultiplier > 0;
-        RecipeData recipeData = MILLSTONE_RECIPES.get(this.getStack(SLOT_INPUT).getItem());
-        if (recipeData != null) {
-            ItemStack processing = recipeData.stack().copy();
-            int endDegrees = recipeData.degree();
+        ItemStack inputStack = this.getStack(SLOT_INPUT);
+        if (MillstoneRecipes.canInput(inputStack)) {
+            ItemStack processing = MillstoneRecipes.productOf(inputStack).copy();
+            int endDegrees = MillstoneRecipes.processDegreeOf(inputStack);
             ItemStack products = this.getStack(SLOT_OUTPUT).copy();
             if (isWorking && canProcess(products, processing)) {
                 this.processingDegrees += processMultiplier;
@@ -200,12 +195,8 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
                     serverWorld.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM, this.getStack(SLOT_INPUT).copy()), x, y ,z, 1, dx / 10f, 0.05f, dz / 10f, 0.1f);
                 }
                 if (processingDegrees >= endDegrees) {
-                    if (products.isEmpty()) {
-                        this.setStack(SLOT_OUTPUT, processing);
-                    } else {
-                        products.increment(processing.getCount());
-                        this.setStack(SLOT_OUTPUT, products);
-                    }
+                    ItemStackUtil.Result result = ItemStackUtil.transfer(processing, products);
+                    this.setStack(SLOT_OUTPUT, result.existingStackAfter());
                     this.removeStack(SLOT_INPUT,1);
                     this.processingDegrees = 0;
                 }
@@ -225,7 +216,7 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
      }
 
     public static boolean canProcess(ItemStack products, ItemStack processing) {
-        return (products.isEmpty() || (products.isOf(processing.getItem()) && products.getCount() + processing.getCount() <= products.getMaxCount()));
+        return ItemStackUtil.canCompletelyMerge(processing, products);
     }
 
     @Nullable

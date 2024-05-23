@@ -80,6 +80,7 @@ public class Millstone extends Block implements BlockEntityProvider {
             if (world instanceof ServerWorld serverWorld && serverWorld.getBlockEntity(pos) instanceof MillstoneBlockEntity millstoneBlockEntity) {
                 dropStack(world, pos, millstoneBlockEntity.getStack(MillstoneBlockEntity.SLOT_INPUT));
                 dropStack(world, pos, millstoneBlockEntity.getStack(MillstoneBlockEntity.SLOT_OUTPUT));
+                dropStack(world, pos, millstoneBlockEntity.getStack(MillstoneBlockEntity.SLOT_FEED));
                 Employer.discardEmployer(serverWorld, millstoneBlockEntity);
             }
             world.removeBlockEntity(pos);

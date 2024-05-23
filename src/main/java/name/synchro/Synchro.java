@@ -2,6 +2,7 @@ package name.synchro;
 
 import name.synchro.networkLink.networkAlgorithm.NetworkSearchHandler;
 import name.synchro.registrations.*;
+import name.synchro.specialRecipes.MillstoneRecipes;
 import name.synchro.util.IrregularVoxelShapes;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ public class Synchro implements ModInitializer {
 		RegisterItems.registerAll();
 		RegisterItemGroups.registerAll();
 		RegisterBlocks.registerAll();
+		MillstoneRecipes.buildAll();
 		RegisterBlockEntities.registerAll();
 		RegisterFluids.registerAll();
 		RegisterScreenHandlers.registerAll();

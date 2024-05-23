@@ -21,5 +21,5 @@ public interface SuitableForRock {
     /**
      * @return Decides how the ores drop.
      */
-    OresMixture.Level oresLevel(ItemStack stack);
+    OresMixture.Type oresLevel(ItemStack stack);
 }

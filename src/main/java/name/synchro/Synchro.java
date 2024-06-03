@@ -18,9 +18,9 @@ public class Synchro implements ModInitializer {
 		SynchroStandardStatic.initialAll();
 		NetworkSearchHandler.loadNetworkSearchHandler();
 		RegisterFeatures.registerAll();
-		RegisterItems.registerAll();
+		ItemsRegistered.registerAll();
 		RegisterItemGroups.registerAll();
-		RegisterBlocks.registerAll();
+		BlocksRegistered.registerAll();
 		MillstoneRecipes.buildAll();
 		RegisterBlockEntities.registerAll();
 		RegisterFluids.registerAll();
@@ -29,6 +29,7 @@ public class Synchro implements ModInitializer {
 		RegisterEntities.registerAll();
 		RegisterEvents.registerAll();
 		IrregularVoxelShapes.addAndLoadAllShapes();
+		//RegisterPointsOfInterest.registerAll();
 		LOGGER.info("Mod Synchro has been initialized.");
 	}
 }

@@ -8,7 +8,7 @@ import name.synchro.screens.UniversalMeterScreen;
 import name.synchro.guidance.HandledGuidanceScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 
-public class RegisterScreens {
+public final class RegisterScreens {
     public static void registerAll(){
         HandledScreens.register(RegisterScreenHandlers.ELECTRIC_LAMP_SCREEN_HANDLER, ElectricConsumerScreen::new);
         HandledScreens.register(RegisterScreenHandlers.ELECTRIC_SOURCE_SCREEN_HANDLER, ElectricSourceScreen::new);

@@ -5,7 +5,7 @@ import name.synchro.electricNetwork.AbstractConsumerBlockEntity;
 import name.synchro.electricNetwork.ElectricTerminalBlockProvider;
 import name.synchro.networkLink.networkBlockAPI.AbstractNetworkBlock;
 import name.synchro.registrations.RegisterBlockEntities;
-import name.synchro.registrations.RegisterItems;
+import name.synchro.registrations.ItemsRegistered;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -68,7 +68,7 @@ public class ElectricLampBlock extends AbstractNetworkBlock implements ElectricT
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (player.getInventory().getMainHandStack().getItem().equals(RegisterItems.UNIVERSAL_METER)){
+        if (player.getInventory().getMainHandStack().getItem().equals(ItemsRegistered.UNIVERSAL_METER)){
             if (!world.isClient) {
                 NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
                 if (screenHandlerFactory != null) {

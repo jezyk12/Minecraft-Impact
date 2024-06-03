@@ -1,6 +1,6 @@
 package name.synchro.blocks;
 
-import name.synchro.registrations.RegisterItems;
+import name.synchro.registrations.ItemsRegistered;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
@@ -28,7 +28,7 @@ public class PeanutBushBlock extends CropBlock {
 
     @Override
     protected ItemConvertible getSeedsItem() {
-        return RegisterItems.PEANUT;
+        return ItemsRegistered.PEANUT;
     }
 
     @Override

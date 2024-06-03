@@ -1,7 +1,7 @@
 package name.synchro.dataGeneration;
 
 import name.synchro.Synchro;
-import name.synchro.registrations.RegisterBlocks;
+import name.synchro.registrations.BlocksRegistered;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancement.Advancement;
@@ -20,13 +20,13 @@ public class AdvancementsData extends FabricAdvancementProvider {
     @Override
     public void generateAdvancement(Consumer<Advancement> consumer) {
         Advancement root = Advancement.Builder.create()
-                .display(RegisterBlocks.FERTILE_DIRT,
+                .display(BlocksRegistered.FERTILE_DIRT,
                         Text.translatable("advancements.farming.fertile_dirt.title"),
                         Text.translatable("advancements.farming.fertile_dirt.description"),
                         new Identifier(Synchro.MOD_ID, "textures/block/fertile_dirt.png"),
                         AdvancementFrame.TASK,
                         true, true, false)
-                .criterion("got_fertile_dirt", InventoryChangedCriterion.Conditions.items(RegisterBlocks.FERTILE_DIRT))
+                .criterion("got_fertile_dirt", InventoryChangedCriterion.Conditions.items(BlocksRegistered.FERTILE_DIRT))
                 .build(consumer, Synchro.MOD_ID + "/root");
     }
 }

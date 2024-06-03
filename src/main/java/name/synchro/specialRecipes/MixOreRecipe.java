@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 
 import static name.synchro.items.RawMixedOre.AVAILABLE_ORE_LIST;
-import static name.synchro.registrations.RegisterItems.RAW_MIXED_ORE;
+import static name.synchro.registrations.ItemsRegistered.RAW_MIXED_ORE;
 import static name.synchro.registrations.RegisterRecipes.MIX_ORE_RECIPE;
 
 public class MixOreRecipe extends SpecialCraftingRecipe {

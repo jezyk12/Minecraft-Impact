@@ -16,11 +16,11 @@ import java.util.Map;
 
 import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_BASIC;
 @SuppressWarnings("unused")
-public class RegisterItems {
+public final class ItemsRegistered {
     public static final RawMixedOre RAW_MIXED_ORE = registerItem("raw_mixed_ore",
             new RawMixedOre(new FabricItemSettings()),SYNCHRO_BASIC);
     public static final Item CABLE_ITEM = registerItem("cable_item",
-            new BlockItem(RegisterBlocks.CABLE,new FabricItemSettings()),SYNCHRO_BASIC);
+            new BlockItem(BlocksRegistered.CABLE,new FabricItemSettings()),SYNCHRO_BASIC);
     public static final DataRod DATA_ROD = registerItem("data_rod",
             new DataRod(new FabricItemSettings().rarity(Rarity.EPIC)),SYNCHRO_BASIC);
     public static final Item UNIVERSAL_METER = registerItem("universal_meter",
@@ -30,7 +30,7 @@ public class RegisterItems {
     public static final Cockroach COCKROACH = registerItem("cockroach",
             new Cockroach(new FabricItemSettings().maxCount(16)),SYNCHRO_BASIC);
     public static final Item PEANUT = registerItem("peanut",
-            new AliasedBlockItem(RegisterBlocks.PEANUT_BUSH_BLOCK, new FabricItemSettings().food(new FoodComponent.Builder().hunger(2).saturationModifier(0.2f).build())),SYNCHRO_BASIC);
+            new AliasedBlockItem(BlocksRegistered.PEANUT_BUSH_BLOCK, new FabricItemSettings().food(new FoodComponent.Builder().hunger(2).saturationModifier(0.2f).build())),SYNCHRO_BASIC);
     public static final Item BANANA = registerItem("banana",
             new Item(new FabricItemSettings().food(new FoodComponent.Builder().hunger(6).saturationModifier(0.8f).build())), SYNCHRO_BASIC);
     public static final Item PLANT_FIBRE = registerItem("plant_fibre",

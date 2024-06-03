@@ -53,6 +53,7 @@
   "tooltip.synchro.metal": "Metal",
   "tooltip.synchro.metal_content": "Content:",
   "tooltip.synchro.rock": "Rocks",
+  "tooltip.synchro.not_supported": "This item is not yet completed or have already been deprecated",
   "block.synchro.stone_slope": "Stone Slope",
   "block.synchro.granite_slope": "Granite Slope",
   "block.synchro.polished_granite_slope": "Polished Granite Slope",

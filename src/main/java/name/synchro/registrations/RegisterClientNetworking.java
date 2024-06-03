@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.Identifier;
 
-public class RegisterClientNetworking {
+public final class RegisterClientNetworking {
     public static final Identifier HUNGER_DATA_PACKET_ID = new Identifier(Synchro.MOD_ID, "exhaustion_packet");
     public static final Identifier FIRE_TICKS_DATA_PACKET_ID = new Identifier(Synchro.MOD_ID, "fire_ticks_packet");
     public static void registerAll(){

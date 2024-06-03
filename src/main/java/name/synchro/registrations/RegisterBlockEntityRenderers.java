@@ -9,7 +9,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 
 @Environment(EnvType.CLIENT)
-public class RegisterBlockEntityRenderers {
+public final class RegisterBlockEntityRenderers {
     public static void registerAll() {
         BlockEntityRendererFactories.register(RegisterBlockEntities.DEBUG_BLOCK_ENTITY, DebugBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(RegisterBlockEntities.MILLSTONE_BLOCK_ENTITY, MillstoneBlockEntityRenderer::new);

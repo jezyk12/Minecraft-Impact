@@ -1,6 +1,6 @@
 package name.synchro.fluids.gases;
 
-import name.synchro.registrations.RegisterBlocks;
+import name.synchro.registrations.BlocksRegistered;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.server.world.ServerWorld;
@@ -15,7 +15,7 @@ public class HotSteamGas extends Gas{
 
     @Override
     protected BlockState toBlockState(FluidState state) {
-        return RegisterBlocks.HOT_STEAM_BLOCK.getDefaultState().with(LEVEL, state.getLevel());
+        return BlocksRegistered.HOT_STEAM_BLOCK.getDefaultState().with(LEVEL, state.getLevel());
     }
 
     @Override

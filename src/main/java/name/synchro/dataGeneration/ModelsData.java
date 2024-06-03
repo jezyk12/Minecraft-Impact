@@ -1,6 +1,6 @@
 package name.synchro.dataGeneration;
 
-import name.synchro.registrations.RegisterBlocks;
+import name.synchro.registrations.BlocksRegistered;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
@@ -13,15 +13,15 @@ public class ModelsData extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        blockStateModelGenerator.registerSimpleCubeAll(RegisterBlocks.PLANT_FIBRE_BLOCK);
-        blockStateModelGenerator.registerSimpleCubeAll(RegisterBlocks.SEKITE);
-        blockStateModelGenerator.registerSimpleCubeAll(RegisterBlocks.AOITE);
-        blockStateModelGenerator.registerSimpleCubeAll(RegisterBlocks.MIDORITE);
-        blockStateModelGenerator.registerSimpleCubeAll(RegisterBlocks.MURAXKITE);
-        blockStateModelGenerator.registerSimpleCubeAll(RegisterBlocks.GUMITE);
-        blockStateModelGenerator.registerSimpleCubeAll(RegisterBlocks.NGANITE);
-        blockStateModelGenerator.registerSimpleCubeAll(RegisterBlocks.HAAKITE);
-        blockStateModelGenerator.registerSimpleCubeAll(RegisterBlocks.BAAKITE);
+        blockStateModelGenerator.registerSimpleCubeAll(BlocksRegistered.PLANT_FIBRE_BLOCK);
+        blockStateModelGenerator.registerSimpleCubeAll(BlocksRegistered.SEKITE);
+        blockStateModelGenerator.registerSimpleCubeAll(BlocksRegistered.AOITE);
+        blockStateModelGenerator.registerSimpleCubeAll(BlocksRegistered.MIDORITE);
+        blockStateModelGenerator.registerSimpleCubeAll(BlocksRegistered.MURAXKITE);
+        blockStateModelGenerator.registerSimpleCubeAll(BlocksRegistered.GUMITE);
+        blockStateModelGenerator.registerSimpleCubeAll(BlocksRegistered.NGANITE);
+        blockStateModelGenerator.registerSimpleCubeAll(BlocksRegistered.HAAKITE);
+        blockStateModelGenerator.registerSimpleCubeAll(BlocksRegistered.BAAKITE);
     }
 
     @Override

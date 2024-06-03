@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
 import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_BASIC;
 import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_DECORATION;
 @SuppressWarnings("unused")
-public class RegisterBlocks {
+public final class BlocksRegistered {
     // Basic Blocks
     public static final MixedOre MIXED_ORE = registerBlock("mixed_ore",
             new MixedOre(FabricBlockSettings.of(Material.STONE).strength(0.1f)),SYNCHRO_BASIC);
@@ -226,17 +226,17 @@ public class RegisterBlocks {
     }
 
     private static <T extends Block> T registerBlock(String path, T block){
-        RegisterItems.registerItem(path, new BlockItem(block, new FabricItemSettings()));
+        ItemsRegistered.registerItem(path, new BlockItem(block, new FabricItemSettings()));
         return Registry.register(Registries.BLOCK, new Identifier(Synchro.MOD_ID, path), block);
     }
 
     private static <T extends Block> T registerBlock(String path, T block, ItemGroup itemGroup){
-        RegisterItems.registerItem(path, new BlockItem(block, new FabricItemSettings()), itemGroup);
+        ItemsRegistered.registerItem(path, new BlockItem(block, new FabricItemSettings()), itemGroup);
         return Registry.register(Registries.BLOCK, new Identifier(Synchro.MOD_ID, path), block);
     }
 
     private static <T extends Block> T registerFlammableBlock(String path, T block, ItemGroup itemGroup, int burn, int spread){
-        RegisterItems.registerItem(path, new BlockItem(block,new FabricItemSettings()), itemGroup);
+        ItemsRegistered.registerItem(path, new BlockItem(block,new FabricItemSettings()), itemGroup);
         T self = Registry.register(Registries.BLOCK, new Identifier(Synchro.MOD_ID, path), block);
         FlammableBlockRegistry.getInstance(Blocks.FIRE).add(self, burn, spread);
         return self;

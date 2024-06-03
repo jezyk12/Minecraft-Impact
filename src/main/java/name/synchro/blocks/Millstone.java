@@ -3,7 +3,7 @@ package name.synchro.blocks;
 import name.synchro.blockEntities.MillstoneBlockEntity;
 import name.synchro.employment.Employer;
 import name.synchro.registrations.RegisterBlockEntities;
-import name.synchro.registrations.RegisterItems;
+import name.synchro.registrations.ItemsRegistered;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -31,7 +31,7 @@ public class Millstone extends Block implements BlockEntityProvider {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof MillstoneBlockEntity millstoneBlockEntity) {
             ItemStack handStack = player.getStackInHand(hand);
-            if (handStack.isOf(RegisterItems.FRESH_FORAGE)) {
+            if (handStack.isOf(ItemsRegistered.FRESH_FORAGE)) {
                 if (world instanceof ServerWorld serverWorld) {
                     if (Employer.employSuitableMob(serverWorld, millstoneBlockEntity, 4.0))
                         player.getStackInHand(hand).decrement(1);

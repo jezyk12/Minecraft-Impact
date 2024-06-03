@@ -3,7 +3,7 @@ package name.synchro.items;
 import name.synchro.api.ContextualItemTooltipData;
 import name.synchro.api.ItemSpeciallyCombinable;
 import name.synchro.mixinHelper.MetalsProvider;
-import name.synchro.registrations.RegisterItems;
+import name.synchro.registrations.ItemsRegistered;
 import name.synchro.util.Metals;
 import name.synchro.util.MetalsComponentsHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
@@ -138,10 +138,10 @@ public class OresMixture extends Item implements ContextualItemTooltipData, Item
         DUST,
         NONE;
         public static Type of(Item item){
-            if (item == RegisterItems.LUMP_ORES) return LUMP;
-            else if (item == RegisterItems.CRACKED_ORES) return CRACKED;
-            else if (item == RegisterItems.CRUSHED_ORES) return CRUSHED;
-            else if (item == RegisterItems.ORES_DUST) return DUST;
+            if (item == ItemsRegistered.LUMP_ORES) return LUMP;
+            else if (item == ItemsRegistered.CRACKED_ORES) return CRACKED;
+            else if (item == ItemsRegistered.CRUSHED_ORES) return CRUSHED;
+            else if (item == ItemsRegistered.ORES_DUST) return DUST;
             else return NONE;
         }
     }

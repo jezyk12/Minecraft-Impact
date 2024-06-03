@@ -1,6 +1,6 @@
 package name.synchro.blocks;
 
-import name.synchro.registrations.RegisterBlocks;
+import name.synchro.registrations.BlocksRegistered;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.registry.tag.BlockTags;
@@ -30,29 +30,29 @@ public class BananaStem extends Block {
             BlockState chosenState = world.getBlockState(pos.offset(chosenDirection));
             BlockState shouldBeLeaves = world.getBlockState(pos.offset(chosenDirection).up());
             if ((chosenState.isAir() || chosenState.isIn(BlockTags.REPLACEABLE_PLANTS)) &&
-                    shouldBeLeaves.isOf(RegisterBlocks.BANANA_LEAVES) &&
+                    shouldBeLeaves.isOf(BlocksRegistered.BANANA_LEAVES) &&
                     !shouldBeLeaves.get(BananaLeavesBlock.PERSISTENT)) {
                 int bananas = 0;
                 for (Direction direction : Direction.Type.HORIZONTAL) {
                     if (direction.equals(chosenDirection)) break;
                     BlockState neighborState = world.getBlockState(pos.offset(direction));
-                    if (neighborState.isOf(RegisterBlocks.BANANA_BLOCK)) {
+                    if (neighborState.isOf(BlocksRegistered.BANANA_BLOCK)) {
                         bananas++;
                     }
                 }
                 int dy = 1;
                 while (pos.getY() - dy > world.getBottomY()){
-                    if (world.getBlockState(pos.down(dy)).isOf(RegisterBlocks.BANANA_STEM)){
+                    if (world.getBlockState(pos.down(dy)).isOf(BlocksRegistered.BANANA_STEM)){
                         dy++;
                     }
-                    else if (world.getBlockState(pos.down(dy)).isOf(RegisterBlocks.FERTILE_DIRT)){
+                    else if (world.getBlockState(pos.down(dy)).isOf(BlocksRegistered.FERTILE_DIRT)){
                         bananas = 0;
                         break;
                     }
                     else break;
                 }
                 if (bananas == 0 || random.nextInt(bananas) == 0) {
-                    world.setBlockState(pos.offset(chosenDirection), RegisterBlocks.BANANA_BLOCK.getDefaultState().with(BananaBlock.AGE, 0));
+                    world.setBlockState(pos.offset(chosenDirection), BlocksRegistered.BANANA_BLOCK.getDefaultState().with(BananaBlock.AGE, 0));
                 }
             }
         }

@@ -1,6 +1,6 @@
 package name.synchro.blocks;
 
-import name.synchro.registrations.RegisterItems;
+import name.synchro.registrations.ItemsRegistered;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -36,7 +36,7 @@ public class TomatoBushBlock extends PlantBlock implements Fertilizable {
 
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-        return new ItemStack(RegisterItems.TOMATO);
+        return new ItemStack(ItemsRegistered.TOMATO);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class TomatoBushBlock extends PlantBlock implements Fertilizable {
                 world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(blockState));
             }
             else if(random.nextInt(3)==0 && (world.getBlockState(pos.down()).isOf(Blocks.FARMLAND) || world.getBlockState(pos.down()).getBlock() instanceof AbstractFarmlandBlock)){
-                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RegisterItems.TOMATO));
+                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ItemsRegistered.TOMATO));
             }
         }
     }
@@ -72,7 +72,7 @@ public class TomatoBushBlock extends PlantBlock implements Fertilizable {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (state.get(AGE)==3){
-            ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(RegisterItems.TOMATO));
+            ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ItemsRegistered.TOMATO));
             world.setBlockState(pos,state.with(AGE,2));
         }
         return ActionResult.SUCCESS;

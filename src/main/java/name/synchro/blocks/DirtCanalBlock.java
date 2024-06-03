@@ -1,6 +1,6 @@
 package name.synchro.blocks;
 
-import name.synchro.registrations.RegisterBlocks;
+import name.synchro.registrations.BlocksRegistered;
 import net.minecraft.block.*;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -111,7 +111,7 @@ public class DirtCanalBlock extends Block implements Waterloggable {
                 FluidState fluidState = world.getFluidState(pos.offset(direction));
                 if (fluidState.isEqualAndStill(Fluids.WATER)) return true;
                 BlockState neighborState = world.getBlockState(pos.offset(direction));
-                if (neighborState.isOf(RegisterBlocks.DIRT_CANAL)){
+                if (neighborState.isOf(BlocksRegistered.DIRT_CANAL)){
                     if (neighborState.get(Properties.WATERLOGGED)) return true;
                 }
             }
@@ -147,7 +147,7 @@ public class DirtCanalBlock extends Block implements Waterloggable {
     }
 
     private static BlockState getLinkState(BlockState state, Direction direction, BlockState neighborState) {
-        if (neighborState.isOf(RegisterBlocks.DIRT_CANAL)||neighborState.isOf(Blocks.WATER)) {
+        if (neighborState.isOf(BlocksRegistered.DIRT_CANAL)||neighborState.isOf(Blocks.WATER)) {
             state = state.with(DIRECTION_CANAL_PROPERTY_MAP.get(direction), CanalState.LINKED);
         } else {
             state = state.with(DIRECTION_CANAL_PROPERTY_MAP.get(direction), CanalState.DEFAULT);
@@ -163,7 +163,7 @@ public class DirtCanalBlock extends Block implements Waterloggable {
             for (Direction direction:Direction.Type.HORIZONTAL){
                 if (state.get(DIRECTION_CANAL_PROPERTY_MAP.get(direction))==CanalState.LINKED){
                     BlockPos neighborPos = pos.offset(direction);
-                    if (world.getBlockState(neighborPos).isOf(RegisterBlocks.DIRT_CANAL)){
+                    if (world.getBlockState(neighborPos).isOf(BlocksRegistered.DIRT_CANAL)){
                         tryDrainFluid(world,neighborPos,world.getBlockState(neighborPos));
                     }
                 }

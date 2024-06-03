@@ -1,6 +1,8 @@
 package name.synchro.mixin;
 
+import com.google.common.collect.ImmutableMap;
 import name.synchro.mixinHelper.MetalsProvider;
+import name.synchro.util.ImportantPoints;
 import name.synchro.util.Metals;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKey;
@@ -16,11 +18,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Map;
 import java.util.function.Supplier;
 
 @Mixin(World.class)
-public abstract class WorldMixin implements MetalsProvider, WorldAccess {
+public abstract class WorldMixin implements MetalsProvider, ImportantPoints.Provider, WorldAccess {
     @Unique private Metals metals;
+    @Unique private Map<ImportantPoints.Type, ImportantPoints> importantPoints = ImmutableMap.of(ImportantPoints.Type.EXTRA_COLLISION, new ImportantPoints((World)(Object)this, 100){}) ;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void getWorldSeed(MutableWorldProperties properties, RegistryKey<World> registryRef, DynamicRegistryManager registryManager, RegistryEntry<DimensionType> dimensionEntry, Supplier<Profiler> profiler, boolean isClient, boolean debugWorld, long biomeAccess, int maxChainedNeighborUpdates, CallbackInfo ci){
@@ -30,5 +34,10 @@ public abstract class WorldMixin implements MetalsProvider, WorldAccess {
     @Override
     public Metals getMetals() {
         return metals;
+    }
+
+    @Override
+    public Map<ImportantPoints.Type, ImportantPoints> getImportantPoints() {
+        return importantPoints;
     }
 }

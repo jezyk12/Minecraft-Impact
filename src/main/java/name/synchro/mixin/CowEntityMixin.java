@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import name.synchro.employment.CowWorkingHandler;
 import name.synchro.employment.Employee;
-import name.synchro.registrations.RegisterItems;
+import name.synchro.registrations.ItemsRegistered;
 import name.synchro.util.NbtTags;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -68,13 +68,13 @@ public abstract class CowEntityMixin extends AnimalEntity implements Employee {
     @WrapOperation(method = "initGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/recipe/Ingredient;ofItems([Lnet/minecraft/item/ItemConvertible;)Lnet/minecraft/recipe/Ingredient;"))
     private Ingredient modifyTemptItem(ItemConvertible[] items, Operation<Ingredient> original){
         ItemConvertible[] newItems = Arrays.copyOf(items, items.length + 1);
-        newItems[items.length] = RegisterItems.FRESH_FORAGE;
+        newItems[items.length] = ItemsRegistered.FRESH_FORAGE;
         return Ingredient.ofItems(newItems);
     }
 
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     private void makeWorkable(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir){
-        if (player.getStackInHand(hand).isOf(RegisterItems.FRESH_FORAGE)){
+        if (player.getStackInHand(hand).isOf(ItemsRegistered.FRESH_FORAGE)){
             Random random = new Random();
             this.workingHandler.workableTime = 200;/*600*/
             player.getStackInHand(hand).decrement(1);

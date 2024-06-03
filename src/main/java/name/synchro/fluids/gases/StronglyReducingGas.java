@@ -1,6 +1,6 @@
 package name.synchro.fluids.gases;
 
-import name.synchro.registrations.RegisterBlocks;
+import name.synchro.registrations.BlocksRegistered;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 
@@ -11,6 +11,6 @@ public class StronglyReducingGas extends Gas{
 
     @Override
     protected BlockState toBlockState(FluidState state) {
-        return RegisterBlocks.STRONGLY_REDUCING_GAS_BLOCK.getDefaultState().with(LEVEL, state.getLevel());
+        return BlocksRegistered.STRONGLY_REDUCING_GAS_BLOCK.getDefaultState().with(LEVEL, state.getLevel());
     }
 }

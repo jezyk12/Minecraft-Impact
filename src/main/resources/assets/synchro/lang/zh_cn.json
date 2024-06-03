@@ -113,5 +113,7 @@
   "tooltip.synchro.config_button": "配置",
   "tooltip.synchro.debug_screen_button": "调试选项",
   "tooltip.synchro.metal": "金属",
-  "tooltip.synchro.metal_content": "内含:"
+  "tooltip.synchro.metal_content": "内含:",
+  "tooltip.synchro.not_supported": "此物品功能尚未完善或已被弃用",
+  "tooltip.synchro.rock": "Rocks"
 }

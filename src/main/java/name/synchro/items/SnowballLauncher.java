@@ -1,6 +1,6 @@
 package name.synchro.items;
 
-import name.synchro.registrations.RegisterItems;
+import name.synchro.registrations.ItemsRegistered;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.SnowballEntity;
@@ -51,14 +51,14 @@ public class SnowballLauncher extends Item {
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (user instanceof PlayerEntity player){
-            player.getItemCooldownManager().set(RegisterItems.SNOWBALL_LAUNCHER, 128 - remainingUseTicks);
+            player.getItemCooldownManager().set(ItemsRegistered.SNOWBALL_LAUNCHER, 128 - remainingUseTicks);
         }
     }
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         if (user instanceof PlayerEntity player){
-            player.getItemCooldownManager().set(RegisterItems.SNOWBALL_LAUNCHER, 128);
+            player.getItemCooldownManager().set(ItemsRegistered.SNOWBALL_LAUNCHER, 128);
         }
         return stack;
     }

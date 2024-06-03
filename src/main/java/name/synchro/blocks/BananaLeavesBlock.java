@@ -1,6 +1,6 @@
 package name.synchro.blocks;
 
-import name.synchro.registrations.RegisterBlocks;
+import name.synchro.registrations.BlocksRegistered;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
@@ -55,10 +55,10 @@ public class BananaLeavesBlock extends LeavesBlock {
     }
 
     private static int getDistanceFromStem(BlockState state) {
-        if (state.isOf(RegisterBlocks.BANANA_STEM)) {
+        if (state.isOf(BlocksRegistered.BANANA_STEM)) {
             return 0;
         }
-        if (state.isOf(RegisterBlocks.BANANA_LEAVES)) {
+        if (state.isOf(BlocksRegistered.BANANA_LEAVES)) {
             return state.get(DISTANCE);
         }
         return 7;

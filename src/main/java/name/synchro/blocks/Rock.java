@@ -5,7 +5,7 @@ import name.synchro.api.SuitableForRock;
 import name.synchro.items.OresMixture;
 import name.synchro.mixinHelper.MetalsProvider;
 import name.synchro.registrations.RegisterBlockEntities;
-import name.synchro.registrations.RegisterItems;
+import name.synchro.registrations.ItemsRegistered;
 import name.synchro.util.Metals;
 import name.synchro.util.NbtTags;
 import net.minecraft.block.Block;
@@ -134,9 +134,9 @@ public class Rock extends Block implements BlockEntityProvider {
             }
         } else {
             stack = switch (type){
-                case LUMP -> new ItemStack(RegisterItems.LUMP_ORES, 1);
-                case CRACKED -> new ItemStack(RegisterItems.CRACKED_ORES, 1);
-                case CRUSHED -> new ItemStack(RegisterItems.CRUSHED_ORES, 1);
+                case LUMP -> new ItemStack(ItemsRegistered.LUMP_ORES, 1);
+                case CRACKED -> new ItemStack(ItemsRegistered.CRACKED_ORES, 1);
+                case CRUSHED -> new ItemStack(ItemsRegistered.CRUSHED_ORES, 1);
                 default -> ItemStack.EMPTY;
             };
             NbtCompound nbt = new NbtCompound();

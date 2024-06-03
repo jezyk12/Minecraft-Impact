@@ -12,7 +12,7 @@ import net.minecraft.world.gen.feature.PlacedFeature;
 
 import java.util.function.Predicate;
 
-public class RegisterFeatures {
+public final class RegisterFeatures {
     public static final RegistryKey<PlacedFeature> BANANA_TREE_FEATURE =
             addPlacedFeature("banana_tree", BiomeSelectors.foundInOverworld(), GenerationStep.Feature.VEGETAL_DECORATION);
     public static final RegistryKey<PlacedFeature> SEKITE_FEATURE =

@@ -6,7 +6,7 @@ import name.synchro.employment.BlockEntityWorkerManager;
 import name.synchro.employment.Employer;
 import name.synchro.employment.Job;
 import name.synchro.registrations.RegisterBlockEntities;
-import name.synchro.registrations.RegisterItems;
+import name.synchro.registrations.ItemsRegistered;
 import name.synchro.screenHandlers.MillstoneScreenHandler;
 import name.synchro.specialRecipes.MillstoneRecipes;
 import name.synchro.util.*;
@@ -39,6 +39,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -59,7 +60,7 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     private boolean locked = false;
     public static final ImmutableMap<Item, Integer> MILLSTONE_FEEDS =
             ImmutableMap.of(
-                    RegisterItems.FRESH_FORAGE, 3600,
+                    ItemsRegistered.FRESH_FORAGE, 3600,
                     Items.WHEAT, 1200,
                     Items.GRASS, 200,
                     Items.FERN, 200
@@ -100,6 +101,22 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
         toWriteNbt.put(NbtTags.ROTATION, this.createRotationNbt(Objects.requireNonNull(world).getTime()));
         toWriteNbt.put(NbtTags.EMPLOYEES, this.workerManager.getEmploymentNbt());
         super.writeNbt(toWriteNbt);
+    }
+
+    @Override
+    public void setWorld(World world) {
+        super.setWorld(world);
+        if (world instanceof ImportantPoints.Provider pointsView){
+            pointsView.getImportantPoints().get(ImportantPoints.Type.EXTRA_COLLISION).add(pos);
+        }
+    }
+
+    @Override
+    public void markRemoved() {
+        super.markRemoved();
+        if (world instanceof ImportantPoints.Provider pointsView){
+            pointsView.getImportantPoints().get(ImportantPoints.Type.EXTRA_COLLISION).remove(pos);
+        }
     }
 
     @Override

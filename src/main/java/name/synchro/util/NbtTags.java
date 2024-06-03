@@ -16,4 +16,5 @@ public final class NbtTags {
     public static final String EMPLOYEES = "employees";
     public static final String AMOUNT = "amount";
     public static final String WORKABLE_TIME = "workable_time";
+    public static final String REFERENCE = "reference";
 }

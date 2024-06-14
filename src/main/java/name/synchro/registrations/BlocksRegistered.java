@@ -59,6 +59,8 @@ public final class BlocksRegistered {
             new Millstone(FabricBlockSettings.of(Material.STONE).strength(2.0f).nonOpaque().sounds(BlockSoundGroup.STONE)), SYNCHRO_BASIC);
     public static final StrawNestBlock STRAW_NEST = registerBlock("straw_nest",
             new StrawNestBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).strength(0.1f).sounds(BlockSoundGroup.GRASS)), SYNCHRO_BASIC);
+    public static final ComplexLiquid COMPLEX_LIQUID = registerBlock("complex_liquid",
+            new ComplexLiquid(FabricBlockSettings.of(Material.WATER).noCollision().nonOpaque().dropsNothing()), SYNCHRO_BASIC);
 
     //Gases
     public static final GasBlock WATER_VAPOR_BLOCK = registerBlock("water_vapor",

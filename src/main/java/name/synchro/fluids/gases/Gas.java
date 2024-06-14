@@ -1,9 +1,11 @@
 package name.synchro.fluids.gases;
 
+import name.synchro.fluids.FluidHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.particle.DustParticleEffect;
@@ -73,7 +75,7 @@ public abstract class Gas extends Fluid {
                 default -> diffuse(world, state, neighborPos, thisLevel, neighborLevel, horizontalMinGradient);
             });
         }
-        world.setBlockState(pos, toBlockState(state).with(LEVEL, thisLevelAfter));
+        ((FluidHelper.ForWorld) world).setFluidState(pos, state.with(LEVEL, thisLevelAfter));
     }
 
     private int diffuse(World world, FluidState fluidState, BlockPos neighborPos, int thisLevel, int neighborLevel, int minGradient){
@@ -81,7 +83,7 @@ public abstract class Gas extends Fluid {
         if (gradient >= minGradient){
             int totalLevel = thisLevel + neighborLevel;
             int neighborAfterLevel = (totalLevel + 2 - minGradient) / 2;
-            world.setBlockState(neighborPos, toBlockState(fluidState).with(LEVEL, neighborAfterLevel));
+            ((FluidHelper.ForWorld) world).setFluidState(neighborPos, fluidState.with(LEVEL, neighborAfterLevel));
             return totalLevel - neighborAfterLevel;
         }
         else return thisLevel;
@@ -123,7 +125,9 @@ public abstract class Gas extends Fluid {
     }
 
     @Override
-    protected abstract BlockState toBlockState(FluidState state);
+    protected BlockState toBlockState(FluidState state) {
+        return Blocks.AIR.getDefaultState();
+    }
 
     @Override
     public final boolean isStill(FluidState state) {
@@ -162,10 +166,10 @@ public abstract class Gas extends Fluid {
         }
         if (random.nextInt(6400) < (volatilizationRate << facesUnexposed)){
             if (thisLevel > 1){
-                world.setBlockState(pos, state.getBlockState().with(LEVEL,thisLevel - 1));
+                ((FluidHelper.ForWorld) world).setFluidState(pos, state.with(LEVEL,thisLevel - 1));
             }
             else {
-                world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                ((FluidHelper.ForWorld) world).setFluidState(pos, Fluids.EMPTY.getDefaultState());
                 if (world instanceof ServerWorld serverWorld){
                     serverWorld.spawnParticles(
                             gasParticleEffect, pos.getX(), pos.getY(), pos.getZ(),

@@ -20,7 +20,19 @@
     "SimpleInventoryMixin",
     "SlotMixin",
     "SnowballEntityMixin",
-    "WorldMixin"
+    "WorldMixin",
+    "FluidConcerned.ChainRestrictedNeighborUpdater$SimpleEntryMixin",
+    "FluidConcerned.ChainRestrictedNeighborUpdater$SixWayEntryMixin",
+    "FluidConcerned.ChunkHolderMixin",
+    "FluidConcerned.ChunkSectionMixin",
+    "FluidConcerned.ChunkSerializerMixin",
+    "FluidConcerned.FlowableFluidMixin",
+    "FluidConcerned.FluidBlockMixin",
+    "FluidConcerned.ServerWorldMixin",
+    "FluidConcerned.SimpleNeighborUpdaterMixin",
+    "FluidConcerned.WorldChunkMixin",
+    "FluidConcerned.WorldMixin",
+    "FluidConcerned.WorldViewMixin"
   ],
   "client": [
     "CameraMixin",
@@ -29,7 +41,11 @@
     "HeldItemRendererMixin",
     "InGameHudMixin",
     "MinecraftClientMixin",
-    "ScreenMixin"
+    "ScreenMixin",
+    "FluidConcerned.ChunkBuilderMixin",
+    "FluidConcerned.ChunkRendererRegionMixin",
+    "FluidConcerned.FluidRendererMixin",
+    "FluidConcerned.RenderedChunkSectionMixin"
   ],
   "server": [],
   "injectors": {

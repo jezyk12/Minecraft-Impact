@@ -3,7 +3,6 @@ package name.synchro;
 import name.synchro.blockModels.SynchroModelLoadingPlugin;
 import name.synchro.guidance.Guidance;
 import name.synchro.registrations.*;
-import name.synchro.worldRendering.DebugRendering;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -35,7 +34,7 @@ public class SynchroClient implements ClientModInitializer {
         for (int i = 0; i < 16; ++i){
             debugNumbers.add(1.0f);
         }
-        DebugRendering.renderAll();
+        //DebugRendering.renderAll();
         RegisterBlockEntityRenderers.registerAll();
         RegisterColorProviders.registerAll();
         ModelLoadingPlugin.register(new SynchroModelLoadingPlugin());

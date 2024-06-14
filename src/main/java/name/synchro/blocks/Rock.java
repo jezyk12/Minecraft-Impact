@@ -69,7 +69,7 @@ public class Rock extends Block implements BlockEntityProvider {
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        if (ctx.getStack().hasNbt() && ctx.getStack().getNbt().contains(NbtTags.CONTENT))
+        if (ctx.getStack().hasNbt() && ctx.getStack().getNbt().contains(NbtTags.METALS_CONTENT))
             return this.getDefaultState().with(ROCK_TYPE, Rock.Type.MUTABLE);
         return this.getDefaultState().with(ROCK_TYPE, Rock.Type.ARTIFICIAL);
     }

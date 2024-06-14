@@ -1,41 +1,42 @@
 package name.synchro.util;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.item.Items;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public final class Liquids {
     private static final Map<Object, Liquid> ENTRIES = new HashMap<>();
 
-    public static final Liquid WATER = builder().color(0x7f7f7fcf).melting(273).boiling(373).density(1000).from(Blocks.WATER).build();
-    public static final Liquid LAVA = builder().color(0x7f7f0000).melting(1500).boiling(4000).density(3100).from(Blocks.LAVA).build();
-    public static final Liquid MILK = builder().color(0x7fffffff).melting(270).boiling(373).density(1030).from(Items.MILK_BUCKET).build();
-    public static final Liquid HONEY = builder().color(0x7f7f3f00).melting(280).boiling(373).density(1400).from(Items.HONEY_BOTTLE, Blocks.HONEY_BLOCK).build();
+    public static final Liquid WATER = builder().named( "water").color(0x7f7f7fcf).tension(1 / 16f).melting(273).boiling(373).density(1000).build();
+    public static final Liquid LAVA = builder().named("lava").color(0x7f7f0000).tension(1 / 8f).melting(1500).boiling(4000).density(3100).build();
+    public static final Liquid MILK = builder().named("milk").color(0x7fffffff).tension(1 / 16f).melting(270).boiling(373).density(1030).build();
+    public static final Liquid HONEY = builder().named("honey").color(0x7f7f3f00).tension(1 / 8f).melting(280).boiling(373).density(1400).build();
 
     public static Builder builder(){
         return new Builder();
     }
 
-    public static Liquid of(Object obj){
-        if (ENTRIES.containsKey(obj)){
-            return ENTRIES.get(obj);
+    public static Liquid of(String name){
+        if (ENTRIES.containsKey(name)){
+            return ENTRIES.get(name);
         }
         return null;
     }
 
     public static class Builder{
         private int color = 0x7f7f7f7f;
+        private float tension = 1 / 16f;
         private int meltingTemperature = 0;
         private int boilingTemperature = Integer.MAX_VALUE;
         private int density = 1000;
-        @Nullable
-        private Object[] source;
+        private String name = "empty";
 
         public Builder color(int color){
             this.color = color;
+            return this;
+        }
+
+        public Builder tension(float tension){
+            this.tension = tension;
             return this;
         }
 
@@ -54,16 +55,14 @@ public final class Liquids {
             return this;
         }
 
-        public Builder from(Object... source){
-            this.source = source;
+        public Builder named(String name){
+            this.name = name;
             return this;
         }
 
         public Liquid build(){
-            Liquid instance = new Liquid(color, meltingTemperature, boilingTemperature, density);
-            for (Object obj : source){
-                ENTRIES.put(obj, instance);
-            }
+            Liquid instance = new Liquid(name, color, tension, meltingTemperature, boilingTemperature, density);
+            ENTRIES.put(name, instance);
             return instance;
         }
     }

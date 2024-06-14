@@ -31,6 +31,9 @@ public final class RegisterBlockEntities {
    public static final BlockEntityType<PointerBlockEntity> POINTER_BLOCK_ENTITY = Registry.register(
             Registries.BLOCK_ENTITY_TYPE, new Identifier(Synchro.MOD_ID, "pointer_block_entity"),
             FabricBlockEntityTypeBuilder.create(PointerBlockEntity::new, BlocksRegistered.STRAW_NEST).build());
+   public static final BlockEntityType<ComplexLiquidBlockEntity> COMPLEX_LIQUID_BLOCK_ENTITY = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE, new Identifier(Synchro.MOD_ID, "complex_liquid_block_entity"),
+            FabricBlockEntityTypeBuilder.create(ComplexLiquidBlockEntity::new, BlocksRegistered.COMPLEX_LIQUID).build());
 
    public static void registerAll() {
         Synchro.LOGGER.debug("Registered mod block entities for" + Synchro.MOD_ID);

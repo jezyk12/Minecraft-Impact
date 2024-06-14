@@ -1,7 +1,7 @@
 package name.synchro.util;
 
 public final class NbtTags {
-    public static final String CONTENT = "metals";
+    public static final String METALS_CONTENT = "metals";
     public static final String EGG_SLOT = "eggSlot";
     public static final String INVENTORY = "inventory";
     public static final String PROCESSING_TICKS = "processing";
@@ -17,4 +17,6 @@ public final class NbtTags {
     public static final String AMOUNT = "amount";
     public static final String WORKABLE_TIME = "workable_time";
     public static final String REFERENCE = "reference";
+    public static final String LIQUID_CONTENT = "liquids";
+    public static final String LIQUID_TEMPERATURE = "temperature";
 }

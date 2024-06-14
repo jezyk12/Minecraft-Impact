@@ -119,7 +119,7 @@ public final class MillstoneRecipes {
         Builder.of(Items.STICK, Items.BAMBOO).spends(90).output(ItemsRegistered.PLANT_FIBRE, 2).build();
         Builder.of(Items.GLASS, Items.FERN).spends(45).output(ItemsRegistered.PLANT_FIBRE).build();
         Builder.of(ItemsRegistered.LUMP_ORES, ItemsRegistered.CRACKED_ORES, ItemsRegistered.CRUSHED_ORES)
-                .conditions(stack -> stack.hasNbt() && stack.getNbt().contains(NbtTags.CONTENT))
+                .conditions(stack -> stack.hasNbt() && stack.getNbt().contains(NbtTags.METALS_CONTENT))
                 .output(input -> {
                     ItemStack output = new ItemStack(ItemsRegistered.ORES_DUST);
                     output.setNbt(input.getNbt().copy());

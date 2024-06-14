@@ -56,8 +56,8 @@ public final class Metals {
     }
 
     public static Map<Integer, Integer> getMetalContentFromNbt(NbtCompound nbt){
-        if (nbt.contains(NbtTags.CONTENT)) {
-            NbtCompound nbtMap = nbt.getCompound(NbtTags.CONTENT);
+        if (nbt.contains(NbtTags.METALS_CONTENT)) {
+            NbtCompound nbtMap = nbt.getCompound(NbtTags.METALS_CONTENT);
             Map<Integer, Integer> map = new HashMap<>();
             for (String key : nbtMap.getKeys()) {
                 map.put(Integer.parseInt(key), nbtMap.getInt(key));
@@ -72,7 +72,7 @@ public final class Metals {
         for (int i : content.keySet()) {
             nbtMap.putInt(String.valueOf(i), content.get(i));
         }
-        nbt.put(NbtTags.CONTENT, nbtMap);
+        nbt.put(NbtTags.METALS_CONTENT, nbtMap);
     }
 
     public static void combineMetalsNbt(NbtCompound shouldBeOverwrite, int count1, NbtCompound shouldKeepUnchanged, int count2){
@@ -85,7 +85,7 @@ public final class Metals {
         for (int numId : keySet) {
             mapResult.put(numId, (map1.getOrDefault(numId, 0) * count1 + map2.getOrDefault(numId, 0) * count2) / divide);
         }
-        shouldBeOverwrite.remove(NbtTags.CONTENT);
+        shouldBeOverwrite.remove(NbtTags.METALS_CONTENT);
         writeMetalContentToNbt(shouldBeOverwrite, mapResult);
     }
 

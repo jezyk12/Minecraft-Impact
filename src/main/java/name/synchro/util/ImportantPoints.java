@@ -11,8 +11,8 @@ import java.util.function.Consumer;
 public abstract class ImportantPoints {
     private final World world;
     private final Set<Long> points = new HashSet<>();
-    private long lastClearTime = -1;
-    private final int clearTime;
+    protected long lastClearTime = -1;
+    protected final int clearTime;
 
     public ImportantPoints(World world, int clearTime) {
         this.world = world;
@@ -28,9 +28,7 @@ public abstract class ImportantPoints {
             clearAllUnloadedPoints();
             lastClearTime = world.getTime();
         }
-        points.forEach(pos -> {
-            posConsumer.accept(BlockPos.fromLong(pos));
-        });
+        points.forEach(pos -> posConsumer.accept(BlockPos.fromLong(pos)));
     }
 
     public void remove(BlockPos pos) {

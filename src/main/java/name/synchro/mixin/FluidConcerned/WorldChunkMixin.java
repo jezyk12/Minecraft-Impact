@@ -48,9 +48,4 @@ public abstract class WorldChunkMixin extends Chunk implements FluidHelper.ForCh
         FluidUtil.onChunkSetBlockState(((WorldChunk)(Object)this), pos, blockState);
     }
 
-//    @WrapOperation(method = "setBlockState", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z", ordinal = 1))
-//    private boolean ensureUpdate(BlockState instance, Block block, Operation<Boolean> original,
-//                                 @Local(argsOnly = true) BlockState state) {
-//        return original.call(instance, block) || state.getBlock() instanceof FluidBlock;
-//    }
 }

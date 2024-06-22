@@ -21,6 +21,7 @@
     "SlotMixin",
     "SnowballEntityMixin",
     "WorldMixin",
+    "FluidConcerned.BucketItemMixin",
     "FluidConcerned.ChainRestrictedNeighborUpdater$SimpleEntryMixin",
     "FluidConcerned.ChainRestrictedNeighborUpdater$SixWayEntryMixin",
     "FluidConcerned.ChunkHolderMixin",

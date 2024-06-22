@@ -5,22 +5,33 @@ import com.mojang.serialization.DataResult;
 import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FluidBlock;
-import net.minecraft.block.Waterloggable;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.block.*;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsage;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkHolder;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.crash.CrashReportSection;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.Heightmap;
@@ -29,11 +40,13 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.PalettedContainer;
 import net.minecraft.world.chunk.WorldChunk;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 public final class FluidUtil {
     private static final PalettedContainer.PaletteProvider FLUID_STATE_PALETTE_PROVIDER
@@ -235,10 +248,7 @@ public final class FluidUtil {
     }
 
     public static void onChunkSetBlockState(WorldChunk worldChunk, BlockPos pos, BlockState blockState) {
-        if (blockState.isSolidBlock(worldChunk.getWorld(), pos)) {
-            ((FluidHelper.ForChunk)worldChunk).setFluidState(pos, Fluids.EMPTY.getDefaultState());
-        }
-        else if (blockState.getBlock() instanceof Waterloggable) {
+        if (blockState.getBlock() instanceof Waterloggable) {
             BlockState oldState = worldChunk.getBlockState(pos);
             if (blockState.get(Properties.WATERLOGGED)){
                 ((FluidHelper.ForChunk) worldChunk).setFluidState(pos, Fluids.WATER.getDefaultState());
@@ -246,6 +256,9 @@ public final class FluidUtil {
             else if (oldState.isOf(blockState.getBlock()) && oldState.get(Properties.WATERLOGGED)){
                 ((FluidHelper.ForChunk) worldChunk).setFluidState(pos, Fluids.EMPTY.getDefaultState());
             }
+        }
+        else if (blockState.isSolidBlock(worldChunk.getWorld(), pos)) {
+            ((FluidHelper.ForChunk)worldChunk).setFluidState(pos, Fluids.EMPTY.getDefaultState());
         }
     }
 
@@ -262,4 +275,65 @@ public final class FluidUtil {
         packet.forEach((pos, state) -> ((FluidHelper.ForWorld) player.clientWorld).setFluidState(pos, state, 0b10011, 512));
     }
 
+    public static Optional<TypedActionResult<ItemStack>> onBucketItemUse(BucketItem instanceItem, World world, PlayerEntity user, Hand hand, BlockHitResult blockHitResult) {
+        BlockPos blockPos = blockHitResult.getBlockPos();
+        FluidState fluidState = world.getFluidState(blockPos);
+        BlockState blockState = world.getBlockState(blockPos);
+        ItemStack handStack = user.getStackInHand(hand);
+        if (fluidState.isStill()) {
+            Item gottenItem = fluidState.getFluid().getBucketItem();
+            if (handStack.getItem() instanceof FluidHelper.ForBucketItem bucketItem && bucketItem.getFluid() == Fluids.EMPTY) {
+                if (blockState.getBlock() instanceof Waterloggable && blockState.get(Properties.WATERLOGGED)){
+                    world.setBlockState(blockPos, blockState.with(Properties.WATERLOGGED, false));
+                }
+                else {
+                    ((FluidHelper.ForWorld) world).setFluidState(blockPos, Fluids.EMPTY.getDefaultState(), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD, 512);
+                }
+                user.incrementStat(Stats.USED.getOrCreateStat(instanceItem));
+                fluidState.getFluid().getBucketFillSound().ifPresent((sound) ->
+                        user.playSound(sound, 1.0F, 1.0F));
+                world.emitGameEvent(user, GameEvent.FLUID_PICKUP, blockPos);
+                ItemStack outputStack = new ItemStack(gottenItem);
+                ItemStack stackInHandAfter = ItemUsage.exchangeStack(handStack, user, outputStack);
+                if (!world.isClient) {
+                    Criteria.FILLED_BUCKET.trigger((ServerPlayerEntity) user, outputStack);
+                }
+                return Optional.of(TypedActionResult.success(stackInHandAfter, world.isClient()));
+            }
+        }
+        return Optional.empty();
+    }
+
+    public static Optional<Boolean> onBucketItemPlacedFluid(BucketItem instanceItem, PlayerEntity player, World world, BlockPos pos, BlockHitResult hitResult){
+        boolean nullHit = hitResult == null;
+        if (!nullHit) pos = hitResult.getBlockPos();
+        BlockState blockState = world.getBlockState(pos);
+        boolean isSolid = blockState.isSolidBlock(world, pos);
+        Fluid fluid = ((FluidHelper.ForBucketItem) instanceItem).getFluid();
+        if (isSolid) {
+            if (nullHit) return Optional.of(false);
+            return Optional.of(instanceItem.placeFluid(player, world, hitResult.getBlockPos().offset(hitResult.getSide()), null));
+        }
+        else {
+            if (world.getDimension().ultrawarm() && fluid.matchesType(Fluids.WATER)) {
+                int i = pos.getX();
+                int j = pos.getY();
+                int k = pos.getZ();
+                world.playSound(player, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F);
+                for(int l = 0; l < 8; ++l) {
+                    world.addParticle(ParticleTypes.LARGE_SMOKE, (double)i + Math.random(), (double)j + Math.random(), (double)k + Math.random(), 0.0, 0.0, 0.0);
+                }
+                return Optional.of(true);
+            }
+            else {
+                if (!((FluidHelper.ForWorld)world).setFluidState(pos, fluid.getDefaultState(), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD, 512) && !world.getFluidState(pos).isStill()) {
+                    return Optional.of(false);
+                }
+                else {
+                    ((FluidHelper.ForBucketItem) instanceItem).callPlayEmptyingSound(player, world, pos);
+                    return Optional.of(true);
+                }
+            }
+        }
+    }
 }

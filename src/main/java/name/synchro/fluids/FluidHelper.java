@@ -2,9 +2,13 @@ package name.synchro.fluids;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.chunk.PalettedContainer;
+import org.jetbrains.annotations.Nullable;
 
 public final class FluidHelper {
 
@@ -32,6 +36,12 @@ public final class FluidHelper {
         void setFluidStateContainer(PalettedContainer<FluidState> container);
 
         void countFluidStates();
+    }
+
+    public interface ForBucketItem {
+        Fluid getFluid();
+
+        void callPlayEmptyingSound(@Nullable PlayerEntity player, WorldAccess world, BlockPos pos);
     }
 
     @Deprecated

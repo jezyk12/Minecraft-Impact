@@ -4,6 +4,7 @@
     "minecraft:dirt_path",
     "minecraft:farmland",
     "minecraft:soul_sand",
-    "minecraft:mud"
+    "minecraft:mud",
+    "minecraft:honey_block"
   ]
 }

@@ -18,7 +18,7 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
-        getOrCreateTagBuilder(TagsRegistered.CAN_FILL_FLUID)
+        getOrCreateTagBuilder(TagsRegistered.CAN_STORE_FLUID)
                 .addOptionalTag(BlockTags.LEAVES)
                 .addOptionalTag(BlockTags.IMPERMEABLE)
                 .add(Blocks.MANGROVE_ROOTS);
@@ -44,11 +44,7 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
         addUnstableNonburnable(tag_WashAwayByLava);
 
         getOrCreateTagBuilder(TagsRegistered.NEVER_FILL_FLUID)
-                .add(Blocks.DIRT_PATH, Blocks.FARMLAND, Blocks.SOUL_SAND, Blocks.MUD);
-
-        getOrCreateTagBuilder(TagsRegistered.NEVER_FLOW_FLUID)
-                .add(Blocks.HONEY_BLOCK)
-                .addOptionalTag(TagsRegistered.NEVER_FILL_FLUID);
+                .add(Blocks.DIRT_PATH, Blocks.FARMLAND, Blocks.SOUL_SAND, Blocks.MUD, Blocks.HONEY_BLOCK);
     }
 
     private static void addVanillaSmallRedstoneComponents(FabricTagBuilder builder){

@@ -71,7 +71,7 @@ public class ChunkDeltaUpdateWithFluidS2CPacket implements Packet<ClientPlayPack
 
     @Override
     public void apply(ClientPlayPacketListener listener) {
-        ((FluidHelper.ForClientPacketListener) listener).onChunkUpdateWithFluid(this);
+        ((FluidHelper.ForClientPacketListener) listener).synchro$onChunkUpdateWithFluid(this);
     }
 
     public void visitUpdates(Visitor visitor) {

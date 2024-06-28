@@ -35,13 +35,13 @@ public class RenderedChunkSectionMixin implements FluidHelper.ForRenderedChunkSe
             this.fluidStateContainers = new ArrayList<>(chunkSections.length);
             for (ChunkSection chunkSection : chunkSections) {
                 this.fluidStateContainers.add(chunkSection.isEmpty() ? null :
-                        ((FluidHelper.ForChunkSection) chunkSection).getFluidStateContainer().copy());
+                        ((FluidHelper.ForChunkSection) chunkSection).synchro$getFluidStateContainer().copy());
             }
         }
     }
 
     @Override
-    public FluidState getFluidState(BlockPos pos) {
+    public FluidState synchro$getFluidState(BlockPos pos) {
         return FluidUtil.getFluidStateInRenderedChunk(this.fluidStateContainers, pos, this.chunk);
     }
 }

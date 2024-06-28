@@ -95,7 +95,7 @@ public final class FluidUtil {
     }
 
     public static void serialize(NbtCompound nbt, ChunkSection chunkSection) {
-        DataResult<NbtElement> dataResult = CODEC.encodeStart(NbtOps.INSTANCE, ((FluidHelper.ForChunkSection) chunkSection).getFluidStateContainer());
+        DataResult<NbtElement> dataResult = CODEC.encodeStart(NbtOps.INSTANCE, ((FluidHelper.ForChunkSection) chunkSection).synchro$getFluidStateContainer());
         nbt.put(KEY_FLUID_STATES, dataResult.getOrThrow(false, LOGGER::error));
     }
 
@@ -145,14 +145,27 @@ public final class FluidUtil {
         }
     }
 
-    public static boolean worldSetFluidState(World world, BlockPos pos, FluidState state, int flags, int maxDepth) {
+    public static boolean worldSetFluidState(World world, BlockPos pos, FluidState fluidState, int flags, int maxDepth) {
+        BlockState blockState = world.getBlockState(pos);
+        if (blockState.isAir() || blockState.getBlock() instanceof FluidBlock){
+            if (fluidState.isEmpty()) return world.setBlockState(pos, Blocks.AIR.getDefaultState(), flags, maxDepth);
+            else return world.setBlockState(pos, fluidState.getBlockState(), flags, maxDepth);
+        }
+        else if (blockState.getBlock() instanceof Waterloggable){
+            if (fluidState.isEqualAndStill(Fluids.WATER)){
+                return world.setBlockState(pos, blockState.with(Properties.WATERLOGGED, true), flags, maxDepth);
+            }
+            else if (blockState.get(Properties.WATERLOGGED)){
+                world.setBlockState(pos, blockState.with(Properties.WATERLOGGED, false));
+            }
+        }
         if (world.isOutOfHeightLimit(pos)) {
             return false;
         } else if (!world.isClient && world.isDebugWorld()) {
             return false;
         } else {
             WorldChunk worldChunk = world.getWorldChunk(pos);
-            FluidState replacedState = ((FluidHelper.ForChunk) worldChunk).setFluidState(pos, state);
+            FluidState replacedState = ((FluidHelper.ForChunk) worldChunk).synchro$setFluidState(pos, fluidState);
             if (replacedState == null) {
                 return false;
             } else {
@@ -163,15 +176,15 @@ public final class FluidUtil {
                     world.getProfiler().pop();
                 }
 
-                if (placedState == state) {
+                if (placedState == fluidState) {
                     if (replacedState != placedState) {
-                        world.scheduleBlockRerenderIfNeeded(pos, replacedState.getBlockState(), state.getBlockState());
+                        world.scheduleBlockRerenderIfNeeded(pos, replacedState.getBlockState(), fluidState.getBlockState());
                     }
 
                     if ((flags & Block.NOTIFY_LISTENERS) != 0
                             && (!world.isClient() || (flags & Block.NO_REDRAW) == 0)
                             && (world.isClient() || worldChunk.getLevelType() != null && worldChunk.getLevelType().isAfter(ChunkHolder.LevelType.TICKING))) {
-                        world.updateListeners(pos, replacedState.getBlockState(), state.getBlockState(), flags);
+                        world.updateListeners(pos, replacedState.getBlockState(), fluidState.getBlockState(), flags);
                     }
 
                     if ((flags & Block.NOTIFY_NEIGHBORS) != 0) {
@@ -180,38 +193,12 @@ public final class FluidUtil {
 
                     if ((flags & Block.FORCE_STATE) == 0 && maxDepth > 0) {
                         int i = flags & ~(Block.NOTIFY_NEIGHBORS | Block.SKIP_DROPS);
-                        state.getBlockState().updateNeighbors(world, pos, i, maxDepth - 1);
+                        fluidState.getBlockState().updateNeighbors(world, pos, i, maxDepth - 1);
                     }
-                    //TODO world onFluidChanged Listener
                     world.onBlockChanged(pos, replacedState.getBlockState(), placedState.getBlockState());
                 }
 
                 return true;
-            }
-        }
-    }
-
-    @Deprecated
-    static void redirectWorldSetBlockState(World world, BlockPos pos, BlockState state, int flags, int maxUpdateDepth, BlockState oldState, WorldChunk worldChunk) {
-        BlockState placedState = world.getBlockState(pos);
-        if (placedState != state && state.getBlock() instanceof FluidBlock) {
-            ((FluidHelper.ForWorld)world).setFluidState(pos, state.getFluidState());
-            if ((flags & Block.NOTIFY_LISTENERS) != 0
-                    && (!world.isClient || (flags & Block.NO_REDRAW) == 0)
-                    && (world.isClient || worldChunk.getLevelType() != null
-                    && worldChunk.getLevelType().isAfter(ChunkHolder.LevelType.TICKING))) {
-                world.updateListeners(pos, oldState, state, flags);
-            }
-
-            if ((flags & Block.NOTIFY_NEIGHBORS) != 0) {
-                world.updateNeighbors(pos, oldState.getBlock());
-            }
-
-            if ((flags & Block.FORCE_STATE) == 0 && maxUpdateDepth > 0) {
-                int i = flags & ~(Block.NOTIFY_NEIGHBORS | Block.SKIP_DROPS);
-                oldState.prepare(world, pos, i, maxUpdateDepth - 1);
-                state.updateNeighbors(world, pos, i, maxUpdateDepth - 1);
-                state.prepare(world, pos, i, maxUpdateDepth - 1);
             }
         }
     }
@@ -227,7 +214,7 @@ public final class FluidUtil {
             int localX = pos.getX() & 15;
             int localY = y & 15;
             int localZ = pos.getZ() & 15;
-            FluidState replacedState = ((FluidHelper.ForChunkSection) chunkSection).setFluidStateLocally(localX, localY, localZ, state);
+            FluidState replacedState = ((FluidHelper.ForChunkSection) chunkSection).synchro$setFluidStateLocally(localX, localY, localZ, state);
             if (replacedState == state) {
                 return null;
             }
@@ -259,26 +246,15 @@ public final class FluidUtil {
     }
 
     public static void onChunkSetBlockState(WorldChunk worldChunk, BlockPos pos, BlockState blockState) {
-        if (blockState.getBlock() instanceof Waterloggable) {
-            BlockState oldState = worldChunk.getBlockState(pos);
-            if (blockState.get(Properties.WATERLOGGED)){
-                ((FluidHelper.ForChunk) worldChunk).setFluidState(pos, Fluids.WATER.getDefaultState());
-                return;
-            }
-            else if (oldState.isOf(blockState.getBlock()) && oldState.get(Properties.WATERLOGGED)){
-                ((FluidHelper.ForChunk) worldChunk).setFluidState(pos, Fluids.EMPTY.getDefaultState());
-                return;
-            }
-        }
         if (canBlockCoverFluid(worldChunk.getWorld(), pos, blockState, worldChunk.getFluidState(pos).getHeight())) {
-            ((FluidHelper.ForChunk)worldChunk).setFluidState(pos, Fluids.EMPTY.getDefaultState());
+            ((FluidHelper.ForChunk) worldChunk).synchro$setFluidState(pos, Fluids.EMPTY.getDefaultState());
         }
     }
 
     public static boolean canBlockCoverFluid(BlockView world, BlockPos pos, BlockState blockState, float height){
         if (blockState.isAir()) return false;
-        if (blockState.isIn(TagsRegistered.CAN_FILL_FLUID)) return false;
-        if (blockState.isIn(TagsRegistered.NEVER_FLOW_FLUID)) return true;
+        if (blockState.isIn(TagsRegistered.CAN_STORE_FLUID)) return false;
+        if (blockState.isIn(TagsRegistered.NEVER_FILL_FLUID)) return true;
         if (blockState.isFullCube(world, pos)) return true;
         VoxelShape shape = blockState.getCollisionShape(world, pos);
         return !VoxelShapes.matchesAnywhere(
@@ -292,11 +268,11 @@ public final class FluidUtil {
     }
 
     public static void onSingleFluidUpdate(SingleFluidUpdateS2CPacket packet, ClientPlayerEntity player, PacketSender responseSender){
-        ((FluidHelper.ForWorld) player.clientWorld).setFluidState(packet.pos, packet.fluidState, 0b10011, 512);
+        ((FluidHelper.ForWorld) player.clientWorld).synchro$setFluidState(packet.pos, packet.fluidState, 0b10011, 512);
     }
 
     public static void onChunkFluidUpdate(ChunkFluidUpdateS2CPacket packet, ClientPlayerEntity player, PacketSender responseSender){
-        packet.forEach((pos, state) -> ((FluidHelper.ForWorld) player.clientWorld).setFluidState(pos, state, 0b10011, 512));
+        packet.forEach((pos, state) -> ((FluidHelper.ForWorld) player.clientWorld).synchro$setFluidState(pos, state, 0b10011, 512));
     }
 
     public static Optional<TypedActionResult<ItemStack>> onBucketItemUse(BucketItem instanceItem, World world, PlayerEntity user, Hand hand, BlockHitResult blockHitResult) {
@@ -306,12 +282,12 @@ public final class FluidUtil {
         ItemStack handStack = user.getStackInHand(hand);
         if (fluidState.isStill()) {
             Item gottenItem = fluidState.getFluid().getBucketItem();
-            if (handStack.getItem() instanceof FluidHelper.ForBucketItem bucketItem && bucketItem.getFluid() == Fluids.EMPTY) {
+            if (handStack.getItem() instanceof FluidHelper.ForBucketItem bucketItem && bucketItem.synchro$getFluid() == Fluids.EMPTY) {
                 if (blockState.getBlock() instanceof Waterloggable && blockState.get(Properties.WATERLOGGED)){
                     world.setBlockState(blockPos, blockState.with(Properties.WATERLOGGED, false));
                 }
                 else {
-                    ((FluidHelper.ForWorld) world).setFluidState(blockPos, Fluids.EMPTY.getDefaultState(), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD, 512);
+                    ((FluidHelper.ForWorld) world).synchro$setFluidState(blockPos, Fluids.EMPTY.getDefaultState(), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD, 512);
                 }
                 user.incrementStat(Stats.USED.getOrCreateStat(instanceItem));
                 fluidState.getFluid().getBucketFillSound().ifPresent((sound) ->
@@ -333,7 +309,7 @@ public final class FluidUtil {
         if (!nullHit) pos = hitResult.getBlockPos();
         BlockState blockState = world.getBlockState(pos);
         boolean covered = canBlockCoverFluid(world, pos, blockState, 8 / 9f);
-        Fluid fluid = ((FluidHelper.ForBucketItem) instanceItem).getFluid();
+        Fluid fluid = ((FluidHelper.ForBucketItem) instanceItem).synchro$getFluid();
         if (covered) {
             if (nullHit) return Optional.of(false);
             return Optional.of(instanceItem.placeFluid(player, world, hitResult.getBlockPos().offset(hitResult.getSide()), null));
@@ -350,11 +326,11 @@ public final class FluidUtil {
                 return Optional.of(true);
             }
             else {
-                if (!((FluidHelper.ForWorld)world).setFluidState(pos, fluid.getDefaultState(), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD, 512) && !world.getFluidState(pos).isStill()) {
+                if (!((FluidHelper.ForWorld)world).synchro$setFluidState(pos, fluid.getDefaultState(), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD, 512) && !world.getFluidState(pos).isStill()) {
                     return Optional.of(false);
                 }
                 else {
-                    ((FluidHelper.ForBucketItem) instanceItem).callPlayEmptyingSound(player, world, pos);
+                    ((FluidHelper.ForBucketItem) instanceItem).synchro$callPlayEmptyingSound(player, world, pos);
                     return Optional.of(true);
                 }
             }
@@ -440,7 +416,7 @@ public final class FluidUtil {
 
     public static Optional<Boolean> judgeCanFlow(BlockView world, BlockPos fromPos, BlockState fromBlockState, Direction flowDirection, BlockPos toPos, BlockState toBlockState, FluidState toFluidState, Fluid fluid, boolean original) {
         if (!original) return Optional.empty();
-        if (toBlockState.isIn(TagsRegistered.NEVER_FLOW_FLUID)) return Optional.of(false);
+        if (toBlockState.isIn(TagsRegistered.NEVER_FILL_FLUID)) return Optional.of(false);
         if (canBlockWashAway(toBlockState, fluid)){
             return Optional.of(true);
         }

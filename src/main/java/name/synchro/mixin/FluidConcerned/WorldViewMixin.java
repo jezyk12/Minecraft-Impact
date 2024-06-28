@@ -17,7 +17,7 @@ public interface WorldViewMixin {
     private FluidState fixContainsFluid(BlockState instance, Operation<FluidState> original,
                                         @Local BlockPos.Mutable pos) {
         if (this instanceof FluidHelper.ForRenderedChunkSection getter){
-            return getter.getFluidState(pos);
+            return getter.synchro$getFluidState(pos);
         }
         else {
             return original.call(instance);

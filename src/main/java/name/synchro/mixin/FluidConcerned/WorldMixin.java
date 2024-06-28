@@ -2,15 +2,14 @@ package name.synchro.mixin.FluidConcerned;
 
 import name.synchro.fluids.FluidHelper;
 import name.synchro.fluids.FluidUtil;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FluidBlock;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,23 +28,19 @@ public abstract class WorldMixin implements WorldAccess, FluidHelper.ForWorld {
 
     @Shadow public abstract boolean setBlockState(BlockPos pos, BlockState state, int flags, int maxUpdateDepth);
 
+    @Shadow public abstract WorldChunk getChunk(int i, int j);
+
+    @Shadow public abstract boolean setBlockState(BlockPos pos, BlockState state, int flags);
+
     @Override
-    public boolean setFluidState(BlockPos pos, FluidState state, int flags, int maxDepth) {
-        return FluidUtil.worldSetFluidState(((World)(Object)this), pos, state, flags, maxDepth);
+    public boolean synchro$setFluidState(BlockPos pos, FluidState state, int flags, int maxDepth) {
+        return FluidUtil.worldSetFluidState(((World) (Object) this), pos, state, flags, maxDepth);
     }
 
     @Inject(method = "setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;II)Z",
-            at = @At("HEAD"), cancellable = true)
-    private void fluidBlockRedirectToSetFluidState(BlockPos pos, BlockState state, int flags, int maxUpdateDepth, CallbackInfoReturnable<Boolean> cir){
-        if (state.getBlock() instanceof FluidBlock) {
-            FluidState fluidState = state.getFluidState();
-            if (!this.getBlockState(pos).isAir()){
-                this.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
-            }
-            this.setFluidState(pos, fluidState);
-            cir.setReturnValue(true);
-            cir.cancel();
-        }
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/WorldChunk;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Z)Lnet/minecraft/block/BlockState;", shift = At.Shift.AFTER))
+    private void onSetBlockState(BlockPos pos, BlockState state, int flags, int maxUpdateDepth, CallbackInfoReturnable<Boolean> cir){
+        if (state.isAir()) ((FluidHelper.ForChunk)this.getChunk(pos)).synchro$setFluidState(pos, Fluids.EMPTY.getDefaultState());
     }
 
     @Inject(method = "setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;II)Z",

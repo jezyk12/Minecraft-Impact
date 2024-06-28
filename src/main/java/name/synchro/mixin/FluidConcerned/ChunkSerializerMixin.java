@@ -40,8 +40,8 @@ public class ChunkSerializerMixin {
     private static @NotNull ChunkSection modifyNewChunkSection(ChunkSection chunkSection, NbtCompound nbtCompound, ChunkPos chunkPos) {
         int yPos = chunkSection.getYOffset() >> 4;
         PalettedContainer<FluidState> fluidStateContainer = FluidUtil.deserialize(nbtCompound, chunkPos, yPos);
-        ((FluidHelper.ForChunkSection) chunkSection).setFluidStateContainer(fluidStateContainer);
-        ((FluidHelper.ForChunkSection) chunkSection).countFluidStates();
+        ((FluidHelper.ForChunkSection) chunkSection).synchro$setFluidStateContainer(fluidStateContainer);
+        ((FluidHelper.ForChunkSection) chunkSection).synchro$countFluidStates();
         return chunkSection;
     }
 

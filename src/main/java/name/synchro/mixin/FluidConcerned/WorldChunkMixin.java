@@ -39,7 +39,7 @@ public abstract class WorldChunkMixin extends Chunk implements FluidHelper.ForCh
     }
 
     @Override
-    public FluidState setFluidState(BlockPos pos, FluidState state) {
+    public FluidState synchro$setFluidState(BlockPos pos, FluidState state) {
         return FluidUtil.chunkSetFluidState(((WorldChunk)(Object)this), pos, state, this.heightmaps.get(Heightmap.Type.WORLD_SURFACE));
     }
 

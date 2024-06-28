@@ -4,9 +4,12 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import name.synchro.fluids.FluidUtil;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.LavaFluid;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,5 +26,15 @@ public class LavaFluidMixin {
     private boolean onLavaFormsStone(WorldAccess world, BlockPos pos, BlockState blockState, int flags, Operation<Boolean> original){
         if (FluidUtil.onLavaFormsStone(world, pos)) return original.call(world, pos, blockState, flags);
         return true;
+    }
+
+    @WrapOperation(method = "onRandomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isAir()Z"))
+    private boolean lightFireTest(BlockState instance, Operation<Boolean> original){
+        return original.call(instance) || instance.getBlock() instanceof FluidBlock && !instance.isOf(Blocks.WATER);
+    }
+
+    @WrapOperation(method = "onRandomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;isAir(Lnet/minecraft/util/math/BlockPos;)Z"))
+    private boolean lightFireTest1(World instance, BlockPos pos, Operation<Boolean> original){
+        return original.call(instance, pos) || instance.getBlockState(pos).getBlock() instanceof FluidBlock && !instance.getFluidState(pos).isOf(Fluids.WATER);
     }
 }

@@ -55,12 +55,12 @@ public abstract class BucketItemMixin extends Item implements FluidHelper.ForBuc
     }
 
     @Override
-    public Fluid getFluid() {
+    public Fluid synchro$getFluid() {
         return this.fluid;
     }
 
     @Override
-    public void callPlayEmptyingSound(@Nullable PlayerEntity player, WorldAccess world, BlockPos pos) {
+    public void synchro$callPlayEmptyingSound(@Nullable PlayerEntity player, WorldAccess world, BlockPos pos) {
         this.playEmptyingSound(player, world, pos);
     }
 }

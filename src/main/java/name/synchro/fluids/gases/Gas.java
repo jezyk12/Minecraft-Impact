@@ -75,7 +75,7 @@ public abstract class Gas extends Fluid {
                 default -> diffuse(world, state, neighborPos, thisLevel, neighborLevel, horizontalMinGradient);
             });
         }
-        ((FluidHelper.ForWorld) world).setFluidState(pos, state.with(LEVEL, thisLevelAfter));
+        ((FluidHelper.ForWorld) world).synchro$setFluidState(pos, state.with(LEVEL, thisLevelAfter));
     }
 
     private int diffuse(World world, FluidState fluidState, BlockPos neighborPos, int thisLevel, int neighborLevel, int minGradient){
@@ -83,7 +83,7 @@ public abstract class Gas extends Fluid {
         if (gradient >= minGradient){
             int totalLevel = thisLevel + neighborLevel;
             int neighborAfterLevel = (totalLevel + 2 - minGradient) / 2;
-            ((FluidHelper.ForWorld) world).setFluidState(neighborPos, fluidState.with(LEVEL, neighborAfterLevel));
+            ((FluidHelper.ForWorld) world).synchro$setFluidState(neighborPos, fluidState.with(LEVEL, neighborAfterLevel));
             return totalLevel - neighborAfterLevel;
         }
         else return thisLevel;
@@ -166,10 +166,10 @@ public abstract class Gas extends Fluid {
         }
         if (random.nextInt(6400) < (volatilizationRate << facesUnexposed)){
             if (thisLevel > 1){
-                ((FluidHelper.ForWorld) world).setFluidState(pos, state.with(LEVEL,thisLevel - 1));
+                ((FluidHelper.ForWorld) world).synchro$setFluidState(pos, state.with(LEVEL,thisLevel - 1));
             }
             else {
-                ((FluidHelper.ForWorld) world).setFluidState(pos, Fluids.EMPTY.getDefaultState());
+                ((FluidHelper.ForWorld) world).synchro$setFluidState(pos, Fluids.EMPTY.getDefaultState());
                 if (world instanceof ServerWorld serverWorld){
                     serverWorld.spawnParticles(
                             gasParticleEffect, pos.getX(), pos.getY(), pos.getZ(),

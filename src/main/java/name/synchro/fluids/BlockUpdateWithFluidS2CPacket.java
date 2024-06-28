@@ -36,7 +36,7 @@ public class BlockUpdateWithFluidS2CPacket extends BlockUpdateS2CPacket {
 
     @Override
     public void apply(ClientPlayPacketListener listener) {
-        ((FluidHelper.ForClientPacketListener)listener).onBlockUpdateWithFluid(this);
+        ((FluidHelper.ForClientPacketListener)listener).synchro$onBlockUpdateWithFluid(this);
     }
 
     public FluidState getFluidState() {

@@ -20,7 +20,7 @@ public abstract class ChunkRendererRegionMixin {
     @Inject(method = "getFluidState", at = @At(value = "RETURN"), cancellable = true)
     private void fixGetFluidState(BlockPos pos, CallbackInfoReturnable<FluidState> cir,
                                   @Local(ordinal = 0) int i, @Local(ordinal = 1) int j){
-        cir.setReturnValue(((FluidHelper.ForRenderedChunkSection) this.chunks[i][j]).getFluidState(pos));
+        cir.setReturnValue(((FluidHelper.ForRenderedChunkSection) this.chunks[i][j]).synchro$getFluidState(pos));
         cir.cancel();
     }
 }

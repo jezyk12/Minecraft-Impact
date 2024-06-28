@@ -12,13 +12,17 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FluidBlock.class)
-public class FluidBlockMixin {
+public abstract class FluidBlockMixin {
+    @Shadow protected abstract void playExtinguishSound(WorldAccess world, BlockPos pos);
+
     @Inject(method = "getOutlineShape", at = @At("RETURN"), cancellable = true)
     private void debugGetOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir){
         cir.setReturnValue(VoxelShapes.fullCube());
@@ -28,17 +32,31 @@ public class FluidBlockMixin {
     @WrapOperation(method = "receiveNeighborFluids", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)Z", ordinal = 0))
     private boolean onLavaFormsObsidianOrCobbleStone(World instance, BlockPos pos, BlockState state, Operation<Boolean> original){
         if (state.isOf(Blocks.OBSIDIAN)){
-            if (FluidUtil.onLavaFormsObsidian(instance, pos)) return original.call(instance, pos, state);
+            if (FluidUtil.onLavaFormsObsidian(instance, pos)) {
+                this.playExtinguishSound(instance, pos);
+                return original.call(instance, pos, state);
+            }
         }
         else if (state.isOf(Blocks.COBBLESTONE)){
-            if (FluidUtil.onLavaFormsCobblestone(instance, pos)) return original.call(instance, pos, state);
+            if (FluidUtil.onLavaFormsCobblestone(instance, pos)) {
+                this.playExtinguishSound(instance, pos);
+                return original.call(instance, pos, state);
+            }
         }
         return true;
     }
 
     @WrapOperation(method = "receiveNeighborFluids", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)Z", ordinal = 1))
     private boolean onLavaFormsBasalt(World instance, BlockPos pos, BlockState state, Operation<Boolean> original){
-        if (FluidUtil.onLavaFormsBasalt(instance, pos)) return original.call(instance, pos, state);
+        if (FluidUtil.onLavaFormsBasalt(instance, pos)) {
+            this.playExtinguishSound(instance, pos);
+            return original.call(instance, pos, state);
+        }
         return true;
+    }
+
+    @WrapOperation(method = "receiveNeighborFluids", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/FluidBlock;playExtinguishSound(Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;)V"))
+    private void preventIncorrectEvent(FluidBlock instance, WorldAccess world, BlockPos pos, Operation<Void> original){
+        // Do nothing.
     }
 }

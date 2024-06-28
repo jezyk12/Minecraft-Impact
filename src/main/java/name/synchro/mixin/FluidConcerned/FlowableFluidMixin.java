@@ -87,7 +87,7 @@ public abstract class FlowableFluidMixin {
         Fluid fluid = state.getFluid();
         if (!FluidUtil.canBlockCoexistWith(world.getBlockState(pos), fluid)){
             if (fluid.matchesType(Fluids.LAVA)){
-                world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+                world.setBlockState(pos, state.getBlockState(), Block.NOTIFY_ALL);
                 world.syncWorldEvent(WorldEvents.LAVA_EXTINGUISHED, pos, 0);
             }
             else world.breakBlock(pos, true);
@@ -97,13 +97,13 @@ public abstract class FlowableFluidMixin {
     @WrapOperation(method = "onScheduledTick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z", ordinal = 0))
     private boolean fixDrainFluid(World world, BlockPos pos, BlockState state, int flags, Operation<Boolean> original){
-        return ((FluidHelper.ForWorld) world).setFluidState(pos, Fluids.EMPTY.getDefaultState(), Block.NOTIFY_ALL, 512);
+        return ((FluidHelper.ForWorld) world).synchro$setFluidState(pos, Fluids.EMPTY.getDefaultState(), Block.NOTIFY_ALL, 512);
     }
 
     @WrapOperation(method = "onScheduledTick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z", ordinal = 1))
     private boolean fixDescendFluid(World world, BlockPos pos, BlockState state, int flags, Operation<Boolean> original, @Local(ordinal = 1)FluidState fluidState){
-        return ((FluidHelper.ForWorld) world).setFluidState(pos, fluidState, Block.NOTIFY_LISTENERS, 512);
+        return ((FluidHelper.ForWorld) world).synchro$setFluidState(pos, fluidState, Block.NOTIFY_LISTENERS, 512);
     }
 
     @Inject(method = "canFill", at = @At("HEAD"), cancellable = true)
@@ -119,7 +119,7 @@ public abstract class FlowableFluidMixin {
             beforeBreakingBlock(world, pos, state);
             world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
         }
-        ((FluidHelper.ForWorld)world).setFluidState(pos, fluidState, Block.NOTIFY_ALL, 512);
+        ((FluidHelper.ForWorld)world).synchro$setFluidState(pos, fluidState, Block.NOTIFY_ALL, 512);
         ci.cancel();
     }
 

@@ -13,46 +13,46 @@ import org.jetbrains.annotations.Nullable;
 public final class FluidHelper {
 
     public interface ForRenderedChunkSection {
-        FluidState getFluidState(BlockPos pos);
+        FluidState synchro$getFluidState(BlockPos pos);
     }
 
     public interface ForWorld {
-        boolean setFluidState(BlockPos pos, FluidState state, int flags, int maxDepth);
-        default boolean setFluidState(BlockPos pos, FluidState state){
-            return setFluidState(pos, state, Block.NOTIFY_ALL, 512);
+        boolean synchro$setFluidState(BlockPos pos, FluidState state, int flags, int maxDepth);
+        default boolean synchro$setFluidState(BlockPos pos, FluidState state){
+            return synchro$setFluidState(pos, state, Block.NOTIFY_ALL, 512);
         }
 
     }
 
     public interface ForChunk {
-        FluidState setFluidState(BlockPos pos, FluidState state);
+        FluidState synchro$setFluidState(BlockPos pos, FluidState state);
     }
 
     public interface ForChunkSection {
-        FluidState setFluidStateLocally(int x, int y, int z, FluidState state);
+        FluidState synchro$setFluidStateLocally(int x, int y, int z, FluidState state);
 
-        PalettedContainer<FluidState> getFluidStateContainer();
+        PalettedContainer<FluidState> synchro$getFluidStateContainer();
 
-        void setFluidStateContainer(PalettedContainer<FluidState> container);
+        void synchro$setFluidStateContainer(PalettedContainer<FluidState> container);
 
-        void countFluidStates();
+        void synchro$countFluidStates();
     }
 
     public interface ForBucketItem {
-        Fluid getFluid();
+        Fluid synchro$getFluid();
 
-        void callPlayEmptyingSound(@Nullable PlayerEntity player, WorldAccess world, BlockPos pos);
+        void synchro$callPlayEmptyingSound(@Nullable PlayerEntity player, WorldAccess world, BlockPos pos);
     }
 
     @Deprecated
     public interface ForClientPacketListener {
-        void onChunkUpdateWithFluid(ChunkDeltaUpdateWithFluidS2CPacket packet);
+        void synchro$onChunkUpdateWithFluid(ChunkDeltaUpdateWithFluidS2CPacket packet);
 
-        void onBlockUpdateWithFluid(BlockUpdateWithFluidS2CPacket packet);
+        void synchro$onBlockUpdateWithFluid(BlockUpdateWithFluidS2CPacket packet);
     }
 
     @Deprecated
     public interface ForClientWorld {
-        void handleBlockUpdateWithFluid(BlockPos pos, BlockState state, FluidState fluidState, int flags);
+        void synchro$handleBlockUpdateWithFluid(BlockPos pos, BlockState state, FluidState fluidState, int flags);
     }
 }

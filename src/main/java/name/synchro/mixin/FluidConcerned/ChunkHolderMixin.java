@@ -40,15 +40,4 @@ public class ChunkHolderMixin {
         FluidUtil.sendToPlayersWatching(this.playersWatchingChunkProvider, this.pos, packet);
     }
 
-//    @WrapOperation(method = "flushUpdates", at = @At(value = "NEW", target = "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)Lnet/minecraft/network/packet/s2c/play/BlockUpdateS2CPacket;"))
-//    private BlockUpdateS2CPacket redirectBlockUpdatePacket(BlockPos pos, BlockState state, Operation<BlockUpdateS2CPacket> original,
-//                                                           @Local(argsOnly = true)WorldChunk chunk) {
-//        return original.call(pos, state);// new BlockUpdateWithFluidS2CPacket(pos, state, chunk.getWorld().getFluidState(pos));
-//    }
-//
-//    @ModifyArg(method = "flushUpdates", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ChunkHolder;sendPacketToPlayersWatching(Lnet/minecraft/network/packet/Packet;Z)V", ordinal = 1))
-//    private Packet<?> redirectChunkSectionUpdatePacket(Packet<?> packet, @Local ChunkSectionPos chunkSectionPos,
-//                                                       @Local ShortSet shortSet, @Local(argsOnly = true)WorldChunk chunk, @Local(ordinal = 1)int y){
-//        return packet;// new ChunkDeltaUpdateWithFluidS2CPacket(chunkSectionPos, shortSet, chunk.getSection(y), this.noLightingUpdates);
-//    }
 }

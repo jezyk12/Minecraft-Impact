@@ -50,14 +50,14 @@ public final class ItemsRegistered {
     public static final OresMixture ORES_DUST = registerItem("ores_dust",
             new OresMixture(new FabricItemSettings()));
 
-    protected static <T extends Item> T registerItem(String path, T item, ItemGroup itemGroup) {
+    static <T extends Item> T registerItem(String path, T item, ItemGroup itemGroup) {
         T registeredItem = Registry.register(
                 Registries.ITEM, new Identifier(Synchro.MOD_ID, path), item);
         ItemGroupEvents.modifyEntriesEvent(itemGroup).register(entries -> entries.add(registeredItem));
         return registeredItem;
     }
 
-    protected static <T extends Item> T registerItem(String path, T item) {
+    static <T extends Item> T registerItem(String path, T item) {
         return Registry.register(
                 Registries.ITEM, new Identifier(Synchro.MOD_ID, path), item);
     }

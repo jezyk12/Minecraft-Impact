@@ -8,7 +8,7 @@ import name.synchro.SynchroClient;
 import name.synchro.mixinHelper.CameraInGas;
 import name.synchro.mixinHelper.HudColors;
 import name.synchro.mixinHelper.MinecraftClientDuck;
-import name.synchro.mixinHelper.PlayerEntityDuck;
+import name.synchro.mixinHelper.PlayerFireTickSync;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -320,7 +320,7 @@ public abstract class InGameHudMixin {
             int y = scaledHeight - 49;
             PlayerEntity player = this.getCameraPlayer();
             int fireTicks;
-            if (player instanceof PlayerEntityDuck playerEntity) fireTicks = playerEntity.getTheFireTicks();
+            if (player instanceof PlayerFireTickSync playerEntity) fireTicks = playerEntity.getTheFireTicks();
             else fireTicks = -20;
             boolean onFire = fireTicks > 0;
             String displayFire = (fireTicks > 199 ? "%.0f": "%.1f").formatted((float) fireTicks / 20) + "s";

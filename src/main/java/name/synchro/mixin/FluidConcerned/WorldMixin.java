@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -45,6 +46,13 @@ public abstract class WorldMixin implements WorldAccess, FluidHelper.ForWorld {
             cir.setReturnValue(true);
             cir.cancel();
         }
+    }
+
+    @Inject(method = "setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;II)Z",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;updateNeighbors(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/Block;)V", shift = At.Shift.BEFORE))
+    private void updateFluidOnSelfPos(BlockPos pos, BlockState state, int flags, int maxUpdateDepth, CallbackInfoReturnable<Boolean> cir){
+        Fluid fluid = this.getFluidState(pos).getFluid();
+        this.scheduleFluidTick(pos, fluid, fluid.getTickRate(this));
     }
 
 }

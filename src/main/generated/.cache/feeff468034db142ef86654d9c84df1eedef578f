@@ -1,4 +1,5 @@
-// 1.19.4	2024-06-03T17:43:19.0152779	Synchro/Model Definitions
+// 1.19.4	2024-06-27T15:42:48.8652347	Synchro/Model Definitions
+4317e5e705f9fbdc9702c328c4514b01ccfda2e7 assets\synchro\models\item\aoite.json
 dc4d213060ebb22a25c50ab3e9279fb44984ad03 assets\synchro\models\item\nganite.json
 b695d80d46e48e8d76dd85f9fd40a27e5fe957c0 assets\synchro\models\block\baakite.json
 8993f61710bafbb2b5cbfabddd81ed9eae69c274 assets\synchro\models\block\nganite.json
@@ -6,23 +7,22 @@ da894802a99dbc2a878db69497c6bbffe73da958 assets\synchro\models\block\aoite.json
 eab3311abad01fa28b7b81bb250b9b04b38aae88 assets\synchro\blockstates\baakite.json
 3992d7bf972479a3eb6e3e4715b0dc3d1f8e954f assets\synchro\models\item\baakite.json
 cb9b65e0716c49256db9ba5d6ebc037d40b25595 assets\synchro\models\item\muraxkite.json
-be205409658521f39226656def1e3bbecf795880 assets\synchro\blockstates\haakite.json
-b871a7e8cdd429fad44d039f53c924177ad3496f assets\synchro\blockstates\plant_fibre_block.json
-47f0e1207ae4f6ec87363661b62aa0f560c8143e assets\synchro\models\item\haakite.json
-6e0c859c24d6f4dbdde8a2345cde547d021558df assets\synchro\models\item\sekite.json
-7de56d040612b1c6e18fc1164827c2d873b8f1ec assets\synchro\blockstates\nganite.json
-98234352f7acfd711245f950de7362d310d6644a assets\synchro\models\block\midorite.json
-78fe4df87c78ce03af1f015a2f35f75acd0e73bb assets\synchro\models\block\plant_fibre_block.json
-752395db47f690842f5a3e8cc2a3cba08c8b467d assets\synchro\models\item\plant_fibre_block.json
-4317e5e705f9fbdc9702c328c4514b01ccfda2e7 assets\synchro\models\item\aoite.json
 fdd243f56677b123edd7a14805ca3c618106b0bd assets\synchro\blockstates\midorite.json
+be205409658521f39226656def1e3bbecf795880 assets\synchro\blockstates\haakite.json
 1e211a45e9d1af29ce80579f74bc7be1f09273d8 assets\synchro\blockstates\muraxkite.json
 83538b7871cfc21ce1bd47446949a3ecc646dfec assets\synchro\models\block\haakite.json
+b871a7e8cdd429fad44d039f53c924177ad3496f assets\synchro\blockstates\plant_fibre_block.json
 184c6d2dc45c648b0cd696980147064080372c0a assets\synchro\models\block\sekite.json
 ea2ce540b4ee542136a4eea3e50177e70dcc59cd assets\synchro\blockstates\aoite.json
+47f0e1207ae4f6ec87363661b62aa0f560c8143e assets\synchro\models\item\haakite.json
 360d520a0fc6aede27d141c67fe05d97a0460ad0 assets\synchro\models\block\gumite.json
 b7d03ab547e154ee3613c9643fd31ff173a6434f assets\synchro\models\block\muraxkite.json
+6e0c859c24d6f4dbdde8a2345cde547d021558df assets\synchro\models\item\sekite.json
 3c888c07069d41ae4273034e2f3043a86dd7f8fc assets\synchro\blockstates\gumite.json
 a7869d2d2841272d4f620d771ac7b42263f96a9b assets\synchro\models\item\gumite.json
 28eccda560f50181b3c073503f8cff4e47ff1e6e assets\synchro\blockstates\sekite.json
+7de56d040612b1c6e18fc1164827c2d873b8f1ec assets\synchro\blockstates\nganite.json
 77ccaf37fc401595e31a9be042cf539f5062648b assets\synchro\models\item\midorite.json
+98234352f7acfd711245f950de7362d310d6644a assets\synchro\models\block\midorite.json
+78fe4df87c78ce03af1f015a2f35f75acd0e73bb assets\synchro\models\block\plant_fibre_block.json
+752395db47f690842f5a3e8cc2a3cba08c8b467d assets\synchro\models\item\plant_fibre_block.json

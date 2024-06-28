@@ -22,6 +22,7 @@ public class Synchro implements ModInitializer {
 		ItemsRegistered.registerAll();
 		RegisterItemGroups.registerAll();
 		BlocksRegistered.registerAll();
+		TagsRegistered.registerAll();
 		MillstoneRecipes.buildAll();
 		RegisterBlockEntities.registerAll();
 		RegisterFluids.registerAll();

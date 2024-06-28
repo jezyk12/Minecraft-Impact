@@ -1,6 +1,6 @@
 package name.synchro.mixinHelper;
 
-public interface PlayerEntityDuck {
+public interface PlayerFireTickSync {
     void setTheFireTicks(int value);
     int getTheFireTicks();
 }

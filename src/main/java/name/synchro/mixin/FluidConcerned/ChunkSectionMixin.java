@@ -3,9 +3,14 @@ package name.synchro.mixin.FluidConcerned;
 import name.synchro.fluids.FluidHelper;
 import name.synchro.fluids.FluidUtil;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FluidBlock;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registry;
+import net.minecraft.state.property.Properties;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.PalettedContainer;
@@ -46,12 +51,20 @@ public abstract class ChunkSectionMixin implements FluidHelper.ForChunkSection {
         this.nonEmptyFluidCount = (short) FluidUtil.countFluidStates(this.getFluidStateContainer());
     }
 
-//    @Inject(method = "setBlockState(IIILnet/minecraft/block/BlockState;Z)Lnet/minecraft/block/BlockState;",
-//            at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getFluidState()Lnet/minecraft/fluid/FluidState;",
-//                    ordinal = 0, shift = At.Shift.BEFORE))
-//    private void setBlockStateExtra(int x, int y, int z, BlockState blockState, boolean lock, CallbackInfoReturnable<BlockState> cir){
-//        //Temporary used.
-//    }
+    @Inject(method = "setBlockState(IIILnet/minecraft/block/BlockState;Z)Lnet/minecraft/block/BlockState;",
+            at = @At(value = "HEAD"), cancellable = true)
+    private void setBlockStateExtra(int x, int y, int z, BlockState blockState, boolean lock, CallbackInfoReturnable<BlockState> cir){
+        if (blockState.getBlock() instanceof FluidBlock){
+            setFluidState(x, y, z, blockState.getFluidState(), lock, true);
+            cir.setReturnValue(Blocks.AIR.getDefaultState());
+            cir.cancel();
+        }
+        else if (blockState.getBlock() instanceof Waterloggable){
+            if (blockState.get(Properties.WATERLOGGED)){
+                setFluidState(x, y, z, Fluids.WATER.getDefaultState(), lock, false);
+            }
+        }
+    }
 
     @Inject(method = "getFluidState", at = @At("HEAD"), cancellable = true)
     private void getFluidState(int x, int y, int z, CallbackInfoReturnable<FluidState> cir) {

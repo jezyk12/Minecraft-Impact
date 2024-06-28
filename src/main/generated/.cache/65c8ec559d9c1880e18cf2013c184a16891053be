@@ -1,4 +1,4 @@
-// 1.19.4	2024-06-03T17:43:19.0102941	Synchro/Block Loot Tables
+// 1.19.4	2024-06-27T15:42:48.8612346	Synchro/Block Loot Tables
 3e75f73d2cc5ffa7fc8619548a2f96b7a5c67bad data\synchro\loot_tables\blocks\cherry_planks_slope.json
 09ba4bbe32f8cad5c9635f86a085f86f8d84267e data\synchro\loot_tables\blocks\waxed_cut_copper_slope.json
 b38d8eee097faa4bf39f84cf43b3472ab649bb00 data\synchro\loot_tables\blocks\exposed_cut_copper_slope.json
@@ -40,8 +40,8 @@ a0eb2fd1ea0a0a370b5bf97fdbc2e3b525c4a602 data\synchro\loot_tables\blocks\deepsla
 d60f5a24ca58a700725595970bb1e3ab0111186d data\synchro\loot_tables\blocks\dark_oak_planks_slope.json
 54164a40f357be6347f3331e828ae4d92c49cd36 data\synchro\loot_tables\blocks\smooth_quartz_slope.json
 28413f6950de174665db6336e1916b0872096946 data\synchro\loot_tables\blocks\mossy_cobblestone_slope.json
-a6dbf703fbf0d093ffdcdedb25e3b3edc75be291 data\synchro\loot_tables\blocks\stone_bricks_slope.json
 e218e2038d5fb9c410a2ce3b89eddd79c6f5984d data\synchro\loot_tables\blocks\smooth_sandstone_slope.json
+a6dbf703fbf0d093ffdcdedb25e3b3edc75be291 data\synchro\loot_tables\blocks\stone_bricks_slope.json
 0510fa12cc86c83ba9ae3135a2b361c494e15cbe data\synchro\loot_tables\blocks\waxed_oxidized_cut_copper_slope.json
 c5dcdc266baa651e7091dec80576dfceacd7a0d8 data\synchro\loot_tables\blocks\prismarine_slope.json
 7dd739c81ac1db7f319d62616c4411679fe66b6e data\synchro\loot_tables\blocks\fertile_farmland.json

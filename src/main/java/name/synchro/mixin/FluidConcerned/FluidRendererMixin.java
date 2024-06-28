@@ -79,5 +79,4 @@ public class FluidRendererMixin {
         return world.getFluidState(pos.up());
     }
 
-
 }

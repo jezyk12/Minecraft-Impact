@@ -1,0 +1,8 @@
+// 1.19.4	2024-06-27T15:42:48.8632369	Synchro/Tags for minecraft:block
+12183c1505c35c0a3c279023a076b1187ccabe4a data\synchro\tags\blocks\never_water_coexist.json
+b1944139593d8bad613425af184d21f20f40d01c data\synchro\tags\blocks\wash_away_by_lava.json
+5f38f33a7d1b13329ae0753ff9f4846356f4ddd7 data\synchro\tags\blocks\never_flow_fluid.json
+4a93ba5fb25602010caa18d4638813e33262aa8f data\synchro\tags\blocks\never_lava_coexist.json
+9891913587bc5d5019f97c6a495492d5a41eb6d6 data\synchro\tags\blocks\wash_away_by_water.json
+18b5d72a71fb5c47cecaed36974bd31bf5331b14 data\synchro\tags\blocks\can_fill_fluid.json
+b5d22ade775db37355505a2d7074ec9fe596783e data\synchro\tags\blocks\never_fill_fluid.json

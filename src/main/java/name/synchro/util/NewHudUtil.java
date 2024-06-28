@@ -1,6 +1,6 @@
 package name.synchro.util;
 
-import name.synchro.mixinHelper.PlayerEntityDuck;
+import name.synchro.mixinHelper.PlayerFireTickSync;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -24,8 +24,8 @@ public final class NewHudUtil {
         int fireTicks = buf.readInt();
         client.execute(() -> {
             ClientPlayerEntity clientPlayer = client.player;
-            if (clientPlayer instanceof PlayerEntityDuck) {
-                ((PlayerEntityDuck) clientPlayer).setTheFireTicks(fireTicks);
+            if (clientPlayer instanceof PlayerFireTickSync) {
+                ((PlayerFireTickSync) clientPlayer).setTheFireTicks(fireTicks);
             }
         });
     }

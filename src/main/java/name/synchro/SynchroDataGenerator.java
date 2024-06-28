@@ -1,9 +1,6 @@
 package name.synchro;
 
-import name.synchro.dataGeneration.AdvancementsData;
-import name.synchro.dataGeneration.BlockLootTablesData;
-import name.synchro.dataGeneration.ModelsData;
-import name.synchro.dataGeneration.RecipesData;
+import name.synchro.dataGeneration.*;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
@@ -15,7 +12,7 @@ public class SynchroDataGenerator implements DataGeneratorEntrypoint {
 		myPack.addProvider(RecipesData::new);
 		myPack.addProvider(AdvancementsData::new);
 		myPack.addProvider(ModelsData::new);
-
+		myPack.addProvider(BlockTagsData::new);
 	}
 
 }

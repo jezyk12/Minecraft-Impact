@@ -1,7 +1,10 @@
 package name.synchro.fluids;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.math.DoubleMath;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import name.synchro.registrations.TagsRegistered;
 import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -31,11 +34,18 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.crash.CrashReportSection;
+import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.PalettedContainer;
@@ -46,6 +56,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public final class FluidUtil {
@@ -252,14 +263,27 @@ public final class FluidUtil {
             BlockState oldState = worldChunk.getBlockState(pos);
             if (blockState.get(Properties.WATERLOGGED)){
                 ((FluidHelper.ForChunk) worldChunk).setFluidState(pos, Fluids.WATER.getDefaultState());
+                return;
             }
             else if (oldState.isOf(blockState.getBlock()) && oldState.get(Properties.WATERLOGGED)){
                 ((FluidHelper.ForChunk) worldChunk).setFluidState(pos, Fluids.EMPTY.getDefaultState());
+                return;
             }
         }
-        else if (blockState.isSolidBlock(worldChunk.getWorld(), pos)) {
+        if (canBlockCoverFluid(worldChunk.getWorld(), pos, blockState, worldChunk.getFluidState(pos).getHeight())) {
             ((FluidHelper.ForChunk)worldChunk).setFluidState(pos, Fluids.EMPTY.getDefaultState());
         }
+    }
+
+    public static boolean canBlockCoverFluid(BlockView world, BlockPos pos, BlockState blockState, float height){
+        if (blockState.isAir()) return false;
+        if (blockState.isIn(TagsRegistered.CAN_FILL_FLUID)) return false;
+        if (blockState.isIn(TagsRegistered.NEVER_FLOW_FLUID)) return true;
+        if (blockState.isFullCube(world, pos)) return true;
+        VoxelShape shape = blockState.getCollisionShape(world, pos);
+        return !VoxelShapes.matchesAnywhere(
+                VoxelShapes.combine(VoxelShapes.fullCube(), shape, BooleanBiFunction.ONLY_FIRST),
+                VoxelShapes.cuboid(0, 0, 0, 1, height, 1), BooleanBiFunction.AND);
     }
 
     public static void sendToPlayersWatching(ChunkHolder.PlayersWatchingChunkProvider provider, ChunkPos chunkPos, FabricPacket packet) {
@@ -308,9 +332,9 @@ public final class FluidUtil {
         boolean nullHit = hitResult == null;
         if (!nullHit) pos = hitResult.getBlockPos();
         BlockState blockState = world.getBlockState(pos);
-        boolean isSolid = blockState.isSolidBlock(world, pos);
+        boolean covered = canBlockCoverFluid(world, pos, blockState, 8 / 9f);
         Fluid fluid = ((FluidHelper.ForBucketItem) instanceItem).getFluid();
-        if (isSolid) {
+        if (covered) {
             if (nullHit) return Optional.of(false);
             return Optional.of(instanceItem.placeFluid(player, world, hitResult.getBlockPos().offset(hitResult.getSide()), null));
         }
@@ -335,5 +359,104 @@ public final class FluidUtil {
                 }
             }
         }
+    }
+
+    /**
+     * @return whether original operation should be called
+     */
+    public static boolean onLavaFormsStone(WorldAccess world, BlockPos pos) {
+        return true;
+    }
+
+    /**
+     * @return whether original operation should be called
+     */
+    public static boolean onLavaFormsObsidian(World world, BlockPos pos) {
+        return !world.getBlockState(pos).isFullCube(world, pos);
+    }
+
+    /**
+     * @return whether original operation should be called
+     */
+    public static boolean onLavaFormsCobblestone(World world, BlockPos pos) {
+        return true;
+    }
+
+    /**
+     * @return whether original operation should be called
+     */
+    public static boolean onLavaFormsBasalt(World world, BlockPos pos) {
+        return true;
+    }
+
+    public static boolean canBlockWashAway(BlockState state, Fluid fluid){
+        if (fluid.matchesType(Fluids.WATER)){
+            return state.isIn(TagsRegistered.WASH_AWAY_BY_WATER);
+        }
+        else if (fluid.matchesType(Fluids.LAVA)){
+            return state.isIn(TagsRegistered.WASH_AWAY_BY_LAVA);
+        }
+        else return false;
+    }
+
+    public static boolean canBlockCoexistWith(BlockState state, Fluid fluid){
+        if (fluid.matchesType(Fluids.WATER)){
+            return !state.isIn(TagsRegistered.NEVER_WATER_COEXIST);
+        }
+        else if (fluid.matchesType(Fluids.LAVA)){
+            return !state.isIn(TagsRegistered.NEVER_LAVA_COEXIST);
+        }
+        else return true;
+    }
+
+    private static final Map<Direction, Box> SLICE_BOXES = ImmutableMap.<Direction, Box>builder()
+            .put(Direction.NORTH, new Box(0,0,0,1,1,1 / 64d))
+            .put(Direction.SOUTH, new Box(0,0,63 / 64d,1,1,1))
+            .put(Direction.WEST, new Box(0,0,0,1 / 64d,1,1))
+            .put(Direction.EAST, new Box(63 / 64d,0,0,1,1,1))
+            .build();
+
+    private static boolean canShapeFluidFlow(double height, boolean flowOut, VoxelShape shape, Direction flowDirection) {
+        if (flowDirection == Direction.DOWN) return true;
+        else if (flowDirection == Direction.UP) return false;
+        else if (shape.equals(VoxelShapes.fullCube()) || height < 3 / 18f) {
+            return false;
+        } else {
+            Direction checkDirection = flowOut ? flowDirection : flowDirection.getOpposite();
+            Direction.Axis axis = checkDirection.getAxis();
+            Direction.AxisDirection flowFrom = checkDirection.getDirection();
+            if (flowFrom.offset() > 0){
+                if (!DoubleMath.fuzzyEquals(shape.getMax(axis), 1.0, 1.0E-7)) return true;
+            }
+            else {
+                if (!DoubleMath.fuzzyEquals(shape.getMin(axis), 0.0, 1.0E-7)) return true;
+            }
+            VoxelShape slice = VoxelShapes.cuboid(SLICE_BOXES.get(checkDirection).withMaxY(height));
+            return VoxelShapes.matchesAnywhere(
+                    VoxelShapes.combine(VoxelShapes.fullCube(), shape, BooleanBiFunction.ONLY_FIRST),
+                    slice, BooleanBiFunction.AND);
+        }
+    }
+
+    public static Optional<Boolean> judgeCanFlow(BlockView world, BlockPos fromPos, BlockState fromBlockState, Direction flowDirection, BlockPos toPos, BlockState toBlockState, FluidState toFluidState, Fluid fluid, boolean original) {
+        if (!original) return Optional.empty();
+        if (toBlockState.isIn(TagsRegistered.NEVER_FLOW_FLUID)) return Optional.of(false);
+        if (canBlockWashAway(toBlockState, fluid)){
+            return Optional.of(true);
+        }
+        else {
+            final double height = world.getFluidState(fromPos).getHeight();
+            if (canShapeFluidFlow(height, true, fromBlockState.getCollisionShape(world, fromPos), flowDirection)
+                    && canShapeFluidFlow(height, false, toBlockState.getCollisionShape(world, toPos), flowDirection)){
+                return Optional.of(true);
+            }
+        }
+        return Optional.of(false);
+    }
+
+    public static boolean isStillWaterForBubbles(WorldAccess worldAccess, BlockPos pos) {
+        BlockState blockState = worldAccess.getBlockState(pos);
+        FluidState fluidState = worldAccess.getFluidState(pos);
+        return blockState.isOf(Blocks.BUBBLE_COLUMN) || fluidState.isOf(Fluids.WATER) && fluidState.isStill();
     }
 }

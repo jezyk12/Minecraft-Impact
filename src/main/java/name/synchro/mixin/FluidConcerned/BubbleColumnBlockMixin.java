@@ -11,6 +11,7 @@ import net.minecraft.world.WorldAccess;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Deprecated
 @Mixin(BubbleColumnBlock.class)
 public class BubbleColumnBlockMixin {
     @WrapOperation(method = "getStateForNeighborUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BubbleColumnBlock;isStillWater(Lnet/minecraft/block/BlockState;)Z"))

@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Deprecated
 @Mixin(SpawnLocating.class)
 public class SpawnLocatingMixin {
     @WrapOperation(method = "findOverworldSpawn", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getFluidState()Lnet/minecraft/fluid/FluidState;"))

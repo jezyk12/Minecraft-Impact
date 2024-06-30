@@ -23,6 +23,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkHolder;
 import net.minecraft.sound.SoundCategory;
@@ -42,10 +43,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.*;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.PalettedContainer;
@@ -434,5 +432,22 @@ public final class FluidUtil {
         BlockState blockState = worldAccess.getBlockState(pos);
         FluidState fluidState = worldAccess.getFluidState(pos);
         return blockState.isOf(Blocks.BUBBLE_COLUMN) || fluidState.isOf(Fluids.WATER) && fluidState.isStill();
+    }
+
+    public static void onBlockCoexistWithFluid(World world, BlockPos pos, FluidState state) {
+        BlockState blockState = world.getBlockState(pos);
+        if (blockState.getBlock() instanceof CampfireBlock){
+            if (blockState.get(CampfireBlock.LIT) && state.isIn(FluidTags.WATER) && state.getLevel() > 2){
+                world.setBlockState(pos, blockState.with(CampfireBlock.LIT, false));
+            }
+        }
+        Fluid fluid = state.getFluid();
+        if (!canBlockCoexistWith(blockState, fluid)){
+            if (fluid.matchesType(Fluids.LAVA)){
+                world.setBlockState(pos, state.getBlockState(), Block.NOTIFY_ALL);
+                world.syncWorldEvent(WorldEvents.LAVA_EXTINGUISHED, pos, 0);
+            }
+            else world.breakBlock(pos, true);
+        }
     }
 }

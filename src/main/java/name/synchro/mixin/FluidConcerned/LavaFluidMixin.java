@@ -6,8 +6,8 @@ import name.synchro.fluids.FluidUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.LavaFluid;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
@@ -35,6 +35,6 @@ public class LavaFluidMixin {
 
     @WrapOperation(method = "onRandomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;isAir(Lnet/minecraft/util/math/BlockPos;)Z"))
     private boolean lightFireTest1(World instance, BlockPos pos, Operation<Boolean> original){
-        return original.call(instance, pos) || instance.getBlockState(pos).getBlock() instanceof FluidBlock && !instance.getFluidState(pos).isOf(Fluids.WATER);
+        return original.call(instance, pos) || instance.getBlockState(pos).getBlock() instanceof FluidBlock && !instance.getFluidState(pos).isIn(FluidTags.WATER);
     }
 }

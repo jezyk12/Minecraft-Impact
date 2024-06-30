@@ -84,14 +84,7 @@ public abstract class FlowableFluidMixin {
 
     @Inject(method = "onScheduledTick", at = @At("HEAD"))
     private void testBlockCoexist(World world, BlockPos pos, FluidState state, CallbackInfo ci){
-        Fluid fluid = state.getFluid();
-        if (!FluidUtil.canBlockCoexistWith(world.getBlockState(pos), fluid)){
-            if (fluid.matchesType(Fluids.LAVA)){
-                world.setBlockState(pos, state.getBlockState(), Block.NOTIFY_ALL);
-                world.syncWorldEvent(WorldEvents.LAVA_EXTINGUISHED, pos, 0);
-            }
-            else world.breakBlock(pos, true);
-        }
+        FluidUtil.onBlockCoexistWithFluid(world, pos, state);
     }
 
     @WrapOperation(method = "onScheduledTick", at = @At(value = "INVOKE",

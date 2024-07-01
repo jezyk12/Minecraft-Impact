@@ -5,10 +5,10 @@ import name.synchro.Synchro;
 import name.synchro.employment.BlockEntityWorkerManager;
 import name.synchro.employment.Employer;
 import name.synchro.employment.Job;
-import name.synchro.registrations.RegisterBlockEntities;
 import name.synchro.registrations.ItemsRegistered;
+import name.synchro.registrations.RegisterBlockEntities;
 import name.synchro.screenHandlers.MillstoneScreenHandler;
-import name.synchro.specialRecipes.MillstoneRecipes;
+import name.synchro.specialRecipes.MillstoneRecipe;
 import name.synchro.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -58,6 +58,8 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     private final Random random = new Random();
     private final MillstoneWorkerManager workerManager;
     private boolean locked = false;
+    @Nullable private MillstoneRecipe processingRecipe;
+    private ItemStack cacheInputStack = ItemStack.EMPTY;
     public static final ImmutableMap<Item, Integer> MILLSTONE_FEEDS =
             ImmutableMap.of(
                     ItemsRegistered.FRESH_FORAGE, 3600,
@@ -65,7 +67,6 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
                     Items.GRASS, 200,
                     Items.FERN, 200
             );
-    public record RecipeData(ItemStack stack, int degree) {}
     public static final int INT_PROGRESS = 0;
     public static final int INT_SPEED = 1;
     public static final int INTEGERS_SIZE = 2;
@@ -131,11 +132,18 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
         if (dir == Direction.UP ){
             if (slot == SLOT_INPUT) {
-                return MillstoneRecipes.canInput(stack);
+                return canInsertForProcessing(world, stack);
             }
             else if (slot == SLOT_FEED) {
                 return MILLSTONE_FEEDS.containsKey(stack.getItem());
             }
+        }
+        return false;
+    }
+
+    public static boolean canInsertForProcessing(World world, ItemStack stack){
+        if (world != null){
+            return world.getRecipeManager().listAllOfType(MillstoneRecipe.MILLING_RECIPE_TYPE).stream().anyMatch(recipe -> recipe.getInput().test(stack));
         }
         return false;
     }
@@ -192,47 +200,63 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     }
 
     public void tick() {
-        int processMultiplier = Math.abs(this.rotationProvider.getSpeedMultiplier());
-        boolean isWorking = processMultiplier > 0;
-        ItemStack inputStack = this.getStack(SLOT_INPUT);
-        if (MillstoneRecipes.canInput(inputStack)) {
-            ItemStack processing = MillstoneRecipes.productOf(inputStack).copy();
-            int endDegrees = MillstoneRecipes.processDegreeOf(inputStack);
-            ItemStack products = this.getStack(SLOT_OUTPUT).copy();
-            if (isWorking && canProcess(products, processing)) {
-                this.processingDegrees += processMultiplier;
-                if (world instanceof ServerWorld serverWorld){
-                    float y = pos.getY() + 12 / 16f;
-                    float r = 0.5f;
-                    float phi = random.nextFloat() * 360f;
-                    float dx = (float) (r * Math.cos(phi));
-                    float dz = (float) (r * Math.sin(phi));
-                    float x = pos.getX() + 0.5f + dx;
-                    float z = pos.getZ() + 0.5f + dz;
-                    serverWorld.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM, this.getStack(SLOT_INPUT).copy()), x, y ,z, 1, dx / 10f, 0.05f, dz / 10f, 0.1f);
+        if (world != null){
+            int processMultiplier = Math.abs(this.rotationProvider.getSpeedMultiplier());
+            boolean isWorking = processMultiplier > 0;
+            ItemStack inputStack = this.getStack(SLOT_INPUT);
+            if (!inputStack.isOf(cacheInputStack.getItem())) {
+                if (!inputStack.isEmpty()) {
+                    this.processingRecipe = world.getRecipeManager().getFirstMatch(MillstoneRecipe.MILLING_RECIPE_TYPE, this, world).orElse(null);
                 }
-                if (processingDegrees >= endDegrees) {
-                    ItemStackUtil.Result result = ItemStackUtil.transfer(processing, products);
-                    this.setStack(SLOT_OUTPUT, result.existingStackAfter());
-                    this.removeStack(SLOT_INPUT,1);
-                    this.processingDegrees = 0;
+                else this.processingRecipe = null;
+                this.cacheInputStack = inputStack.copy();
+            }
+            if (isWorking) {
+                if (this.processingRecipe != null) {
+                    ItemStack processing = this.processingRecipe.getOutput(world.getRegistryManager(), inputStack);
+                    int degrees = this.processingRecipe.getDegrees();
+                    ItemStack products = this.getStack(SLOT_OUTPUT).copy();
+                    tryProcess(products, processing, processMultiplier, degrees);
+                } else {
+                    if (this.processingDegrees > 0) {
+                        this.processingDegrees = 0;
+                        this.progressOf24 = 0;
+                    }
                 }
-                this.progressOf24 = this.processingDegrees * 24 / endDegrees;
+                tryPushingEntity();
+                markDirty();
             }
-        }
-        else {
-            if (this.processingDegrees > 0) {
-                this.processingDegrees = 0;
-                this.progressOf24 = 0;
-            }
-        }
-        if (isWorking) {
-            tryPushingEntity();
-            markDirty();
         }
      }
 
-    public static boolean canProcess(ItemStack products, ItemStack processing) {
+    private void tryProcess(ItemStack products, ItemStack processing, int processMultiplier, int endDegrees) {
+        if (notJammed(products, processing)) {
+            this.processingDegrees += processMultiplier;
+            if (world instanceof ServerWorld serverWorld){
+                float y = pos.getY() + 12 / 16f;
+                float r = 0.5f;
+                float phi = random.nextFloat() * 360f;
+                float dx = (float) (r * Math.cos(phi));
+                float dz = (float) (r * Math.sin(phi));
+                float x = pos.getX() + 0.5f + dx;
+                float z = pos.getZ() + 0.5f + dz;
+                serverWorld.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM, this.getStack(SLOT_INPUT).copy()), x, y ,z, 1, dx / 10f, 0.05f, dz / 10f, 0.1f);
+            }
+            if (processingDegrees >= endDegrees) {
+                ItemStackUtil.Result result = ItemStackUtil.transfer(processing, products);
+                this.setStack(SLOT_OUTPUT, result.existingStackAfter());
+                this.removeStack(SLOT_INPUT,1);
+                this.processingDegrees = 0;
+            }
+            this.progressOf24 = this.processingDegrees * 24 / endDegrees;
+        }
+    }
+
+    public boolean isFollowingRecipe(){
+        return this.processingRecipe != null;
+    }
+
+    public static boolean notJammed(ItemStack products, ItemStack processing) {
         return ItemStackUtil.canCompletelyMerge(processing, products);
     }
 

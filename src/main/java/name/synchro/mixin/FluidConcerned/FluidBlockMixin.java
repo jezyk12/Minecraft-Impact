@@ -13,15 +13,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(FluidBlock.class)
 public abstract class FluidBlockMixin {
-    @Shadow protected abstract void playExtinguishSound(WorldAccess world, BlockPos pos);
-
-
-
     @WrapOperation(method = "receiveNeighborFluids", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)Z", ordinal = 0))
     private boolean onLavaFormsObsidianOrCobbleStone(World instance, BlockPos pos, BlockState state, Operation<Boolean> original,
                                                      @Share("extinguish")LocalBooleanRef extinguish){

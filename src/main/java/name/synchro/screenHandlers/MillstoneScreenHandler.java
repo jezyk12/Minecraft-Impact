@@ -1,7 +1,6 @@
 package name.synchro.screenHandlers;
 
 import name.synchro.registrations.RegisterScreenHandlers;
-import name.synchro.specialRecipes.MillstoneRecipes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -41,7 +40,7 @@ public class MillstoneScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, SLOT_INPUT, 73, 35){
             @Override
             public boolean canInsert(ItemStack stack) {
-                return MillstoneRecipes.canInput(stack);
+                return canInsertForProcessing(playerInventory.player.world, stack);
             }
         });
         this.addSlot(new Slot(inventory, SLOT_OUTPUT, 129, 35){

@@ -1,4 +1,4 @@
-// 1.19.4	2024-06-29T00:41:49.956835	Synchro/Block Loot Tables
+// 1.19.4	2024-07-01T17:56:18.3114173	Synchro/Block Loot Tables
 18951f1b6b056928c3fa310acbdd7ed3d1130167 data\synchro\loot_tables\blocks\sandstone_slope.json
 8e402f9c28b0af5b7197a7eabdbd3fa16530cd6a data\synchro\loot_tables\blocks\weathered_cut_copper_slope.json
 4cae6e7bc36d51fbcce5bd2085f9aae78eae2aa8 data\synchro\loot_tables\blocks\blackstone_slope.json
@@ -37,8 +37,8 @@ b38d8eee097faa4bf39f84cf43b3472ab649bb00 data\synchro\loot_tables\blocks\exposed
 dd2ce4c6416f7fcbfc96041f1a95ddca83a4a6cb data\synchro\loot_tables\blocks\oak_planks_slope.json
 549874fbcec20b8fcde4d2c9e01dc67cc597a384 data\synchro\loot_tables\blocks\cut_copper_slope.json
 ddaa09b4c66f6c204392d7a9952cf0e36ebb3694 data\synchro\loot_tables\blocks\prismarine_bricks_slope.json
-524992c99fb18c424727c5a0d895741b0ae87ca4 data\synchro\loot_tables\blocks\stone_slope.json
 1c639d95147f300201abe3552f1b6b921444ccef data\synchro\loot_tables\blocks\polished_granite_slope.json
+524992c99fb18c424727c5a0d895741b0ae87ca4 data\synchro\loot_tables\blocks\stone_slope.json
 6d70ac3b4d123ea842508236ed75cdde75a644da data\synchro\loot_tables\blocks\diorite_slope.json
 b40e7f10dacf671f1b4a6a5a36aabf7e99814041 data\synchro\loot_tables\blocks\deepslate_bricks_slope.json
 ab7f8d04b79af453895804dd5e1d3b09a7297cc8 data\synchro\loot_tables\blocks\birch_planks_slope.json

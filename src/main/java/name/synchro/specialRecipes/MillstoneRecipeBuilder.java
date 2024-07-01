@@ -1,11 +1,11 @@
-package name.synchro.api;
+package name.synchro.specialRecipes;
 
-import name.synchro.specialRecipes.MillstoneRecipes;
 import net.minecraft.item.ItemConvertible;
 
 /**
  * A builder for creating millstone recipes.
  */
+@Deprecated
 public final class MillstoneRecipeBuilder extends MillstoneRecipes.Builder {
     public static MillstoneRecipeBuilder of(ItemConvertible item) {
         MillstoneRecipeBuilder builder = new MillstoneRecipeBuilder();

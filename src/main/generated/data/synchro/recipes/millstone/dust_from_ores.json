@@ -1,0 +1,18 @@
+{
+  "type": "synchro:millstone",
+  "amount": 1,
+  "copyNbt": true,
+  "degrees": 90,
+  "input": [
+    {
+      "item": "synchro:cracked_ores"
+    },
+    {
+      "item": "synchro:lump_ores"
+    },
+    {
+      "item": "synchro:crushed_ores"
+    }
+  ],
+  "output": "synchro:ores_dust"
+}

@@ -4,7 +4,6 @@ import name.synchro.blockEntities.MillstoneBlockEntity;
 import name.synchro.employment.CowWorkingHandler;
 import name.synchro.employment.Employer;
 import name.synchro.employment.WorkingHandler;
-import name.synchro.specialRecipes.MillstoneRecipes;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
@@ -34,13 +33,7 @@ public class PushMillstoneGoal extends AbstractWorkingGoal{
     public boolean shouldContinueActions(WorkingHandler workingHandler, Employer employer) {
         if (employer instanceof MillstoneBlockEntity millstoneBlockEntity){
             if (millstoneBlockEntity.isLocked()) return false;
-            ItemStack products = millstoneBlockEntity.getStack(MillstoneBlockEntity.SLOT_OUTPUT);
-            ItemStack input = millstoneBlockEntity.getStack(MillstoneBlockEntity.SLOT_INPUT);
-            boolean canProcess = MillstoneRecipes.canProcess(input);
-            if (canProcess){
-                ItemStack processing = MillstoneRecipes.productOf(input);
-                return MillstoneBlockEntity.canProcess(products.copy(), processing.copy());
-            }
+            return millstoneBlockEntity.isFollowingRecipe();
         }
         return false;
     }

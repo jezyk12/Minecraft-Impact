@@ -1,12 +1,14 @@
 package name.synchro.dataGeneration;
 
 import name.synchro.Synchro;
+import name.synchro.api.MillstoneRecipeJsonBuilder;
 import name.synchro.registrations.BlocksRegistered;
 import name.synchro.registrations.ItemsRegistered;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
@@ -51,5 +53,18 @@ public class RecipesData extends FabricRecipeProvider {
                 .input('a', Items.SWEET_BERRIES).input('b', Ingredient.ofItems(Items.GRASS, Items.FERN)).input('c', Items.WHEAT)
                 .criterion("has_wheat", RecipeProvider.conditionsFromItem(Items.WHEAT))
                 .offerTo(exporter, new Identifier(Synchro.MOD_ID, "fresh_forage"));
+        generateMillstoneRecipes(exporter);
+    }
+
+    private void generateMillstoneRecipes(Consumer<RecipeJsonProvider> exporter){
+        MillstoneRecipeJsonBuilder.create(Ingredient.fromTag(ItemTags.PLANKS), new ItemStack(ItemsRegistered.PLANT_FIBRE, 4), 180)
+                .offerTo(exporter, "plant_fibre_from_planks");
+        MillstoneRecipeJsonBuilder.create(Ingredient.ofItems(Items.STICK), new ItemStack(ItemsRegistered.PLANT_FIBRE, 1), 45)
+                .offerTo(exporter, "plant_fibre_from_stick");
+        MillstoneRecipeJsonBuilder.create(Ingredient.fromTag(ItemTags.SAPLINGS), new ItemStack(ItemsRegistered.PLANT_FIBRE, 1), 45)
+                .offerTo(exporter, "plant_fibre_from_saplings");
+        MillstoneRecipeJsonBuilder.create(Ingredient.ofItems(ItemsRegistered.CRACKED_ORES, ItemsRegistered.LUMP_ORES, ItemsRegistered.CRUSHED_ORES)
+                        , new ItemStack(ItemsRegistered.ORES_DUST, 1), 90).copyNbt()
+                .offerTo(exporter, "dust_from_ores");
     }
 }

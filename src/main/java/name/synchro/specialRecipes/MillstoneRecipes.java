@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+@Deprecated
 public final class MillstoneRecipes {
     private static final HashMap<Item, Entry> RECIPES = new HashMap<>();
 

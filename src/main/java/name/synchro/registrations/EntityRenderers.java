@@ -14,9 +14,9 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public final class RegisterEntityRendering {
+public final class EntityRenderers {
     public static final EntityModelLayer DUCK_LAYER =
-            registerMobRender(RegisterEntities.DUCK, "duck", "duck", DuckEntityModel::getTexturedModelData, DuckEntityRenderer::new);
+            registerMobRender(ModEntities.DUCK, "duck", "duck", DuckEntityModel::getTexturedModelData, DuckEntityRenderer::new);
 
     private static <T extends MobEntity> EntityModelLayer registerMobRender(EntityType<T> entityType, String path, String name, EntityModelLayerRegistry.TexturedModelDataProvider provider, EntityRendererFactory<T> factory){
         EntityModelLayer self = new EntityModelLayer(new Identifier(Synchro.MOD_ID, path) , name);

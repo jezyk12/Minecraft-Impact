@@ -1,6 +1,6 @@
 package name.synchro.blockEntities;
 
-import name.synchro.registrations.RegisterBlockEntities;
+import name.synchro.registrations.ModBlockEntities;
 import name.synchro.util.NbtTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -16,13 +16,13 @@ public class PointerBlockEntity extends BlockEntity {
     @Nullable
     private BlockPos referencePos;
     public PointerBlockEntity(CentralBlockEntity referenceBlockEntity, BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.POINTER_BLOCK_ENTITY, pos, state);
+        super(ModBlockEntities.POINTER_BLOCK_ENTITY, pos, state);
         this.referenceBlockEntity = referenceBlockEntity;
         this.referencePos = referenceBlockEntity.getPos();
     }
 
     public PointerBlockEntity(@Nullable BlockPos referencePos, BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.POINTER_BLOCK_ENTITY, pos, state);
+        super(ModBlockEntities.POINTER_BLOCK_ENTITY, pos, state);
         this.referencePos = referencePos;
         if (referencePos != null && world != null && world.getBlockEntity(referencePos) instanceof CentralBlockEntity centralBlockEntity){
             this.referenceBlockEntity = centralBlockEntity;
@@ -30,7 +30,7 @@ public class PointerBlockEntity extends BlockEntity {
     }
 
     public PointerBlockEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.POINTER_BLOCK_ENTITY, pos, state);
+        super(ModBlockEntities.POINTER_BLOCK_ENTITY, pos, state);
     }
 
     @Override

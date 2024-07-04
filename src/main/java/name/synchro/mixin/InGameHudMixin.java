@@ -7,7 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import name.synchro.SynchroClient;
 import name.synchro.mixinHelper.CameraInGas;
 import name.synchro.mixinHelper.HudColors;
-import name.synchro.mixinHelper.MinecraftClientDuck;
+import name.synchro.mixinHelper.FocusingProvider;
 import name.synchro.mixinHelper.PlayerFireTickSync;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -367,10 +367,10 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "renderHotbar", at = @At(value = "TAIL"))
     private void renderFocusedEntityData(float tickDelta, MatrixStack matrices, CallbackInfo ci){
-        if (SynchroClient.applyNewHud && this.client instanceof MinecraftClientDuck thisClient){
-            if (thisClient.getFocusedEntity() != null){
+        if (SynchroClient.applyNewHud && this.client instanceof FocusingProvider thisClient){
+            if (thisClient.synchro$getFocusedEntity() != null){
                 beginFocusingTick = this.getTicks();
-                focusingEntity = thisClient.getFocusedEntity();
+                focusingEntity = thisClient.synchro$getFocusedEntity();
             }
             else if (focusingEntity != null) {
                 int delay = focusingEntity.isAlive() ? 40 : 20;

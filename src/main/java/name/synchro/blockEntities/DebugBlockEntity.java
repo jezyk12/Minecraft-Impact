@@ -1,6 +1,6 @@
 package name.synchro.blockEntities;
 
-import name.synchro.registrations.RegisterBlockEntities;
+import name.synchro.registrations.ModBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -12,7 +12,7 @@ public class DebugBlockEntity extends BlockEntity {
     }
 
     public DebugBlockEntity(BlockPos pos, BlockState state){
-        this(RegisterBlockEntities.DEBUG_BLOCK_ENTITY, pos, state);
+        this(ModBlockEntities.DEBUG_BLOCK_ENTITY, pos, state);
     }
 
 }

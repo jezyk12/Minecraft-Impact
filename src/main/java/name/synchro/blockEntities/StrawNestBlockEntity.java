@@ -3,7 +3,7 @@ package name.synchro.blockEntities;
 import name.synchro.employment.BlockEntityWorkerManager;
 import name.synchro.employment.Employer;
 import name.synchro.employment.StrawNestWorkerManager;
-import name.synchro.registrations.RegisterBlockEntities;
+import name.synchro.registrations.ModBlockEntities;
 import name.synchro.util.NbtTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -24,7 +24,7 @@ public class StrawNestBlockEntity extends BlockEntity implements SidedInventory,
     private final BlockEntityWorkerManager workerManager;
     ItemStack eggSlot = ItemStack.EMPTY;
     public StrawNestBlockEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.STRAW_NEST_BLOCK_ENTITY, pos, state);
+        super(ModBlockEntities.STRAW_NEST_BLOCK_ENTITY, pos, state);
         this.workerManager = new StrawNestWorkerManager(1, pos);
     }
 

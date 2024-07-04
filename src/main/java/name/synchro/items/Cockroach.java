@@ -1,6 +1,6 @@
 package name.synchro.items;
 
-import name.synchro.registrations.ItemsRegistered;
+import name.synchro.registrations.ModItems;
 import name.synchro.util.NbtTags;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,7 +29,7 @@ public class Cockroach extends Item {
         if (otherStack.isEmpty()){
             int count = stack.getCount();
             slot.setStack(driveAwayCockroach(stack));
-            cursorStackReference.set(new ItemStack(ItemsRegistered.COCKROACH,count));
+            cursorStackReference.set(new ItemStack(ModItems.COCKROACH,count));
             return true;
         }
         else return super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
@@ -69,7 +69,7 @@ public class Cockroach extends Item {
         NbtCompound compound = new NbtCompound();
         NbtCompound cockroachHolds = stack.writeNbt(new NbtCompound());
         compound.put(NbtTags.COCKROACH_HOLDS,cockroachHolds);
-        ItemStack cockroachStack = new ItemStack(ItemsRegistered.COCKROACH, cockroachAmount);
+        ItemStack cockroachStack = new ItemStack(ModItems.COCKROACH, cockroachAmount);
         cockroachStack.setNbt(compound);
         return cockroachStack;
     }
@@ -92,11 +92,11 @@ public class Cockroach extends Item {
             int possibility;
             boolean cockroachExisted = false;
             int stackCount = stack.getCount();
-            if (stack.isOf(ItemsRegistered.COCKROACH)) cockroachCount += stackCount;
+            if (stack.isOf(ModItems.COCKROACH)) cockroachCount += stackCount;
             if (Cockroach.loves(stack)){
                 possibility = 24 + 4 * stackCount * 64 / stack.getItem().getMaxCount();
             }
-            else if (stack.isOf(ItemsRegistered.COCKROACH)){
+            else if (stack.isOf(ModItems.COCKROACH)){
                 possibility = 16 - stackCount;
                 cockroachExisted = true;
             }

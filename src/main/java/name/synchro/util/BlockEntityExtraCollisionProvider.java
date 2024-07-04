@@ -2,7 +2,7 @@ package name.synchro.util;
 
 import name.synchro.SynchroClient;
 import name.synchro.blockEntities.MillstoneBlockEntity;
-import name.synchro.registrations.RegisterBlockEntities;
+import name.synchro.registrations.ModBlockEntities;
 import name.synchro.registrations.RegisterPointsOfInterest;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.WorldRenderer;
@@ -74,7 +74,7 @@ public interface BlockEntityExtraCollisionProvider {
                     type -> type.value().equals(RegisterPointsOfInterest.MILLSTONE),
                     entity.getBlockPos(), RADIUS, PointOfInterestStorage.OccupationStatus.ANY);
             stream.forEach(point -> {
-                Optional<MillstoneBlockEntity> optional = serverWorld.getBlockEntity(point.getPos(), RegisterBlockEntities.MILLSTONE_BLOCK_ENTITY);
+                Optional<MillstoneBlockEntity> optional = serverWorld.getBlockEntity(point.getPos(), ModBlockEntities.MILLSTONE_BLOCK_ENTITY);
                 if (optional.isPresent()){
                     MillstoneBlockEntity millstoneBlockEntity = optional.get();
                     extraCollisions.addAll(millstoneBlockEntity.getExtraCollisions());

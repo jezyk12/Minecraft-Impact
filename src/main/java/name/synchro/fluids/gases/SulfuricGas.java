@@ -1,6 +1,6 @@
 package name.synchro.fluids.gases;
 
-import name.synchro.registrations.BlocksRegistered;
+import name.synchro.registrations.ModBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 
@@ -11,6 +11,6 @@ public class SulfuricGas extends Gas{
 
     @Override
     protected BlockState toBlockState(FluidState state) {
-        return BlocksRegistered.SULFURIC_GAS_BLOCK.getDefaultState().with(LEVEL, state.getLevel());
+        return ModBlocks.SULFURIC_GAS_BLOCK.getDefaultState().with(LEVEL, state.getLevel());
     }
 }

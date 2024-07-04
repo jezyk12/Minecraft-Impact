@@ -1,6 +1,6 @@
 package name.synchro.screenHandlers;
 
-import name.synchro.registrations.RegisterScreenHandlers;
+import name.synchro.registrations.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,7 @@ public class ElectricSourceScreenHandler extends ScreenHandler {
         this(syncId, playerInventory, 114514);
     }
     public ElectricSourceScreenHandler(int syncId, PlayerInventory playerInventory, int testValue){
-        super(RegisterScreenHandlers.ELECTRIC_SOURCE_SCREEN_HANDLER,syncId);
+        super(ModScreenHandlers.ELECTRIC_SOURCE_SCREEN_HANDLER,syncId);
         this.testValue = testValue;
     }
     @Override

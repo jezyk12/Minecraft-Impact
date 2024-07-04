@@ -14,7 +14,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
-public final class RegisterScreenHandlers {
+public final class ModScreenHandlers {
     public static final ScreenHandlerType<ElectricConsumerScreenHandler> ELECTRIC_LAMP_SCREEN_HANDLER =
             registerScreenHandler(Identifier.of(Synchro.MOD_ID, "electric_lamp"), ElectricConsumerScreenHandler::new);
     public static final ScreenHandlerType<ElectricSourceScreenHandler> ELECTRIC_SOURCE_SCREEN_HANDLER =

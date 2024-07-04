@@ -9,11 +9,11 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 
 @Environment(EnvType.CLIENT)
-public final class RegisterBlockEntityRenderers {
+public final class BlockEntityRenderers {
     public static void registerAll() {
-        BlockEntityRendererFactories.register(RegisterBlockEntities.DEBUG_BLOCK_ENTITY, DebugBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(RegisterBlockEntities.MILLSTONE_BLOCK_ENTITY, MillstoneBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(RegisterBlockEntities.STRAW_NEST_BLOCK_ENTITY, StrawNestBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.DEBUG_BLOCK_ENTITY, DebugBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.MILLSTONE_BLOCK_ENTITY, MillstoneBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.STRAW_NEST_BLOCK_ENTITY, StrawNestBlockEntityRenderer::new);
         Synchro.LOGGER.debug("Registered mod block entity renderers for" + Synchro.MOD_ID);
     }
 }

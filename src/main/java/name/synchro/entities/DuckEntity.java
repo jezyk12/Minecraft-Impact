@@ -1,6 +1,6 @@
 package name.synchro.entities;
 
-import name.synchro.registrations.RegisterEntities;
+import name.synchro.registrations.ModEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
@@ -61,6 +61,6 @@ public class DuckEntity extends AnimalEntity {
     @Nullable
     @Override
     public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-        return RegisterEntities.DUCK.create(world);
+        return ModEntities.DUCK.create(world);
     }
 }

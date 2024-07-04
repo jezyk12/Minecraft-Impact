@@ -13,7 +13,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
-import static name.synchro.registrations.RegisterBlockEntities.ELECTRIC_LAMP_BLOCK_ENTITY;
+import static name.synchro.registrations.ModBlockEntities.ELECTRIC_LAMP_BLOCK_ENTITY;
 
 public class ElectricLampBlockEntity extends AbstractConsumerBlockEntity implements NamedScreenHandlerFactory {
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {

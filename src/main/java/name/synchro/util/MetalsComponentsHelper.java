@@ -3,7 +3,7 @@ package name.synchro.util;
 import com.google.common.collect.ImmutableMap;
 import name.synchro.Synchro;
 import name.synchro.mixinHelper.MetalsProvider;
-import name.synchro.registrations.BlocksRegistered;
+import name.synchro.registrations.ModBlocks;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -46,14 +46,14 @@ public final class MetalsComponentsHelper {
             .put(BiomeKeys.SAVANNA, new BiomesFunction(20000, 6, 1, 0, new Metals.Attributes(0,1,0,0,0,0)))
             .build();
     public static final ImmutableMap<Block, Metals.Attributes> STATE_MULTIPLIERS = ImmutableMap.<Block, Metals.Attributes>builder()
-            .put(BlocksRegistered.ROCK_CRACKED, new Metals.Attributes(0, 0, 1, 1, 2, 2))
-            .put(BlocksRegistered.ROCK_COARSE, new Metals.Attributes(2, 1, 1, 0, 1, 0))
-            .put(BlocksRegistered.ROCK_DARK, new Metals.Attributes(0, 2, 1, 1, 1, 1))
-            .put(BlocksRegistered.ROCK_LIGHT, new Metals.Attributes(1, 2, 2, 1, 0, 1))
-            .put(BlocksRegistered.ROCK_SCRATCH, new Metals.Attributes(1, 1, 0, 2, 1, 0))
-            .put(BlocksRegistered.ROCK_SMOOTH, new Metals.Attributes(2, 0, 1, 2, 2, 0))
-            .put(BlocksRegistered.ROCK_SHINY, new Metals.Attributes(1, 0, 2, 1, 0, 2))
-            .put(BlocksRegistered.ROCK_STRATIFORM, new Metals.Attributes(0, 0, 1, 0, 2, 1))
+            .put(ModBlocks.ROCK_CRACKED, new Metals.Attributes(0, 0, 1, 1, 2, 2))
+            .put(ModBlocks.ROCK_COARSE, new Metals.Attributes(2, 1, 1, 0, 1, 0))
+            .put(ModBlocks.ROCK_DARK, new Metals.Attributes(0, 2, 1, 1, 1, 1))
+            .put(ModBlocks.ROCK_LIGHT, new Metals.Attributes(1, 2, 2, 1, 0, 1))
+            .put(ModBlocks.ROCK_SCRATCH, new Metals.Attributes(1, 1, 0, 2, 1, 0))
+            .put(ModBlocks.ROCK_SMOOTH, new Metals.Attributes(2, 0, 1, 2, 2, 0))
+            .put(ModBlocks.ROCK_SHINY, new Metals.Attributes(1, 0, 2, 1, 0, 2))
+            .put(ModBlocks.ROCK_STRATIFORM, new Metals.Attributes(0, 0, 1, 0, 2, 1))
             .build();
 
 

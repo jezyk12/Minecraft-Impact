@@ -1,8 +1,8 @@
 package name.synchro.util;
 
 import com.google.common.collect.ImmutableSet;
-import name.synchro.registrations.BlocksRegistered;
-import name.synchro.registrations.ItemsRegistered;
+import name.synchro.registrations.ModBlocks;
+import name.synchro.registrations.ModItems;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.item.Item;
 import net.minecraft.text.Text;
@@ -11,16 +11,16 @@ import java.util.Set;
 
 public final class NotSupported {
     private static final Set<Item> entries = ImmutableSet.of(
-            ItemsRegistered.RAW_MIXED_ORE,
-            BlocksRegistered.MIXED_ORE.asItem(),
-            BlocksRegistered.AOITE.asItem(),
-            BlocksRegistered.SEKITE.asItem(),
-            BlocksRegistered.BAAKITE.asItem(),
-            BlocksRegistered.HAAKITE.asItem(),
-            BlocksRegistered.GUMITE.asItem(),
-            BlocksRegistered.NGANITE.asItem(),
-            BlocksRegistered.MURAXKITE.asItem(),
-            BlocksRegistered.MIDORITE.asItem()
+            ModItems.RAW_MIXED_ORE,
+            ModBlocks.MIXED_ORE.asItem(),
+            ModBlocks.AOITE.asItem(),
+            ModBlocks.SEKITE.asItem(),
+            ModBlocks.BAAKITE.asItem(),
+            ModBlocks.HAAKITE.asItem(),
+            ModBlocks.GUMITE.asItem(),
+            ModBlocks.NGANITE.asItem(),
+            ModBlocks.MURAXKITE.asItem(),
+            ModBlocks.MIDORITE.asItem()
             );
     public static void registerTooltip() {
         ItemTooltipCallback.EVENT.register((stack, context, lines) -> {

@@ -1,7 +1,7 @@
 package name.synchro.screenHandlers;
 
 import name.synchro.electricNetwork.DisplayConvert;
-import name.synchro.registrations.RegisterScreenHandlers;
+import name.synchro.registrations.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -16,7 +16,7 @@ public class UniversalMeterScreenHandler extends ScreenHandler {
         this(syncId, 114514,new ArrayPropertyDelegate(3));
     }
     public UniversalMeterScreenHandler(int syncId, int testValue, PropertyDelegate propertyDelegate){
-        super(RegisterScreenHandlers.UNIVERSAL_METER_SCREEN_HANDLER,syncId);
+        super(ModScreenHandlers.UNIVERSAL_METER_SCREEN_HANDLER,syncId);
         this.testValue = testValue;
         this.propertyDelegate = propertyDelegate;
         this.addProperties(propertyDelegate);

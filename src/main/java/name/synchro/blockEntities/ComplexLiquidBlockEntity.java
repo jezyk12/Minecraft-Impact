@@ -1,6 +1,6 @@
 package name.synchro.blockEntities;
 
-import name.synchro.registrations.RegisterBlockEntities;
+import name.synchro.registrations.ModBlockEntities;
 import name.synchro.util.Liquid;
 import name.synchro.util.Liquids;
 import name.synchro.util.NbtTags;
@@ -20,7 +20,7 @@ public class ComplexLiquidBlockEntity extends BlockEntity {
     public final Distribution distribution = new Distribution(world);
 
     public ComplexLiquidBlockEntity( BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.COMPLEX_LIQUID_BLOCK_ENTITY, pos, state);
+        super(ModBlockEntities.COMPLEX_LIQUID_BLOCK_ENTITY, pos, state);
     }
 
     @Override

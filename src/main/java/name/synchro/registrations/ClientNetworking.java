@@ -5,20 +5,23 @@ import name.synchro.fluids.ChunkFluidUpdateS2CPacket;
 import name.synchro.fluids.FluidUtil;
 import name.synchro.fluids.SingleFluidUpdateS2CPacket;
 import name.synchro.util.NewHudUtil;
+import name.synchro.util.dataDriven.ModDataManager;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.util.Identifier;
 
-public final class RegisterClientNetworking {
-    public static final Identifier HUNGER_DATA_PACKET_ID = register("hunger_data_packet", NewHudUtil::receiveHungerDataPacket);
-    public static final Identifier FIRE_TICKS_DATA_PACKET_ID = register("fire_ticks_data_packet", NewHudUtil::receiveFireTicksDataPacket);
-
-    private static Identifier register(String path, ClientPlayNetworking.PlayChannelHandler handler){
-        Identifier id = new Identifier(Synchro.MOD_ID, path);
+@Environment(EnvType.CLIENT)
+public final class ClientNetworking {
+    public static Identifier register(Identifier id, ClientPlayNetworking.PlayChannelHandler handler){
         ClientPlayNetworking.registerGlobalReceiver(id, handler);
         return id;
     }
 
     public static void registerAll(){
+        register(NetworkingIDs.HUNGER_DATA_PACKET_ID, NewHudUtil::receiveHungerDataPacket);
+        register(NetworkingIDs.FIRE_TICKS_DATA_PACKET_ID, NewHudUtil::receiveFireTicksDataPacket);
+        register(NetworkingIDs.MOD_DATA_PACK_ID, ModDataManager.ForClient::receiveData);
         ClientPlayNetworking.registerGlobalReceiver(SingleFluidUpdateS2CPacket.TYPE, FluidUtil::onSingleFluidUpdate);
         ClientPlayNetworking.registerGlobalReceiver(ChunkFluidUpdateS2CPacket.TYPE, FluidUtil::onChunkFluidUpdate);
         Synchro.LOGGER.debug("Registered client networking for "+ Synchro.MOD_ID);

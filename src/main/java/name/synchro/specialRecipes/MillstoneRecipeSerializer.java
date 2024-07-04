@@ -17,10 +17,11 @@ import java.util.Objects;
 public final class MillstoneRecipeSerializer implements RecipeSerializer<MillstoneRecipe> {
     public static final MillstoneRecipeSerializer INSTANCE = new MillstoneRecipeSerializer();
     public static final Identifier ID = new Identifier(Synchro.MOD_ID, "millstone");
+    private static final Gson GSON = new Gson();
 
     @Override
     public MillstoneRecipe read(Identifier id, JsonObject json) {
-        JsonFormat recipeJson = new Gson().fromJson(json, JsonFormat.class);
+        JsonFormat recipeJson = GSON.fromJson(json, JsonFormat.class);
         Ingredient input = Ingredient.fromJson(Objects.requireNonNull(recipeJson.input, "Invalid input!"));
         Item outputItem = Objects.requireNonNull(Registries.ITEM.get(new Identifier(recipeJson.output)), "Invalid output!");
         ItemStack output = new ItemStack(outputItem, Math.min(Math.max(recipeJson.amount, 1), 64));

@@ -35,15 +35,16 @@ public class SynchroClient implements ClientModInitializer {
             debugNumbers.add(1.0f);
         }
         //DebugRendering.renderAll();
-        RegisterBlockEntityRenderers.registerAll();
-        RegisterColorProviders.registerAll();
+        BlockEntityRenderers.registerAll();
+        ColorProviders.registerAll();
         ModelLoadingPlugin.register(new SynchroModelLoadingPlugin());
-        RegisterClientNetworking.registerAll();
+        ClientNetworking.registerAll();
         SetupRenderLayer.setupAll();
-        RegisterFluidRenderer.registerAll();
+        FluidRenderers.registerAll();
         Guidance.setupKeyBinding();
-        RegisterScreens.registerAll();
-        RegisterEntityRendering.registerAll();
+        ModScreens.registerAll();
+        EntityRenderers.registerAll();
+        RegisterEventsClient.registerAll();
         Synchro.LOGGER.info("Mod Synchro has been initialized in client.");
     }
 

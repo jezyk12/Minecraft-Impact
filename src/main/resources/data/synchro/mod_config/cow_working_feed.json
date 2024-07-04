@@ -1,0 +1,24 @@
+{
+  "feeds": [
+    {
+      "items": [
+        {
+          "item": "synchro:cracked_ores"
+        },
+        {
+          "item": "synchro:lump_ores"
+        },
+        {
+          "item": "synchro:crushed_ores"
+        }
+      ],
+      "time": 1600
+    },
+    {
+      "items": {
+        "tag": "minecraft:planks"
+      },
+      "time": 400
+    }
+  ]
+}

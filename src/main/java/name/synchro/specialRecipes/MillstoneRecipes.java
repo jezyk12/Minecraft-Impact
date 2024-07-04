@@ -1,7 +1,7 @@
 package name.synchro.specialRecipes;
 
 import name.synchro.Synchro;
-import name.synchro.registrations.ItemsRegistered;
+import name.synchro.registrations.ModItems;
 import name.synchro.util.NbtTags;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
@@ -113,16 +113,16 @@ public final class MillstoneRecipes {
     public static void buildAll(){
         Builder.of(Blocks.OAK_PLANKS, Blocks.ACACIA_PLANKS, Blocks.BIRCH_PLANKS, Blocks.DARK_OAK_PLANKS,
                 Blocks.BAMBOO_PLANKS, Blocks.JUNGLE_PLANKS, Blocks.MANGROVE_PLANKS, Blocks.SPRUCE_PLANKS, Blocks.CHERRY_PLANKS)
-                .spends(360).output(ItemsRegistered.PLANT_FIBRE, 4).build();
+                .spends(360).output(ModItems.PLANT_FIBRE, 4).build();
         Builder.of(Blocks.OAK_LOG, Blocks.ACACIA_LOG, Blocks.BIRCH_LOG, Blocks.DARK_OAK_LOG,
                         Blocks.JUNGLE_LOG, Blocks.MANGROVE_LOG, Blocks.SPRUCE_LOG, Blocks.CHERRY_LOG)
-                .spends(1620).output(ItemsRegistered.PLANT_FIBRE, 16).build();
-        Builder.of(Items.STICK, Items.BAMBOO).spends(90).output(ItemsRegistered.PLANT_FIBRE, 2).build();
-        Builder.of(Items.GLASS, Items.FERN).spends(45).output(ItemsRegistered.PLANT_FIBRE).build();
-        Builder.of(ItemsRegistered.LUMP_ORES, ItemsRegistered.CRACKED_ORES, ItemsRegistered.CRUSHED_ORES)
+                .spends(1620).output(ModItems.PLANT_FIBRE, 16).build();
+        Builder.of(Items.STICK, Items.BAMBOO).spends(90).output(ModItems.PLANT_FIBRE, 2).build();
+        Builder.of(Items.GLASS, Items.FERN).spends(45).output(ModItems.PLANT_FIBRE).build();
+        Builder.of(ModItems.LUMP_ORES, ModItems.CRACKED_ORES, ModItems.CRUSHED_ORES)
                 .conditions(stack -> stack.hasNbt() && stack.getNbt().contains(NbtTags.METALS_CONTENT))
                 .output(input -> {
-                    ItemStack output = new ItemStack(ItemsRegistered.ORES_DUST);
+                    ItemStack output = new ItemStack(ModItems.ORES_DUST);
                     output.setNbt(input.getNbt().copy());
                     return output;
                 }).spends(360).build();

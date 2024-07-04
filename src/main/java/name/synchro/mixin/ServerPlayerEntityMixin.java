@@ -1,7 +1,7 @@
 package name.synchro.mixin;
 
 import com.mojang.authlib.GameProfile;
-import name.synchro.registrations.RegisterClientNetworking;
+import name.synchro.registrations.NetworkingIDs;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
@@ -39,7 +39,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
         if (fireTicks != this.syncedFireTicks) {
             PacketByteBuf buf0 = PacketByteBufs.create();
             buf0.writeInt(fireTicks);
-            ServerPlayNetworking.send((ServerPlayerEntity)(Object)this, RegisterClientNetworking.FIRE_TICKS_DATA_PACKET_ID, buf0);
+            ServerPlayNetworking.send((ServerPlayerEntity)(Object)this, NetworkingIDs.FIRE_TICKS_DATA_PACKET_ID, buf0);
             this.syncedFireTicks = fireTicks;
         }
         float saturation = this.getHungerManager().getSaturationLevel();
@@ -48,7 +48,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
             PacketByteBuf buf1 = PacketByteBufs.create();
             buf1.writeFloat(saturation);
             buf1.writeFloat(exhaustion);
-            ServerPlayNetworking.send((ServerPlayerEntity)(Object)this, RegisterClientNetworking.HUNGER_DATA_PACKET_ID, buf1);
+            ServerPlayNetworking.send((ServerPlayerEntity)(Object)this, NetworkingIDs.HUNGER_DATA_PACKET_ID, buf1);
             this.syncedExhaustion = exhaustion;
         }
     }

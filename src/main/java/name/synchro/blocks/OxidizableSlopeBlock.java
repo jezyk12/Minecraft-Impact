@@ -2,7 +2,7 @@ package name.synchro.blocks;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableBiMap;
-import name.synchro.registrations.BlocksRegistered;
+import name.synchro.registrations.ModBlocks;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -16,9 +16,9 @@ import java.util.function.Supplier;
 @Deprecated
 public class OxidizableSlopeBlock extends SlopeBlock implements Oxidizable{
     private static final Supplier<ImmutableBiMap<Object, Object>> SLOPE_OXIDATION_LEVEL_INCREASES = Suppliers.memoize(() -> ImmutableBiMap.builder()
-            .put(BlocksRegistered.CUT_COPPER_SLOPE, BlocksRegistered.EXPOSED_CUT_COPPER_SLOPE)
-            .put(BlocksRegistered.EXPOSED_CUT_COPPER_SLOPE, BlocksRegistered.WEATHERED_CUT_COPPER_SLOPE)
-            .put(BlocksRegistered.WEATHERED_CUT_COPPER_SLOPE, BlocksRegistered.OXIDIZED_CUT_COPPER_SLOPE)
+            .put(ModBlocks.CUT_COPPER_SLOPE, ModBlocks.EXPOSED_CUT_COPPER_SLOPE)
+            .put(ModBlocks.EXPOSED_CUT_COPPER_SLOPE, ModBlocks.WEATHERED_CUT_COPPER_SLOPE)
+            .put(ModBlocks.WEATHERED_CUT_COPPER_SLOPE, ModBlocks.OXIDIZED_CUT_COPPER_SLOPE)
             .build());
     private static final Supplier<ImmutableBiMap<Object, Object>> SLOPE_OXIDATION_LEVEL_DECREASES = Suppliers.memoize(() -> (
             SLOPE_OXIDATION_LEVEL_INCREASES.get()).inverse());

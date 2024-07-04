@@ -14,13 +14,13 @@ import net.minecraft.util.Rarity;
 
 import java.util.Map;
 
-import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_BASIC;
+import static name.synchro.registrations.ModItemGroups.SYNCHRO_BASIC;
 @SuppressWarnings("unused")
-public final class ItemsRegistered {
+public final class ModItems {
     public static final RawMixedOre RAW_MIXED_ORE = registerItem("raw_mixed_ore",
             new RawMixedOre(new FabricItemSettings()),SYNCHRO_BASIC);
     public static final Item CABLE_ITEM = registerItem("cable_item",
-            new BlockItem(BlocksRegistered.CABLE,new FabricItemSettings()),SYNCHRO_BASIC);
+            new BlockItem(ModBlocks.CABLE,new FabricItemSettings()),SYNCHRO_BASIC);
     public static final DataRod DATA_ROD = registerItem("data_rod",
             new DataRod(new FabricItemSettings().rarity(Rarity.EPIC)),SYNCHRO_BASIC);
     public static final Item UNIVERSAL_METER = registerItem("universal_meter",
@@ -30,7 +30,7 @@ public final class ItemsRegistered {
     public static final Cockroach COCKROACH = registerItem("cockroach",
             new Cockroach(new FabricItemSettings().maxCount(16)),SYNCHRO_BASIC);
     public static final Item PEANUT = registerItem("peanut",
-            new AliasedBlockItem(BlocksRegistered.PEANUT_BUSH_BLOCK, new FabricItemSettings().food(new FoodComponent.Builder().hunger(2).saturationModifier(0.2f).build())),SYNCHRO_BASIC);
+            new AliasedBlockItem(ModBlocks.PEANUT_BUSH_BLOCK, new FabricItemSettings().food(new FoodComponent.Builder().hunger(2).saturationModifier(0.2f).build())),SYNCHRO_BASIC);
     public static final Item BANANA = registerItem("banana",
             new Item(new FabricItemSettings().food(new FoodComponent.Builder().hunger(6).saturationModifier(0.8f).build())), SYNCHRO_BASIC);
     public static final Item PLANT_FIBRE = registerItem("plant_fibre",
@@ -38,7 +38,7 @@ public final class ItemsRegistered {
     public static final SnowballLauncher SNOWBALL_LAUNCHER = registerItem("snowball_launcher",
             new SnowballLauncher(new FabricItemSettings().maxDamage(256).rarity(Rarity.RARE)), SYNCHRO_BASIC);
     public static final SpawnEggItem DUCK_SPAWN_EGG = registerItem("duck_spawn_egg",
-            new SpawnEggItem(RegisterEntities.DUCK, 0xF4D03F, 0x273746, new FabricItemSettings()), SYNCHRO_BASIC);
+            new SpawnEggItem(ModEntities.DUCK, 0xF4D03F, 0x273746, new FabricItemSettings()), SYNCHRO_BASIC);
     public static final OresMixture LUMP_ORES = registerItem("lump_ores",
             new OresMixture(new FabricItemSettings()));
     public static final OresMixture CRACKED_ORES = registerItem("cracked_ores",

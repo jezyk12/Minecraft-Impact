@@ -6,7 +6,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
-public final class TagsRegistered {
+public final class ModTags {
     public static TagKey<Block> CAN_STORE_FLUID =
             TagKey.of(RegistryKeys.BLOCK, new Identifier(Synchro.MOD_ID, "can_store_fluid"));
     public static TagKey<Block> NEVER_FILL_FLUID =

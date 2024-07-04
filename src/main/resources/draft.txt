@@ -1,5 +1,0 @@
-
-  git branch -m 1.19.4 main_1.19.4
-  git fetch origin
-  git branch -u origin/main_1.19.4 main_1.19.4
-  git remote set-head origin -a

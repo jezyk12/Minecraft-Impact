@@ -17,10 +17,10 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
-import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_BASIC;
-import static name.synchro.registrations.RegisterItemGroups.SYNCHRO_DECORATION;
+import static name.synchro.registrations.ModItemGroups.SYNCHRO_BASIC;
+import static name.synchro.registrations.ModItemGroups.SYNCHRO_DECORATION;
 @SuppressWarnings("unused")
-public final class BlocksRegistered {
+public final class ModBlocks {
     // Basic Blocks
     public static final MixedOre MIXED_ORE = registerBlock("mixed_ore",
             new MixedOre(FabricBlockSettings.of(Material.STONE).strength(0.1f)),SYNCHRO_BASIC);
@@ -64,17 +64,17 @@ public final class BlocksRegistered {
 
     //Gases
     public static final GasBlock WATER_VAPOR_BLOCK = registerBlock("water_vapor",
-            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.WATER_VAPOR_GAS), SYNCHRO_BASIC);
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(), ModFluids.WATER_VAPOR_GAS), SYNCHRO_BASIC);
     public static final GasBlock HOT_STEAM_BLOCK = registerBlock("hot_steam",
-            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.HOT_STEAM_GAS), SYNCHRO_BASIC);
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(), ModFluids.HOT_STEAM_GAS), SYNCHRO_BASIC);
     public static final GasBlock SULFURIC_GAS_BLOCK = registerBlock("sulfuric_gas",
-            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.SULFURIC_GAS), SYNCHRO_BASIC);
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(), ModFluids.SULFURIC_GAS), SYNCHRO_BASIC);
     public static final GasBlock CHLORIC_GAS_BLOCK = registerBlock("chloric_gas",
-            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.CHLORIC_GAS), SYNCHRO_BASIC);
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(), ModFluids.CHLORIC_GAS), SYNCHRO_BASIC);
     public static final GasBlock STRONGLY_REDUCING_GAS_BLOCK = registerBlock("strongly_reducing_gas",
-            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.STRONGLY_REDUCING_GAS), SYNCHRO_BASIC);
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(), ModFluids.STRONGLY_REDUCING_GAS), SYNCHRO_BASIC);
     public static final GasBlock STRONGLY_OXIDIZING_GAS_BLOCK = registerBlock("strongly_oxidizing_gas",
-            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(),RegisterFluids.STRONGLY_OXIDIZING_GAS), SYNCHRO_BASIC);
+            new GasBlock(FabricBlockSettings.of(Material.AIR).noCollision().nonOpaque().dropsNothing(), ModFluids.STRONGLY_OXIDIZING_GAS), SYNCHRO_BASIC);
 
     // Slope Blocks
     public static final SlopeBlock OAK_PLANKS_SLOPE = registerFlammableBlock("oak_planks_slope",
@@ -228,17 +228,17 @@ public final class BlocksRegistered {
     }
 
     private static <T extends Block> T registerBlock(String path, T block){
-        ItemsRegistered.registerItem(path, new BlockItem(block, new FabricItemSettings()));
+        ModItems.registerItem(path, new BlockItem(block, new FabricItemSettings()));
         return Registry.register(Registries.BLOCK, new Identifier(Synchro.MOD_ID, path), block);
     }
 
     private static <T extends Block> T registerBlock(String path, T block, ItemGroup itemGroup){
-        ItemsRegistered.registerItem(path, new BlockItem(block, new FabricItemSettings()), itemGroup);
+        ModItems.registerItem(path, new BlockItem(block, new FabricItemSettings()), itemGroup);
         return Registry.register(Registries.BLOCK, new Identifier(Synchro.MOD_ID, path), block);
     }
 
     private static <T extends Block> T registerFlammableBlock(String path, T block, ItemGroup itemGroup, int burn, int spread){
-        ItemsRegistered.registerItem(path, new BlockItem(block,new FabricItemSettings()), itemGroup);
+        ModItems.registerItem(path, new BlockItem(block,new FabricItemSettings()), itemGroup);
         T self = Registry.register(Registries.BLOCK, new Identifier(Synchro.MOD_ID, path), block);
         FlammableBlockRegistry.getInstance(Blocks.FIRE).add(self, burn, spread);
         return self;

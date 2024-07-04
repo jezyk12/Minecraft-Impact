@@ -1,6 +1,6 @@
 package name.synchro.blocks;
 
-import name.synchro.registrations.BlocksRegistered;
+import name.synchro.registrations.ModBlocks;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -97,7 +97,7 @@ public abstract class AbstractFarmlandBlock extends Block {
     }
 
     public static void setToDirt(@Nullable Entity entity, BlockState state, World world, BlockPos pos) {
-        BlockState blockState = FarmlandBlock.pushEntitiesUpBeforeBlockChange(state, BlocksRegistered.FERTILE_DIRT.getDefaultState(), world, pos);
+        BlockState blockState = FarmlandBlock.pushEntitiesUpBeforeBlockChange(state, ModBlocks.FERTILE_DIRT.getDefaultState(), world, pos);
         world.setBlockState(pos, blockState);
         world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(entity, blockState));
     }

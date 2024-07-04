@@ -10,7 +10,7 @@ import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
-public final class RegisterRecipes {
+public final class ModRecipes {
     public static final RecipeSerializer<MixOreRecipe> MIX_ORE_RECIPE =
             RecipeSerializer.register("mix_ore_recipe", new SpecialRecipeSerializer<>(MixOreRecipe::new));
     public static final RecipeSerializer<MillstoneRecipe> MILLING_RECIPE =

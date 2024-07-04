@@ -1,7 +1,7 @@
 package name.synchro.entities;
 
 import name.synchro.Synchro;
-import name.synchro.registrations.RegisterEntityRendering;
+import name.synchro.registrations.EntityRenderers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 @Environment(EnvType.CLIENT)
 public class DuckEntityRenderer extends MobEntityRenderer<DuckEntity, DuckEntityModel> {
     public DuckEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new DuckEntityModel(context.getPart(RegisterEntityRendering.DUCK_LAYER)), 0.5f);
+        super(context, new DuckEntityModel(context.getPart(EntityRenderers.DUCK_LAYER)), 0.5f);
     }
 
     @Override

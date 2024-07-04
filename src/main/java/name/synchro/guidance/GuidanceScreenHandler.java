@@ -1,6 +1,6 @@
 package name.synchro.guidance;
 
-import name.synchro.registrations.RegisterScreenHandlers;
+import name.synchro.registrations.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -11,7 +11,7 @@ public class GuidanceScreenHandler extends ScreenHandler {
         this(syncId);
     }
     public GuidanceScreenHandler(int syncId){
-        super(RegisterScreenHandlers.GUIDANCE_SCREEN_HANDLER,syncId);
+        super(ModScreenHandlers.GUIDANCE_SCREEN_HANDLER,syncId);
     }
     @Override
     public ItemStack quickMove(PlayerEntity player, int slot) {

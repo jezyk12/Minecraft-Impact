@@ -1,6 +1,6 @@
 package name.synchro.screenHandlers;
 
-import name.synchro.registrations.RegisterScreenHandlers;
+import name.synchro.registrations.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -19,7 +19,7 @@ public class MillstoneScreenHandler extends ScreenHandler {
     private final PropertyDelegate propertyDelegate;
 
     public MillstoneScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate propertyDelegate) {
-        super(RegisterScreenHandlers.MILLSTONE_SCREEN_HANDLER, syncId);
+        super(ModScreenHandlers.MILLSTONE_SCREEN_HANDLER, syncId);
         this.inventory = inventory;
         this.propertyDelegate = propertyDelegate;
         this.addProperties(propertyDelegate);

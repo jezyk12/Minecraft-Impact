@@ -5,8 +5,8 @@ import name.synchro.Synchro;
 import name.synchro.employment.BlockEntityWorkerManager;
 import name.synchro.employment.Employer;
 import name.synchro.employment.Job;
-import name.synchro.registrations.ItemsRegistered;
-import name.synchro.registrations.RegisterBlockEntities;
+import name.synchro.registrations.ModItems;
+import name.synchro.registrations.ModBlockEntities;
 import name.synchro.screenHandlers.MillstoneScreenHandler;
 import name.synchro.specialRecipes.MillstoneRecipe;
 import name.synchro.util.*;
@@ -62,7 +62,7 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     private ItemStack cacheInputStack = ItemStack.EMPTY;
     public static final ImmutableMap<Item, Integer> MILLSTONE_FEEDS =
             ImmutableMap.of(
-                    ItemsRegistered.FRESH_FORAGE, 3600,
+                    ModItems.FRESH_FORAGE, 3600,
                     Items.WHEAT, 1200,
                     Items.GRASS, 200,
                     Items.FERN, 200
@@ -73,7 +73,7 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     private final PropertyDelegate propertyDelegate;
 
     public MillstoneBlockEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntities.MILLSTONE_BLOCK_ENTITY, pos, state);
+        super(ModBlockEntities.MILLSTONE_BLOCK_ENTITY, pos, state);
         this.rotationProvider = new RotationProvider(0L, 0);
         this.propertyDelegate = new MillstonePropertyDelegate();
         this.workerManager = new MillstoneWorkerManager();

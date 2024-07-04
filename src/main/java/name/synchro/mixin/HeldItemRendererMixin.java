@@ -3,7 +3,7 @@ package name.synchro.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import name.synchro.registrations.ItemsRegistered;
+import name.synchro.registrations.ModItems;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
@@ -19,7 +19,7 @@ public class HeldItemRendererMixin {
                     ordinal = 0))
     private UseAction warpItemAnimation(ItemStack item, Operation<UseAction> original,
                                         @Local(argsOnly = true) MatrixStack matrices){
-        if (item.isOf(ItemsRegistered.SNOWBALL_LAUNCHER)){
+        if (item.isOf(ModItems.SNOWBALL_LAUNCHER)){
             matrices.translate(-0.5f, 0.05f ,0.0f);
             return UseAction.NONE;
         }

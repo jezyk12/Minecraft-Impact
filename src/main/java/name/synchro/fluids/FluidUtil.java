@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.math.DoubleMath;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import name.synchro.registrations.TagsRegistered;
+import name.synchro.registrations.ModTags;
 import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -251,8 +251,8 @@ public final class FluidUtil {
 
     public static boolean canBlockCoverFluid(BlockView world, BlockPos pos, BlockState blockState, float height){
         if (blockState.isAir()) return false;
-        if (blockState.isIn(TagsRegistered.CAN_STORE_FLUID)) return false;
-        if (blockState.isIn(TagsRegistered.NEVER_FILL_FLUID)) return true;
+        if (blockState.isIn(ModTags.CAN_STORE_FLUID)) return false;
+        if (blockState.isIn(ModTags.NEVER_FILL_FLUID)) return true;
         if (blockState.isFullCube(world, pos)) return true;
         VoxelShape shape = blockState.getCollisionShape(world, pos);
         return !VoxelShapes.matchesAnywhere(
@@ -365,20 +365,20 @@ public final class FluidUtil {
 
     public static boolean canBlockWashAway(BlockState state, Fluid fluid){
         if (fluid.matchesType(Fluids.WATER)){
-            return state.isIn(TagsRegistered.WASH_AWAY_BY_WATER);
+            return state.isIn(ModTags.WASH_AWAY_BY_WATER);
         }
         else if (fluid.matchesType(Fluids.LAVA)){
-            return state.isIn(TagsRegistered.WASH_AWAY_BY_LAVA);
+            return state.isIn(ModTags.WASH_AWAY_BY_LAVA);
         }
         else return false;
     }
 
     public static boolean canBlockCoexistWith(BlockState state, Fluid fluid){
         if (fluid.matchesType(Fluids.WATER)){
-            return !state.isIn(TagsRegistered.NEVER_WATER_COEXIST);
+            return !state.isIn(ModTags.NEVER_WATER_COEXIST);
         }
         else if (fluid.matchesType(Fluids.LAVA)){
-            return !state.isIn(TagsRegistered.NEVER_LAVA_COEXIST);
+            return !state.isIn(ModTags.NEVER_LAVA_COEXIST);
         }
         else return true;
     }
@@ -414,7 +414,7 @@ public final class FluidUtil {
 
     public static Optional<Boolean> judgeCanFlow(BlockView world, BlockPos fromPos, BlockState fromBlockState, Direction flowDirection, BlockPos toPos, BlockState toBlockState, FluidState toFluidState, Fluid fluid, boolean original) {
         if (!original) return Optional.empty();
-        if (toBlockState.isIn(TagsRegistered.NEVER_FILL_FLUID)) return Optional.of(false);
+        if (toBlockState.isIn(ModTags.NEVER_FILL_FLUID)) return Optional.of(false);
         if (canBlockWashAway(toBlockState, fluid)){
             return Optional.of(true);
         }

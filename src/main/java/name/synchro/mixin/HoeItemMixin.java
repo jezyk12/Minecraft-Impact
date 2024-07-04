@@ -2,7 +2,7 @@ package name.synchro.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.datafixers.util.Pair;
-import name.synchro.registrations.BlocksRegistered;
+import name.synchro.registrations.ModBlocks;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.math.BlockPos;
@@ -24,8 +24,8 @@ public class HoeItemMixin {
             (Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> pair,
              @Local World world,
              @Local BlockPos blockPos) {
-        if (world.getBlockState(blockPos).isOf(BlocksRegistered.FERTILE_DIRT)) {
-            pair = Pair.of(HoeItem::canTillFarmland, HoeItem.createTillAction(BlocksRegistered.FERTILE_FARMLAND.getDefaultState()));
+        if (world.getBlockState(blockPos).isOf(ModBlocks.FERTILE_DIRT)) {
+            pair = Pair.of(HoeItem::canTillFarmland, HoeItem.createTillAction(ModBlocks.FERTILE_FARMLAND.getDefaultState()));
         }
 		return pair;
     }

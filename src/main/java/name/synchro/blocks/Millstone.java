@@ -2,8 +2,8 @@ package name.synchro.blocks;
 
 import name.synchro.blockEntities.MillstoneBlockEntity;
 import name.synchro.employment.Employer;
-import name.synchro.registrations.RegisterBlockEntities;
-import name.synchro.registrations.ItemsRegistered;
+import name.synchro.registrations.ModBlockEntities;
+import name.synchro.registrations.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -31,7 +31,7 @@ public class Millstone extends Block implements BlockEntityProvider {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof MillstoneBlockEntity millstoneBlockEntity) {
             ItemStack handStack = player.getStackInHand(hand);
-            if (handStack.isOf(ItemsRegistered.FRESH_FORAGE)) {
+            if (handStack.isOf(ModItems.FRESH_FORAGE)) {
                 if (world instanceof ServerWorld serverWorld) {
                     if (Employer.employSuitableMob(serverWorld, millstoneBlockEntity, 4.0))
                         player.getStackInHand(hand).decrement(1);
@@ -64,7 +64,7 @@ public class Millstone extends Block implements BlockEntityProvider {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if (type == RegisterBlockEntities.MILLSTONE_BLOCK_ENTITY){
+        if (type == ModBlockEntities.MILLSTONE_BLOCK_ENTITY){
             return (world1, pos, state1, blockEntity) -> {
                 if (blockEntity instanceof MillstoneBlockEntity millstoneBlockEntity) {
                     millstoneBlockEntity.tick();

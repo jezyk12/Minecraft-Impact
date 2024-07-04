@@ -1,6 +1,6 @@
 package name.synchro.dataGeneration;
 
-import name.synchro.registrations.TagsRegistered;
+import name.synchro.registrations.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Blocks;
@@ -18,32 +18,32 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
-        getOrCreateTagBuilder(TagsRegistered.CAN_STORE_FLUID)
+        getOrCreateTagBuilder(ModTags.CAN_STORE_FLUID)
                 .addOptionalTag(BlockTags.LEAVES)
                 .addOptionalTag(BlockTags.IMPERMEABLE)
                 .add(Blocks.MANGROVE_ROOTS);
 
-        FabricTagBuilder tag_NeverWaterCoexist = getOrCreateTagBuilder(TagsRegistered.NEVER_WATER_COEXIST)
+        FabricTagBuilder tag_NeverWaterCoexist = getOrCreateTagBuilder(ModTags.NEVER_WATER_COEXIST)
                 .add(Blocks.TORCH, Blocks.SOUL_TORCH, Blocks.WALL_TORCH, Blocks.SOUL_WALL_TORCH)
                 .add(Blocks.LILY_PAD, Blocks.SNOW, Blocks.POWDER_SNOW)
                 .addOptionalTag(BlockTags.FIRE)
                 .addOptionalTag(BlockTags.CANDLES);
 
-        FabricTagBuilder tag_WashAwayByWater = getOrCreateTagBuilder(TagsRegistered.WASH_AWAY_BY_WATER);
+        FabricTagBuilder tag_WashAwayByWater = getOrCreateTagBuilder(ModTags.WASH_AWAY_BY_WATER);
         addVanillaSmallRedstoneComponents(tag_WashAwayByWater);
         addUnstableNonburnable(tag_WashAwayByWater);
         addUnstableBurnables(tag_WashAwayByWater);
 
-        FabricTagBuilder tag_NeverLavaCoexist = getOrCreateTagBuilder(TagsRegistered.NEVER_LAVA_COEXIST)
+        FabricTagBuilder tag_NeverLavaCoexist = getOrCreateTagBuilder(ModTags.NEVER_LAVA_COEXIST)
                 .addOptionalTag(BlockTags.SAPLINGS);
         addVanillaSmallRedstoneComponents(tag_NeverLavaCoexist);
         addUnstableBurnables(tag_NeverLavaCoexist);
 
-        FabricTagBuilder tag_WashAwayByLava = getOrCreateTagBuilder(TagsRegistered.WASH_AWAY_BY_LAVA)
-                .addOptionalTag(TagsRegistered.NEVER_LAVA_COEXIST);;
+        FabricTagBuilder tag_WashAwayByLava = getOrCreateTagBuilder(ModTags.WASH_AWAY_BY_LAVA)
+                .addOptionalTag(ModTags.NEVER_LAVA_COEXIST);;
         addUnstableNonburnable(tag_WashAwayByLava);
 
-        getOrCreateTagBuilder(TagsRegistered.NEVER_FILL_FLUID)
+        getOrCreateTagBuilder(ModTags.NEVER_FILL_FLUID)
                 .add(Blocks.DIRT_PATH, Blocks.FARMLAND, Blocks.SOUL_SAND, Blocks.MUD, Blocks.HONEY_BLOCK);
     }
 

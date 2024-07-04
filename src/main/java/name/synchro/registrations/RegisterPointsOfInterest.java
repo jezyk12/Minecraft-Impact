@@ -7,7 +7,7 @@ import net.minecraft.world.poi.PointOfInterestType;
 
 @Deprecated
 public final class RegisterPointsOfInterest {
-    public static final PointOfInterestType MILLSTONE = PointOfInterestHelper.register(new Identifier(Synchro.MOD_ID, "millstone"), 1, 1, BlocksRegistered.MILLSTONE);
+    public static final PointOfInterestType MILLSTONE = PointOfInterestHelper.register(new Identifier(Synchro.MOD_ID, "millstone"), 1, 1, ModBlocks.MILLSTONE);
     public static void registerAll(){
         Synchro.LOGGER.debug("Registered all points of interest for" + Synchro.MOD_ID);
     }

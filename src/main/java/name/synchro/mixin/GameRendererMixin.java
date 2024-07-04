@@ -2,7 +2,7 @@ package name.synchro.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import name.synchro.SynchroClient;
-import name.synchro.mixinHelper.MinecraftClientDuck;
+import name.synchro.mixinHelper.FocusingProvider;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
@@ -36,18 +36,18 @@ public abstract class GameRendererMixin {
                                      @Local(ordinal = 1)/*vec3d2*/ Vec3d rotationVec){
         if (SynchroClient.applyNewHud){
             double squaredVisibleDistance;
-            if (this.client instanceof MinecraftClientDuck thisClient){
-                thisClient.setFocusingResult(player.raycast(MAX_DISTANCE, tickDelta, false));
-                if (thisClient.getFocusingResult() != null) {
-                    squaredVisibleDistance = thisClient.getFocusingResult().getPos().squaredDistanceTo(camaraPosVec);
+            if (this.client instanceof FocusingProvider thisClient){
+                thisClient.synchro$setFocusingResult(player.raycast(MAX_DISTANCE, tickDelta, false));
+                if (thisClient.synchro$getFocusingResult() != null) {
+                    squaredVisibleDistance = thisClient.synchro$getFocusingResult().getPos().squaredDistanceTo(camaraPosVec);
                 }
                 else squaredVisibleDistance = MAX_DISTANCE * MAX_DISTANCE;
                 Box box = player.getBoundingBox().stretch(rotationVec.multiply(MAX_DISTANCE)).expand(1.0, 1.0, 1.0);
                 EntityHitResult entityHitResult = ProjectileUtil.raycast(player, camaraPosVec, camaraPosVec.add(rotationVec.multiply(MAX_DISTANCE)), box, entity -> !entity.isSpectator() && entity.canHit(), squaredVisibleDistance);
                 if (entityHitResult != null) {
-                    thisClient.setFocusedEntity(entityHitResult.getEntity());
+                    thisClient.synchro$setFocusedEntity(entityHitResult.getEntity());
                 }
-                else thisClient.setFocusedEntity(null);
+                else thisClient.synchro$setFocusedEntity(null);
             }
         }
     }

@@ -4,8 +4,8 @@ import name.synchro.blockEntities.ElectricLampBlockEntity;
 import name.synchro.electricNetwork.AbstractConsumerBlockEntity;
 import name.synchro.electricNetwork.ElectricTerminalBlockProvider;
 import name.synchro.networkLink.networkBlockAPI.AbstractNetworkBlock;
-import name.synchro.registrations.RegisterBlockEntities;
-import name.synchro.registrations.ItemsRegistered;
+import name.synchro.registrations.ModBlockEntities;
+import name.synchro.registrations.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -62,13 +62,13 @@ public class ElectricLampBlock extends AbstractNetworkBlock implements ElectricT
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if (type != RegisterBlockEntities.ELECTRIC_LAMP_BLOCK_ENTITY) return null;
+        if (type != ModBlockEntities.ELECTRIC_LAMP_BLOCK_ENTITY) return null;
         return (w,p,s,blockEntity) -> AbstractConsumerBlockEntity.tick(blockEntity);
     }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (player.getInventory().getMainHandStack().getItem().equals(ItemsRegistered.UNIVERSAL_METER)){
+        if (player.getInventory().getMainHandStack().getItem().equals(ModItems.UNIVERSAL_METER)){
             if (!world.isClient) {
                 NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
                 if (screenHandlerFactory != null) {

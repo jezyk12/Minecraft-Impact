@@ -13,6 +13,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -28,6 +29,24 @@ public abstract class ModDataManager {
         return ImmutableMap.<Identifier, ModDataContainer<?>>builder()
                 .put(CowWorkingFeedsData.ID, new CowWorkingFeedsData())
                 .build();
+    }
+
+    public Map<Identifier, ModDataContainer<?>> getContents() {
+        return contents;
+    }
+
+    public static ModDataManager get(World world){
+        if (world.isClient()){
+            MinecraftClient client = MinecraftClient.getInstance();
+            return  ((Provider) client).synchro$getModDataManager();
+        }
+        else if (world.getServer() != null){
+            return  ((Provider) world.getServer()).synchro$getModDataManager();
+        }
+        else {
+            Synchro.LOGGER.error("Unexpected accessing to ModDataManager from world: {}", world.asString());
+            return new ModDataManager(){};
+        }
     }
 
     public void apply(PacketByteBuf buf){}

@@ -3,22 +3,44 @@
     {
       "items": [
         {
-          "item": "synchro:cracked_ores"
+          "item": "synchro:fresh_forage"
         },
         {
-          "item": "synchro:lump_ores"
-        },
-        {
-          "item": "synchro:crushed_ores"
+          "item": "minecraft:golden_apple"
         }
       ],
-      "time": 1600
+      "time": 3600
+    },
+    {
+      "items": [
+        {
+          "item": "minecraft:cake"
+        },
+        {
+          "item": "minecraft:hay_block"
+        },
+        {
+          "item": "minecraft:enchanted_golden_apple"
+        }
+      ],
+      "time": 7600
     },
     {
       "items": {
-        "tag": "minecraft:planks"
+        "tag": "minecraft:cow_food"
       },
-      "time": 400
+      "time": 800
+    },
+    {
+      "items": [
+        {
+          "item": "minecraft:grass"
+        },
+        {
+          "item": "minecraft:fern"
+        }
+      ],
+      "time": 300
     }
   ]
 }

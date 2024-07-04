@@ -1,5 +1,6 @@
 package name.synchro.screenHandlers;
 
+import name.synchro.blockEntities.MillstoneBlockEntity;
 import name.synchro.registrations.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -52,7 +53,7 @@ public class MillstoneScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, SLOT_FEED, 24, 20){
             @Override
             public boolean canInsert(ItemStack stack) {
-                return MILLSTONE_FEEDS.containsKey(stack.getItem());
+                return MillstoneBlockEntity.isFeed(playerInventory.player.world, stack);
             }
         });
         for (m = 0; m < 3; ++m) {

@@ -5,8 +5,9 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
 public interface ModDataContainer<T> {
+    T data();
     Identifier getId();
-    T deserialize(JsonElement json);
-    T readBuf(PacketByteBuf buf);
+    void deserialize(JsonElement json);
+    void readBuf(PacketByteBuf buf);
     PacketByteBuf writeBuf(PacketByteBuf buf);
 }

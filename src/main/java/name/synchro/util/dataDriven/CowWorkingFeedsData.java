@@ -12,9 +12,14 @@ import net.minecraft.util.Identifier;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class CowWorkingFeedsData implements ModDataContainer<CowWorkingFeedsData> {
+public final class CowWorkingFeedsData implements ModDataContainer<Set<CowWorkingFeedsData.Entry>> {
     public static final Identifier ID = new Identifier(Synchro.MOD_ID, "cow_working_feed");
     private Set<Entry> data = new HashSet<>();
+
+    @Override
+    public Set<Entry> data() {
+        return data;
+    }
 
     @Override
     public Identifier getId() {
@@ -22,7 +27,7 @@ public final class CowWorkingFeedsData implements ModDataContainer<CowWorkingFee
     }
 
     @Override
-    public CowWorkingFeedsData deserialize(JsonElement json) {
+    public void deserialize(JsonElement json) {
         try {
             JsonArray feeds = json.getAsJsonObject().getAsJsonArray("feeds");
             feeds.forEach(jsonElement -> {
@@ -34,11 +39,10 @@ public final class CowWorkingFeedsData implements ModDataContainer<CowWorkingFee
         } catch (Exception e) {
             Synchro.LOGGER.error("Unable to parse {}: ", ID, e);
         }
-        return this;
     }
 
     @Override
-    public CowWorkingFeedsData readBuf(PacketByteBuf buf) {
+    public void readBuf(PacketByteBuf buf) {
         ImmutableSet.Builder<Entry> builder = ImmutableSet.builder();
         int size = buf.readInt();
         for (int i = 0; i < size; i++) {
@@ -47,7 +51,6 @@ public final class CowWorkingFeedsData implements ModDataContainer<CowWorkingFee
             builder.add(new Entry(items, time));
         }
         this.data = builder.build();
-        return this;
     }
 
     @Override

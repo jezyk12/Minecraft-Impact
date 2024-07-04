@@ -1,15 +1,16 @@
 package name.synchro.blockEntities;
 
-import com.google.common.collect.ImmutableMap;
 import name.synchro.Synchro;
 import name.synchro.employment.BlockEntityWorkerManager;
 import name.synchro.employment.Employer;
 import name.synchro.employment.Job;
-import name.synchro.registrations.ModItems;
 import name.synchro.registrations.ModBlockEntities;
 import name.synchro.screenHandlers.MillstoneScreenHandler;
 import name.synchro.specialRecipes.MillstoneRecipe;
 import name.synchro.util.*;
+import name.synchro.util.dataDriven.CowWorkingFeedsData;
+import name.synchro.util.dataDriven.ModDataContainer;
+import name.synchro.util.dataDriven.ModDataManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -19,9 +20,7 @@ import net.minecraft.entity.MovementType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
@@ -60,13 +59,6 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     private boolean locked = false;
     @Nullable private MillstoneRecipe processingRecipe;
     private ItemStack cacheInputStack = ItemStack.EMPTY;
-    public static final ImmutableMap<Item, Integer> MILLSTONE_FEEDS =
-            ImmutableMap.of(
-                    ModItems.FRESH_FORAGE, 3600,
-                    Items.WHEAT, 1200,
-                    Items.GRASS, 200,
-                    Items.FERN, 200
-            );
     public static final int INT_PROGRESS = 0;
     public static final int INT_SPEED = 1;
     public static final int INTEGERS_SIZE = 2;
@@ -134,8 +126,8 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
             if (slot == SLOT_INPUT) {
                 return canInsertForProcessing(world, stack);
             }
-            else if (slot == SLOT_FEED) {
-                return MILLSTONE_FEEDS.containsKey(stack.getItem());
+            else if (slot == SLOT_FEED && world != null) {
+                return isFeed(world, stack);
             }
         }
         return false;
@@ -146,6 +138,27 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
             return world.getRecipeManager().listAllOfType(MillstoneRecipe.MILLING_RECIPE_TYPE).stream().anyMatch(recipe -> recipe.getInput().test(stack));
         }
         return false;
+    }
+
+    public static boolean isFeed(World world, ItemStack stack){
+        if (world != null){
+            ModDataContainer<?> container = ModDataManager.get(world).getContents().get(CowWorkingFeedsData.ID);
+            if (container instanceof CowWorkingFeedsData cowData){
+                return cowData.data().stream().anyMatch(entry -> entry.items().test(stack));
+            }
+        }
+        return false;
+    }
+
+    public static int getFeedTime(World world, ItemStack stack){
+        if (world != null){
+            ModDataContainer<?> container = ModDataManager.get(world).getContents().get(CowWorkingFeedsData.ID);
+            if (container instanceof CowWorkingFeedsData cowData){
+                return Math.max(cowData.data().stream().filter(entry -> entry.items().test(stack)).map(CowWorkingFeedsData.Entry::time)
+                        .max(Integer::compareTo).orElse(100), 100);
+            }
+        }
+        return 100;
     }
 
     @Override

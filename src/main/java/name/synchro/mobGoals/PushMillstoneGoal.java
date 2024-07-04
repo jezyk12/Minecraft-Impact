@@ -78,8 +78,8 @@ public class PushMillstoneGoal extends AbstractWorkingGoal{
                 boolean hungry = false;
                 if (cowWorkingHandler.workableTime < 100){
                     ItemStack feed = millstoneBlockEntity.getStack(MillstoneBlockEntity.SLOT_FEED);
-                    if (MillstoneBlockEntity.MILLSTONE_FEEDS.containsKey(feed.getItem())){
-                        int feedTime = MillstoneBlockEntity.MILLSTONE_FEEDS.get(feed.getItem());
+                    if (MillstoneBlockEntity.isFeed(this.mob.getWorld(), feed)){
+                        int feedTime = MillstoneBlockEntity.getFeedTime(this.mob.getWorld(), feed);
                         feed.decrement(1);
                         cowWorkingHandler.workableTime += feedTime - 100 + random.nextInt(200);
                         mob.getWorld().playSoundFromEntity(null, mob, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.NEUTRAL, 1.0F, 1.0F);

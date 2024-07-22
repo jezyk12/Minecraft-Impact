@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(FluidRenderer.class)
-public class FluidRendererMixin {
+public abstract class FluidRendererMixin {
     @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getFluidState()Lnet/minecraft/fluid/FluidState;",
             ordinal = 0))
     private FluidState getFluidStateDown(BlockState instance, Operation<FluidState> original,

@@ -30,7 +30,6 @@ import java.util.function.Function;
 @Environment(EnvType.CLIENT)
 public class UnbakedSlopeModel implements UnbakedModel {
     private final SlopeShape slopeShape;
-    private Mesh mesh;
     private Sprite sprite;
     private final SpriteIdentifier spriteID;
     private static final Vector3f CENTERED_VECTOR = new Vector3f(0.5f, 0.5f, 0.5f);
@@ -67,7 +66,7 @@ public class UnbakedSlopeModel implements UnbakedModel {
             case INNER -> emitInnerSlope(builder, transformation);
             case OUTER -> emitOuterSlope(builder, transformation);
         }
-        mesh = builder.build();
+        Mesh mesh = builder.build();
         return new BakedSlopeModel(mesh, sprite);
     }
 
@@ -77,27 +76,27 @@ public class UnbakedSlopeModel implements UnbakedModel {
                 new Vector3f(0f, 0f, 0f),
                 new Vector3f(0f, 0f, 1f),
                 new Vector3f(1f, 1f, 1f),
-                new Vector3f(1f, 1f, 0f)});
+                new Vector3f(1f, 1f, 0f)});     // slope side
         addSimpleQuad(emitter, Direction.NORTH, transformation, new Vector3f[]{
                 new Vector3f(0f, 0f, 0f),
-                new Vector3f(1f, 0f, 0f),
+                new Vector3f(0.5f, 0.5f, 0f),
                 new Vector3f(1f, 1f, 0f),
-                new Vector3f(1f, 0f, 0f)});
+                new Vector3f(1f, 0f, 0f)});     // triangle
         addSimpleQuad(emitter, Direction.SOUTH, transformation, new Vector3f[]{
                 new Vector3f(0f, 0f, 1f),
                 new Vector3f(1f, 0f, 1f),
                 new Vector3f(1f, 1f, 1f),
-                new Vector3f(1f, 0f, 1f)});
+                new Vector3f(0.5f, 0.5f, 1f)});     // triangle
         addSimpleQuad(emitter, Direction.EAST, transformation, new Vector3f[]{
                 new Vector3f(1f, 0f, 0f),
                 new Vector3f(1f, 1f, 0f),
                 new Vector3f(1f, 1f, 1f),
-                new Vector3f(1f, 0f, 1f)});
+                new Vector3f(1f, 0f, 1f)});     // full
         addSimpleQuad(emitter, Direction.DOWN, transformation, new Vector3f[]{
                 new Vector3f(0f, 0f, 0f),
                 new Vector3f(1f, 0f, 0f),
                 new Vector3f(1f, 0f, 1f),
-                new Vector3f(0f, 0f, 1f)});
+                new Vector3f(0f, 0f, 1f)});     // full
     }
 
     private void emitOuterSlope (MeshBuilder builder, AffineTransformation transformation){
@@ -106,27 +105,27 @@ public class UnbakedSlopeModel implements UnbakedModel {
                 new Vector3f(0f, 0f, 0f),
                 new Vector3f(0f, 0f, 1f),
                 new Vector3f(1f, 1f, 1f),
-                new Vector3f(1f, 0f, 1f)});
+                new Vector3f(0.5f, 0.5f, 0.5f)});     // half slope
         addSimpleQuad(emitter, Direction.NORTH, transformation, new Vector3f[]{
                 new Vector3f(0f, 0f, 0f),
-                new Vector3f(1f, 0f, 1f),
+                new Vector3f(0.5f, 0.5f, 0.5f),
                 new Vector3f(1f, 1f, 1f),
-                new Vector3f(1f, 0f, 0f)});
+                new Vector3f(1f, 0f, 0f)});     // half slope
         addSimpleQuad(emitter, Direction.EAST, transformation, new Vector3f[]{
                 new Vector3f(1f, 0f, 0f),
-                new Vector3f(1f, 0f, 1f),
+                new Vector3f(1f, 0.5f, 0.5f),
                 new Vector3f(1f, 1f, 1f),
-                new Vector3f(1f, 0f, 1f)});
+                new Vector3f(1f, 0f, 1f)});     // triangle
         addSimpleQuad(emitter, Direction.SOUTH, transformation, new Vector3f[]{
                 new Vector3f(0f, 0f, 1f),
                 new Vector3f(1f, 0f, 1f),
                 new Vector3f(1f, 1f, 1f),
-                new Vector3f(1f, 0f, 1f)});
+                new Vector3f(0.5f, 0.5f, 1f)});     // triangle
         addSimpleQuad(emitter, Direction.DOWN, transformation, new Vector3f[]{
                 new Vector3f(0f, 0f, 0f),
                 new Vector3f(1f, 0f, 0f),
                 new Vector3f(1f, 0f, 1f),
-                new Vector3f(0f, 0f, 1f)});
+                new Vector3f(0f, 0f, 1f)});     // full
     }
 
     private void emitInnerSlope (MeshBuilder builder, AffineTransformation transformation){
@@ -135,48 +134,47 @@ public class UnbakedSlopeModel implements UnbakedModel {
                 new Vector3f(0f, 0f, 0f),
                 new Vector3f(0f, 1f, 1f),
                 new Vector3f(1f, 1f, 1f),
-                new Vector3f(1f, 0f, 0f)});
+                new Vector3f(1f, 0f, 0f)});     // slope
         addSimpleQuad(emitter, Direction.WEST, transformation, new Vector3f[]{
                 new Vector3f(0f, 0f, 0f),
                 new Vector3f(0f, 0f, 1f),
                 new Vector3f(1f, 1f, 1f),
-                new Vector3f(1f, 1f, 0f)});
+                new Vector3f(1f, 1f, 0f)});     // slope
         addSimpleQuad(emitter, Direction.NORTH, transformation, new Vector3f[]{
                 new Vector3f(0f, 0f, 0f),
-                new Vector3f(1f, 0f, 0f),
+                new Vector3f(0.5f, 0.5f, 0f),
                 new Vector3f(1f, 1f, 0f),
-                new Vector3f(1f, 0f, 0f)});
+                new Vector3f(1f, 0f, 0f)});     // triangle
         addSimpleQuad(emitter, Direction.WEST, transformation, new Vector3f[]{
                 new Vector3f(0f, 0f, 0f),
                 new Vector3f(0f, 0f, 1f),
                 new Vector3f(0f, 1f, 1f),
-                new Vector3f(0f, 0f, 1f)});
+                new Vector3f(0f, 0.5f, 0.5f)});     // triangle
         addSimpleQuad(emitter, Direction.EAST, transformation, new Vector3f[]{
                 new Vector3f(1f, 0f, 0f),
                 new Vector3f(1f, 1f, 0f),
                 new Vector3f(1f, 1f, 1f),
-                new Vector3f(1f, 0f, 1f)});
+                new Vector3f(1f, 0f, 1f)});     // full
         addSimpleQuad(emitter, Direction.SOUTH, transformation, new Vector3f[]{
                 new Vector3f(0f, 0f, 1f),
                 new Vector3f(1f, 0f, 1f),
                 new Vector3f(1f, 1f, 1f),
-                new Vector3f(0f, 1f, 1f)});
+                new Vector3f(0f, 1f, 1f)});     // full
         addSimpleQuad(emitter, Direction.DOWN, transformation, new Vector3f[]{
                 new Vector3f(0f, 0f, 0f),
                 new Vector3f(1f, 0f, 0f),
                 new Vector3f(1f, 0f, 1f),
-                new Vector3f(0f, 0f, 1f)});
+                new Vector3f(0f, 0f, 1f)});     // full
     }
 
-    private QuadEmitter addSimpleQuad(QuadEmitter emitter, Direction direction, AffineTransformation transformation, Vector3f[] vertexes){
-        emitter.nominalFace(Direction.transform(transformation.getMatrix(), direction));
+    private void addSimpleQuad(QuadEmitter emitter, Direction direction, AffineTransformation transformation, Vector3f[] vertexes){
+        emitter.cullFace(Direction.transform(transformation.getMatrix(), direction));
         for (int index = 0; index < 4; ++index){
             emitter.pos(index, transformVertex(vertexes[index], transformation.getMatrix()) );
         }
         emitter.spriteBake(sprite, MutableQuadView.BAKE_LOCK_UV);
         emitter.color(-1, -1, -1, -1);
         emitter.emit();
-        return emitter;
     }
 
     private Vector3f transformVertex(Vector3f vertex, Matrix4f transformationMatrix) {

@@ -32,12 +32,12 @@ public abstract class Gas extends Fluid {
     public final int volatilizationRate;
 
     public final int color;
-    public final Vector3f colorVector;
+    public final Vector3f rgb;
     protected final DustParticleEffect gasParticleEffect;
     public Gas(int color, int upsideMinGradient, int downsideMinGradient, int horizontalMinGradient, int volatilizationRate) {
         this.color = color;
-        this.colorVector = new Vector3f((color >> 16 & 0xff) / 255f, (color >> 8 & 0xff) / 255f, (color & 0xff) / 255f);
-        this.gasParticleEffect = new DustParticleEffect(colorVector, 0.5f);
+        this.rgb = new Vector3f((color >> 16 & 0xff) / 255f, (color >> 8 & 0xff) / 255f, (color & 0xff) / 255f);
+        this.gasParticleEffect = new DustParticleEffect(rgb, 0.5f);
         this.upsideMinGradient = Math.max(upsideMinGradient, 2) ;
         this.downsideMinGradient = Math.max(downsideMinGradient, 2);
         this.horizontalMinGradient = Math.max(horizontalMinGradient, 2);

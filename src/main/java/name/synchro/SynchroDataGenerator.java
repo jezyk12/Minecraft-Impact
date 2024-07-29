@@ -13,6 +13,7 @@ public class SynchroDataGenerator implements DataGeneratorEntrypoint {
 		myPack.addProvider(AdvancementsData::new);
 		myPack.addProvider(ModelsData::new);
 		myPack.addProvider(BlockTagsData::new);
+		myPack.addProvider(ItemTagsData::new);
 	}
 
 }

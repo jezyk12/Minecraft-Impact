@@ -18,7 +18,7 @@ public abstract class LandPathNodeMakerMixin extends PathNodeMaker {
     private FluidState fixGetFluidState(BlockState instance, Operation<FluidState> original,
                                         @Local BlockPos.Mutable pos){
 
-        return this.cachedWorld.getFluidState(pos);
+        return this.context.getWorld().getFluidState(pos);
     }
 
     @WrapOperation(method = "getStart()Lnet/minecraft/entity/ai/pathing/PathNode;", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getFluidState()Lnet/minecraft/fluid/FluidState;",
@@ -26,7 +26,7 @@ public abstract class LandPathNodeMakerMixin extends PathNodeMaker {
     private FluidState fixGetFluidState1(BlockState instance, Operation<FluidState> original,
                                         @Local BlockPos.Mutable pos){
 
-        return this.cachedWorld.getFluidState(pos);
+        return this.context.getWorld().getFluidState(pos);
     }
 
     @WrapOperation(method = "getStart()Lnet/minecraft/entity/ai/pathing/PathNode;", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getFluidState()Lnet/minecraft/fluid/FluidState;",
@@ -34,6 +34,6 @@ public abstract class LandPathNodeMakerMixin extends PathNodeMaker {
     private FluidState fixGetFluidState2(BlockState instance, Operation<FluidState> original,
                                          @Local int i){
 
-        return this.cachedWorld.getFluidState(new BlockPos(entity.getBlockX(), i, entity.getBlockZ()));
+        return this.context.getWorld().getFluidState(new BlockPos(entity.getBlockX(), i, entity.getBlockZ()));
     }
 }

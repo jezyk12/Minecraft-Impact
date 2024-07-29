@@ -1,35 +1,36 @@
 package name.synchro.specialRecipes;
 
 import name.synchro.Synchro;
-import name.synchro.blockEntities.MillstoneBlockEntity;
-import net.minecraft.inventory.Inventory;
+import name.synchro.registrations.ModItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.recipe.input.RecipeInput;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-public class MillstoneRecipe implements Recipe<Inventory> {
-    public static final RecipeType<MillstoneRecipe> MILLING_RECIPE_TYPE = new Type();
-    protected final Identifier id;
-    protected final Ingredient input;
-    protected final ItemStack output;
-    protected final int degrees;
-    protected final boolean copyNbt;
-    public MillstoneRecipe(Identifier id, Ingredient input, ItemStack output, int degrees, boolean copyNbt) {
-        this.id = id;
-        this.input = input;
-        this.output = output;
-        this.degrees = degrees;
-        this.copyNbt = copyNbt;
-    }
+public record MillstoneRecipe(Ingredient input, ItemStack output, int degrees, boolean copyNbt)
+        implements Recipe<MillstoneRecipe.Input> {
+    public static final RecipeType<MillstoneRecipe> TYPE = new Type();
 
-    public Ingredient getInput(){
-        return this.input;
+    public record Input(ItemStack stack) implements RecipeInput{
+        @Override
+        public ItemStack getStackInSlot(int slot) {
+            return stack();
+        }
+
+        @Override
+        public int getSize() {
+            return 1;
+        }
+
+        public static Input of(ItemStack stack){
+            return new Input(stack);
+        }
     }
 
     public int getDegrees(){
@@ -37,14 +38,13 @@ public class MillstoneRecipe implements Recipe<Inventory> {
     }
 
     @Override
-    public boolean matches(Inventory inventory, World world) {
-        if (inventory.size() != MillstoneBlockEntity.INV_SIZE) return false;
-        return this.input.test(inventory.getStack(MillstoneBlockEntity.SLOT_INPUT));
+    public boolean matches(Input input, World world) {
+        return this.input.test(input.stack());
     }
 
     @Override
-    public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
-        return this.output.copy();
+    public ItemStack craft(Input input, RegistryWrapper.WrapperLookup wrapperLookup) {
+        return this.getActualOutput(input);
     }
 
     @Override
@@ -53,24 +53,22 @@ public class MillstoneRecipe implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack getOutput(DynamicRegistryManager registryManager) {
-        return this.output.copy();
+    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
+        return this.output().copy();
     }
 
-    public ItemStack getOutput(DynamicRegistryManager registryManager, ItemStack inputStack){
-        if (this.copyNbt && inputStack.hasNbt()){
-            NbtCompound nbt = inputStack.getNbt().copy();
-            ItemStack output = this.output.copy();
-            output.setNbt(nbt);
-            return output;
+    public ItemStack getActualOutput(Input input){
+        if (this.copyNbt){
+            NbtCompound nbt = ModItems.getNbt(input.getStackInSlot(0));
+            if (nbt != null) {
+                ItemStack output = this.output().copy();
+                ModItems.setNbt(output, nbt.copy());
+                return output;
+            }
         }
-        return getOutput(registryManager);
+        return this.output().copy();
     }
 
-    @Override
-    public Identifier getId() {
-        return this.id;
-    }
 
     @Override
     public RecipeSerializer<?> getSerializer() {
@@ -79,11 +77,12 @@ public class MillstoneRecipe implements Recipe<Inventory> {
 
     @Override
     public RecipeType<?> getType() {
-        return MILLING_RECIPE_TYPE;
+        return TYPE;
     }
 
     public static class Type implements RecipeType<MillstoneRecipe> {
-        public static final Identifier ID = new Identifier(Synchro.MOD_ID, "millstone_type");
+        public static final Identifier ID = Identifier.of(Synchro.MOD_ID, "millstone_type");
         private Type() {}
     }
+
 }

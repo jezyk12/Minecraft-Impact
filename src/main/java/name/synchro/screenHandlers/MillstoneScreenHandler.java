@@ -41,7 +41,7 @@ public class MillstoneScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, SLOT_INPUT, 73, 35){
             @Override
             public boolean canInsert(ItemStack stack) {
-                return canInsertForProcessing(playerInventory.player.world, stack);
+                return canInsertForProcessing(playerInventory.player.getWorld(), stack);
             }
         });
         this.addSlot(new Slot(inventory, SLOT_OUTPUT, 129, 35){
@@ -53,7 +53,7 @@ public class MillstoneScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, SLOT_FEED, 24, 20){
             @Override
             public boolean canInsert(ItemStack stack) {
-                return MillstoneBlockEntity.isFeed(playerInventory.player.world, stack);
+                return MillstoneBlockEntity.isFeed(playerInventory.player.getWorld(), stack);
             }
         });
         for (m = 0; m < 3; ++m) {

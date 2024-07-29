@@ -1,0 +1,11 @@
+{
+  "type": "synchro:millstone",
+  "degrees": 45,
+  "input": {
+    "tag": "minecraft:saplings"
+  },
+  "output": {
+    "count": 1,
+    "id": "synchro:plant_fibre"
+  }
+}

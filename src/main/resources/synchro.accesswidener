@@ -1,9 +1,7 @@
 accessWidener   v1  named
 accessible class net/minecraft/client/render/BackgroundRenderer$FogData
-accessible field net/minecraft/block/entity/LootableContainerBlockEntity lootTableId Lnet/minecraft/util/Identifier;
 accessible class net/minecraft/client/gui/hud/InGameHud$HeartType
 accessible method net/minecraft/client/gui/hud/InGameHud$HeartType fromPlayerState (Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/client/gui/hud/InGameHud$HeartType;
-accessible method net/minecraft/client/gui/hud/InGameHud drawHeart (Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIIZZ)V
 accessible field net/minecraft/client/render/model/json/JsonUnbakedModel textureMap Ljava/util/Map;
 accessible field net/minecraft/client/render/model/json/JsonUnbakedModel parentId Lnet/minecraft/util/Identifier;
 accessible field net/minecraft/entity/mob/MobEntity goalSelector Lnet/minecraft/entity/ai/goal/GoalSelector;

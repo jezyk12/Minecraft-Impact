@@ -1,0 +1,15 @@
+{
+  "values": [
+    {
+      "id": "#synchro:never_lava_coexist",
+      "required": false
+    },
+    "minecraft:weeping_vines",
+    "minecraft:twisting_vines",
+    "minecraft:weeping_vines_plant",
+    "minecraft:twisting_vines_plant",
+    "minecraft:crimson_fungus",
+    "minecraft:warped_fungus",
+    "minecraft:nether_wart"
+  ]
+}

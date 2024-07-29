@@ -29,7 +29,7 @@ public class BananaStem extends Block {
             Direction chosenDirection = Direction.Type.HORIZONTAL.random(random);
             BlockState chosenState = world.getBlockState(pos.offset(chosenDirection));
             BlockState shouldBeLeaves = world.getBlockState(pos.offset(chosenDirection).up());
-            if ((chosenState.isAir() || chosenState.isIn(BlockTags.REPLACEABLE_PLANTS)) &&
+            if ((chosenState.isAir() || chosenState.isIn(BlockTags.REPLACEABLE)) &&
                     shouldBeLeaves.isOf(ModBlocks.BANANA_LEAVES) &&
                     !shouldBeLeaves.get(BananaLeavesBlock.PERSISTENT)) {
                 int bananas = 0;

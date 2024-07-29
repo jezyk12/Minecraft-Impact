@@ -23,6 +23,6 @@ public abstract class EndermanEntityMixin extends HostileEntity {
     private FluidState fixGetFluidState(BlockState instance, Operation<FluidState> original,
                                         @Local BlockPos.Mutable pos){
 
-        return this.world.getFluidState(pos);
+        return this.getWorld().getFluidState(pos);
     }
 }

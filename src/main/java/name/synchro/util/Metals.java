@@ -89,6 +89,10 @@ public final class Metals {
         writeMetalContentToNbt(shouldBeOverwrite, mapResult);
     }
 
+    public interface Provider {
+        Metals getMetals();
+    }
+
 //    /**
 //     * Server-side only. Modify the proportion of the minor components in mixed ore.
 //     * <p> Ranges:</p>
@@ -153,5 +157,6 @@ public final class Metals {
 //        return (noiseValues[0] * metal.meltingPoint + noiseValues[1] * metal.reducibility + noiseValues[2] * metal.conductivity
 //                + noiseValues[3] * metal.hardness + noiseValues[4] * metal.density + noiseValues[5] * metal.strength) / (lNoise * lMetal);
 //    }
+
 
 }

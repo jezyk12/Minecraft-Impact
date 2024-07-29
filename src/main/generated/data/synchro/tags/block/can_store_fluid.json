@@ -1,0 +1,13 @@
+{
+  "values": [
+    {
+      "id": "#minecraft:leaves",
+      "required": false
+    },
+    {
+      "id": "#minecraft:impermeable",
+      "required": false
+    },
+    "minecraft:mangrove_roots"
+  ]
+}

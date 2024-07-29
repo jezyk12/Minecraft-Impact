@@ -44,7 +44,7 @@ public abstract class AbstractWorkingGoal extends Goal {
     public final void start() {
         assert this.workingHandler != null;
         assert this.workingHandler.getEmployer() != null;
-        this.lastStartTime = this.mob.world.getTime();
+        this.lastStartTime = this.mob.getWorld().getTime();
         whenActionsStart(this.workingHandler, this.workingHandler.getEmployer());
     }
 

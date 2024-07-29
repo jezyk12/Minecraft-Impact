@@ -36,8 +36,8 @@ public abstract class ChunkSectionMixin implements FluidHelper.ForChunkSection {
     @Unique
     private PalettedContainer<FluidState> fluidStateContainer;
 
-    @Inject(method = "<init>(ILnet/minecraft/registry/Registry;)V", at = @At("RETURN"))
-    private void initEmptyFluidStorage(int chunkPos, Registry<Biome> biomeRegistry, CallbackInfo ci) {
+    @Inject(method = "<init>(Lnet/minecraft/registry/Registry;)V", at = @At("RETURN"))
+    private void initEmptyFluidStorage(Registry<Biome> biomeRegistry, CallbackInfo ci) {
         this.fluidStateContainer = FluidUtil.createFluidStatePaletteContainer();
     }
 
@@ -112,7 +112,7 @@ public abstract class ChunkSectionMixin implements FluidHelper.ForChunkSection {
 
     @Inject(method = "getPacketSize", at = @At("RETURN"), cancellable = true)
     private void getNewPacketSize(CallbackInfoReturnable<Integer> cir){
-        cir.setReturnValue(cir.getReturnValue() + this.fluidStateContainer.getPacketSize() + 1);
+        cir.setReturnValue(cir.getReturnValue() + this.fluidStateContainer.getPacketSize() + 2);
         cir.cancel();
     }
 

@@ -2,7 +2,7 @@ package name.synchro.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import name.synchro.mixinHelper.PlayerFireTickSync;
+import name.synchro.util.PlayerFireTickSync;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -25,16 +25,16 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerFi
     @WrapOperation(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getFluidState()Lnet/minecraft/fluid/FluidState;"))
     private FluidState fixGetFluidState(BlockState instance, Operation<FluidState> original){
         BlockPos pos = BlockPos.ofFloored(this.getX(), this.getY() + 1.0 - 0.1, this.getZ());
-        return this.world.getFluidState(pos);
+        return this.getWorld().getFluidState(pos);
     }
 
     @Override
-    public void setTheFireTicks(int value) {
+    public void synchro$setTheFireTicks(int value) {
         this.theFireTicks = value;
     }
 
     @Override
-    public int getTheFireTicks() {
+    public int synchro$getTheFireTicks() {
         return theFireTicks;
     }
 }

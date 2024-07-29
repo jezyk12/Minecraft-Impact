@@ -28,6 +28,6 @@ public abstract class HopperBlockMixin extends BlockWithEntity {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         HopperBlockEntity blockEntity = (HopperBlockEntity) world.getBlockEntity(pos);
-        if (blockEntity != null && blockEntity.lootTableId == null) Cockroach.summon(blockEntity, 0.3f);
+        if (blockEntity != null && blockEntity.getLootTable() == null) Cockroach.summon(blockEntity, 0.3f, world.getRegistryManager());
     }
 }

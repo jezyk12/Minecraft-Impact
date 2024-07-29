@@ -37,7 +37,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity implements Employe
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void readAdditionalNbt(NbtCompound nbt, CallbackInfo ci){
-        this.getWorkingHandler().setEmploymentFromNbt(nbt.getCompound(NbtTags.EMPLOYER), this.world);
+        this.getWorkingHandler().setEmploymentFromNbt(nbt.getCompound(NbtTags.EMPLOYER), this.getWorld());
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))

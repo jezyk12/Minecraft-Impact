@@ -3,16 +3,17 @@ package name.synchro.blocks;
 import com.google.common.collect.ImmutableMap;
 import name.synchro.api.SuitableForRock;
 import name.synchro.items.OresMixture;
-import name.synchro.mixinHelper.MetalsProvider;
 import name.synchro.registrations.ModBlockEntities;
 import name.synchro.registrations.ModItems;
 import name.synchro.util.Metals;
 import name.synchro.util.NbtTags;
+import name.synchro.util.dataDriven.DataUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -20,6 +21,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
@@ -69,7 +71,8 @@ public class Rock extends Block implements BlockEntityProvider {
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        if (ctx.getStack().hasNbt() && ctx.getStack().getNbt().contains(NbtTags.METALS_CONTENT))
+        NbtCompound nbtCompound = ModItems.getNbt(ctx.getStack());
+        if (nbtCompound != null && nbtCompound.contains(NbtTags.METALS_CONTENT))
             return this.getDefaultState().with(ROCK_TYPE, Rock.Type.MUTABLE);
         return this.getDefaultState().with(ROCK_TYPE, Rock.Type.ARTIFICIAL);
     }
@@ -80,7 +83,7 @@ public class Rock extends Block implements BlockEntityProvider {
         if (state.get(ROCK_TYPE) == Rock.Type.MUTABLE) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof MutableBlockEntity mutableBlockEntity) {
-                NbtCompound itemStackNbt = itemStack.getNbt();
+                NbtCompound itemStackNbt = ModItems.getNbt(itemStack);
                 if (itemStackNbt != null) {
                     mutableBlockEntity.metalContent = Metals.getMetalContentFromNbt(itemStackNbt);
                 }
@@ -104,16 +107,16 @@ public class Rock extends Block implements BlockEntityProvider {
     }
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        super.onBreak(world, pos, state, player);
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (!world.isClient() && player.isCreative()){
             this.dropLoots(state, (ServerWorld) world, pos, player.getStackInHand(Hand.MAIN_HAND));
         }
+        return super.onBreak(world, pos, state, player);
     }
 
     private void dropLoots(BlockState state, ServerWorld world, BlockPos pos, ItemStack tool){
         if (VANILLA_SUITABLE_TOOLS.containsKey(tool.getItem())) {
-            boolean silkTouch = EnchantmentHelper.hasSilkTouch(tool);
+            boolean silkTouch = EnchantmentHelper.getLevel(DataUtil.entryOf(Enchantments.SILK_TOUCH, world.getRegistryManager()), tool) > 0;
             ItemStack stack = getDropStack(state, world, pos, silkTouch, true, VANILLA_SUITABLE_TOOLS.get(tool.getItem()));
             dropStack(world, pos, stack);
         }
@@ -130,7 +133,7 @@ public class Rock extends Block implements BlockEntityProvider {
             if (keepNbt) {
                 NbtCompound nbt = new NbtCompound();
                 setMetalContentNbtFromPos(nbt, world, state, pos);
-                stack.setNbt(nbt);
+                ModItems.setNbt(stack, nbt);
             }
         } else {
             stack = switch (type){
@@ -141,13 +144,13 @@ public class Rock extends Block implements BlockEntityProvider {
             };
             NbtCompound nbt = new NbtCompound();
             setMetalContentNbtFromPos(nbt, world, state, pos);
-            stack.setNbt(nbt);
+            ModItems.setNbt(stack, nbt);
         }
         return stack;
     }
 
     private void setMetalContentNbtFromPos(NbtCompound nbt, ServerWorld world, BlockState state, BlockPos pos){
-        Map<Integer, Integer> content = ((MetalsProvider) world).getMetals().getContents(state, pos);
+        Map<Integer, Integer> content = ((Metals.Provider) world).getMetals().getContents(state, pos);
         Metals.writeMetalContentToNbt(nbt, content);
     }
 
@@ -159,17 +162,17 @@ public class Rock extends Block implements BlockEntityProvider {
         }
 
         @Override
-        public void readNbt(NbtCompound nbt) {
-            super.readNbt(nbt);
+        public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup wrapperLookup) {
+            super.readNbt(nbt, wrapperLookup);
             metalContent = Metals.getMetalContentFromNbt(nbt);
         }
 
         @Override
-        protected void writeNbt(NbtCompound nbt) {
+        protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup wrapperLookup) {
             if (metalContent != null && world != null) {
                 Metals.writeMetalContentToNbt(nbt, metalContent);
             }
-            super.writeNbt(nbt);
+            super.writeNbt(nbt, wrapperLookup);
         }
     }
 }

@@ -28,6 +28,6 @@ public abstract class DispenserBlockMixin extends BlockWithEntity {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         DispenserBlockEntity blockEntity = (DispenserBlockEntity) world.getBlockEntity(pos);
-        if (blockEntity != null && blockEntity.lootTableId == null) Cockroach.summon(blockEntity, 0.5f);
+        if (blockEntity != null && blockEntity.getLootTable() == null) Cockroach.summon(blockEntity, 0.5f, world.getRegistryManager());
     }
 }

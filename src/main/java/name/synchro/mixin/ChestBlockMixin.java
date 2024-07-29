@@ -27,6 +27,6 @@ public abstract class ChestBlockMixin extends AbstractChestBlock<ChestBlockEntit
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         ChestBlockEntity blockEntity = (ChestBlockEntity) world.getBlockEntity(pos);
-        if (blockEntity != null && blockEntity.lootTableId == null) Cockroach.summon(blockEntity, 0.8f);
+        if (blockEntity != null && blockEntity.getLootTable() == null) Cockroach.summon(blockEntity, 0.8f, world.getRegistryManager());
     }
 }

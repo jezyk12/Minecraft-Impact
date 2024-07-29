@@ -16,7 +16,7 @@ public interface WorldViewMixin {
     @WrapOperation(method = "containsFluid", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getFluidState()Lnet/minecraft/fluid/FluidState;"))
     private FluidState fixContainsFluid(BlockState instance, Operation<FluidState> original,
                                         @Local BlockPos.Mutable pos) {
-        if (this instanceof FluidHelper.ForRenderedChunkSection getter){
+        if (this instanceof FluidHelper.ForRenderedChunk getter){
             return getter.synchro$getFluidState(pos);
         }
         else {

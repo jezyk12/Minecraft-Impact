@@ -26,7 +26,7 @@ public class MovingAroundPlayerWithGivenItem extends Goal {
 
     @Override
     public boolean canStart() {
-        this.closestPlayer = this.entity.world.getClosestPlayer(this.entity, 10);
+        this.closestPlayer = this.entity.getWorld().getClosestPlayer(this.entity, 10);
         return this.closestPlayer != null && this.closestPlayer.getMainHandStack().getItem().equals(givenItem);
     }
 

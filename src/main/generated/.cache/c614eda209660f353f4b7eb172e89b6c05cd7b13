@@ -1,7 +1,7 @@
-// 1.19.4	2024-07-01T17:56:18.3134174	Synchro/Tags for minecraft:block
-25944ced417b4a55bd991a468feba5c59d82d950 data\synchro\tags\blocks\never_fill_fluid.json
-9891913587bc5d5019f97c6a495492d5a41eb6d6 data\synchro\tags\blocks\wash_away_by_water.json
-b1944139593d8bad613425af184d21f20f40d01c data\synchro\tags\blocks\wash_away_by_lava.json
-12183c1505c35c0a3c279023a076b1187ccabe4a data\synchro\tags\blocks\never_water_coexist.json
-4a93ba5fb25602010caa18d4638813e33262aa8f data\synchro\tags\blocks\never_lava_coexist.json
-18b5d72a71fb5c47cecaed36974bd31bf5331b14 data\synchro\tags\blocks\can_store_fluid.json
+// 1.21	2024-07-29T15:37:38.3984145	Synchro/Tags for minecraft:block
+784c3999787fc0a1f1aa02d684dcd5928e013112 data\synchro\tags\block\never_fill_fluid.json
+fd6a2285a7d89aeb4050c8c622d498f6dab8f3c0 data\synchro\tags\block\wash_away_by_water.json
+98d367028944f144308cfc0ce205e9aa9993258c data\synchro\tags\block\can_store_fluid.json
+9cfc2f7d254871dbf276bd4f5e03a36ca09a1c0f data\synchro\tags\block\wash_away_by_lava.json
+5d0d344873362cf2559dbffa06cd15d859bf0bb0 data\synchro\tags\block\never_water_coexist.json
+b6c204bc8c583de613ab8ac5acf17905a544a42d data\synchro\tags\block\never_lava_coexist.json

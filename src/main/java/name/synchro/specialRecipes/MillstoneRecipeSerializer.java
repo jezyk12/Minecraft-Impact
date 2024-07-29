@@ -1,56 +1,49 @@
 package name.synchro.specialRecipes;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import name.synchro.Synchro;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-
-import java.util.Objects;
 
 public final class MillstoneRecipeSerializer implements RecipeSerializer<MillstoneRecipe> {
     public static final MillstoneRecipeSerializer INSTANCE = new MillstoneRecipeSerializer();
-    public static final Identifier ID = new Identifier(Synchro.MOD_ID, "millstone");
-    private static final Gson GSON = new Gson();
-
+    public static final Identifier ID = Identifier.of(Synchro.MOD_ID, "millstone");
+    public static final MapCodec<MillstoneRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Ingredient.ALLOW_EMPTY_CODEC.fieldOf("input").forGetter(MillstoneRecipe::input),
+            ItemStack.CODEC.fieldOf("output").forGetter(MillstoneRecipe::output),
+            Codec.INT.fieldOf("degrees").forGetter(MillstoneRecipe::degrees),
+            Codec.BOOL.optionalFieldOf("copy_nbt", false).forGetter(MillstoneRecipe::copyNbt))
+            .apply(instance, MillstoneRecipe::new));
+    public static final PacketCodec<RegistryByteBuf, MillstoneRecipe> PACKET_CODEC =
+            PacketCodec.ofStatic(MillstoneRecipeSerializer::encodeBuf, MillstoneRecipeSerializer::decodeBuf);
     @Override
-    public MillstoneRecipe read(Identifier id, JsonObject json) {
-        JsonFormat recipeJson = GSON.fromJson(json, JsonFormat.class);
-        Ingredient input = Ingredient.fromJson(Objects.requireNonNull(recipeJson.input, "Invalid input!"));
-        Item outputItem = Objects.requireNonNull(Registries.ITEM.get(new Identifier(recipeJson.output)), "Invalid output!");
-        ItemStack output = new ItemStack(outputItem, Math.min(Math.max(recipeJson.amount, 1), 64));
-        int degrees = Math.max(1, recipeJson.degrees);
-        return new MillstoneRecipe(id, input, output, degrees, recipeJson.copyNbt);
+    public MapCodec<MillstoneRecipe> codec() {
+        return CODEC;
     }
 
     @Override
-    public MillstoneRecipe read(Identifier id, PacketByteBuf buf) {
-        Ingredient input = Ingredient.fromPacket(buf);
-        ItemStack output = buf.readItemStack();
+    public PacketCodec<RegistryByteBuf, MillstoneRecipe> packetCodec() {
+        return PACKET_CODEC;
+    }
+
+    private static MillstoneRecipe decodeBuf(RegistryByteBuf buf) {
+        Ingredient input = Ingredient.PACKET_CODEC.decode(buf);
+        ItemStack output = ItemStack.PACKET_CODEC.decode(buf);
         int degrees = buf.readInt();
         boolean copyNbt = buf.readBoolean();
-        return new MillstoneRecipe(id, input, output, degrees, copyNbt);
+        return new MillstoneRecipe(input, output, degrees, copyNbt);
     }
 
-    @Override
-    public void write(PacketByteBuf buf, MillstoneRecipe recipe) {
-        recipe.input.write(buf);
-        buf.writeItemStack(recipe.output);
-        buf.writeInt(recipe.degrees);
-        buf.writeBoolean(recipe.copyNbt);
-    }
-
-    public static class JsonFormat {
-        JsonElement input;
-        String output;
-        int amount;
-        int degrees;
-        boolean copyNbt;
+    private static void encodeBuf(RegistryByteBuf buf, MillstoneRecipe recipe) {
+        Ingredient.PACKET_CODEC.encode(buf, recipe.input());
+        ItemStack.PACKET_CODEC.encode(buf, recipe.output());
+        buf.writeInt(recipe.degrees());
+        buf.writeBoolean(recipe.copyNbt());
     }
 }

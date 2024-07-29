@@ -18,6 +18,7 @@ public class Synchro implements ModInitializer {
 	public void onInitialize() {
 		SynchroStandardStatic.initialAll();
 		NetworkSearchHandler.loadNetworkSearchHandler();
+		PayloadTypes.registerAll();
 		ModFeatures.registerAll();
 		ModItems.registerAll();
 		ModItemGroups.registerAll();

@@ -1,6 +1,6 @@
 package name.synchro.mixin;
 
-import name.synchro.mixinHelper.ItemSpeciallyCombinableHelper;
+import name.synchro.util.ItemStackUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,6 +18,6 @@ public abstract class SlotMixin {
     @Inject(method = "insertStack(Lnet/minecraft/item/ItemStack;I)Lnet/minecraft/item/ItemStack;",
             at = @At("HEAD"), cancellable = true)
     private void insertStackModify(ItemStack stack, int count, CallbackInfoReturnable<ItemStack> cir){
-        ItemSpeciallyCombinableHelper.onSlotInsert((Slot) (Object) this, stack, cir);
+        ItemStackUtil.Combinable.onSlotInsert((Slot) (Object) this, stack, cir);
     }
 }

@@ -2,18 +2,19 @@ package name.synchro.items;
 
 import name.synchro.registrations.ModItems;
 import name.synchro.util.NbtTags;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.ClickType;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Random;
@@ -28,7 +29,7 @@ public class Cockroach extends Item {
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
         if (otherStack.isEmpty()){
             int count = stack.getCount();
-            slot.setStack(driveAwayCockroach(stack));
+            slot.setStack(driveAwayCockroach(stack, player.getWorld().getRegistryManager(), player.getWorld().getTime()));
             cursorStackReference.set(new ItemStack(ModItems.COCKROACH,count));
             return true;
         }
@@ -36,11 +37,12 @@ public class Cockroach extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if (stack.hasNbt()){
-            assert stack.getNbt() != null;
-            if (stack.getNbt().get(NbtTags.COCKROACH_HOLDS) instanceof NbtCompound holdsNbt) {
-                ItemStack holds = ItemStack.fromNbt(holdsNbt);
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        NbtCompound nbtCompound = ModItems.getNbt(stack);
+        if (nbtCompound == null) return;
+        if (nbtCompound.get(NbtTags.COCKROACH_HOLDS) instanceof NbtCompound holdsNbt && context.getRegistryLookup() != null) {
+            ItemStack holds = ModItems.decode(holdsNbt, context.getRegistryLookup());
+            if (!holds.isEmpty()){
                 int holdsCount = holds.getCount();
                 if (holdsCount > 0) {
                     tooltip.add(Text.translatable("info.synchro.biting")
@@ -51,12 +53,13 @@ public class Cockroach extends Item {
         }
     }
 
-    protected static ItemStack driveAwayCockroach(ItemStack cockroachStack){
-        if (cockroachStack.hasNbt()){
-            assert cockroachStack.getNbt() != null;
-            if (cockroachStack.getNbt().get(NbtTags.COCKROACH_HOLDS) instanceof NbtCompound holdsNbt){
-                ItemStack holds = ItemStack.fromNbt(holdsNbt);
-                Random random = new Random();
+    protected static ItemStack driveAwayCockroach(ItemStack cockroachStack, RegistryWrapper.WrapperLookup wrapperLookup, long seed){
+        NbtCompound nbtCompound = ModItems.getNbt(cockroachStack);
+        if (nbtCompound == null) return ItemStack.EMPTY;
+        if (nbtCompound.get(NbtTags.COCKROACH_HOLDS) instanceof NbtCompound holdsNbt){
+            ItemStack holds = ModItems.decode(holdsNbt, wrapperLookup);
+            if (!holds.isEmpty()){
+                Random random = new Random(seed);
                 int stackCount = cockroachStack.getCount();
                 holds.decrement((random.nextInt(stackCount) + random.nextInt(stackCount)) / 2);
                 return holds;
@@ -65,24 +68,24 @@ public class Cockroach extends Item {
         return ItemStack.EMPTY;
     }
 
-    public static ItemStack hold(int cockroachAmount, ItemStack stack){
+    public static ItemStack hold(int cockroachAmount, ItemStack stack, RegistryWrapper.WrapperLookup wrapperLookup){
         NbtCompound compound = new NbtCompound();
-        NbtCompound cockroachHolds = stack.writeNbt(new NbtCompound());
+        NbtElement cockroachHolds = ModItems.encode(stack, wrapperLookup);
         compound.put(NbtTags.COCKROACH_HOLDS,cockroachHolds);
         ItemStack cockroachStack = new ItemStack(ModItems.COCKROACH, cockroachAmount);
-        cockroachStack.setNbt(compound);
+        ModItems.setNbt(cockroachStack, compound);
         return cockroachStack;
     }
 
     public static boolean loves(ItemStack stack){
-        return stack.getItem().isFood();
+        return stack.getComponents().get(DataComponentTypes.FOOD) != null;
     }
 
-    public static <T extends Inventory> void summon(T container, float possibilityMultiplier) {
-        Cockroach.summon(container, possibilityMultiplier, 0);
+    public static <T extends Inventory> void summon(T container, float possibilityMultiplier, RegistryWrapper.WrapperLookup wrapperLookup) {
+        Cockroach.summon(container, possibilityMultiplier, 0, wrapperLookup);
     }
 
-    private static <T extends Inventory> boolean summon(T container, float possibilityMultiplier, int times){
+    private static <T extends Inventory> boolean summon(T container, float possibilityMultiplier, int times, RegistryWrapper.WrapperLookup wrapperLookup){
         if (possibilityMultiplier > 1f) possibilityMultiplier = 1f;
         Random random = new Random();
         int chosen = random.nextInt((int) (container.size() * 70 / possibilityMultiplier));
@@ -106,7 +109,7 @@ public class Cockroach extends Item {
             chosen -= possibility;
             if (chosen < 0){
                 if (!cockroachExisted){
-                    container.setStack(i, Cockroach.hold(1, stack));
+                    container.setStack(i, Cockroach.hold(1, stack, wrapperLookup));
                 }
                 else {
                     container.getStack(i).increment(1);
@@ -115,7 +118,7 @@ public class Cockroach extends Item {
             }
         }
         if (times < 5 && random.nextInt(container.size()) < cockroachCount){
-            return Cockroach.summon(container, possibilityMultiplier, times + 1);
+            return Cockroach.summon(container, possibilityMultiplier, times + 1, wrapperLookup);
         }
         return false;
     }

@@ -11,7 +11,7 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 
 public final class RegisterEventsServer {
-    public static final Identifier LISTENER_ID = new Identifier(Synchro.MOD_ID, "synchro_data_listener");
+    public static final Identifier LISTENER_ID = Identifier.of(Synchro.MOD_ID, "synchro_data_listener");
     public static void registerAll() {
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
             @Override

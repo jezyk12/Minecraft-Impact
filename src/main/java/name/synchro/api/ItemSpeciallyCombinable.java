@@ -14,8 +14,11 @@ import net.minecraft.util.ClickType;
  * can also be overrode for full features while implementing this interface.</p>
  */
 public interface ItemSpeciallyCombinable {
-    boolean canCombineToExistingStack(ItemStack givenStack, ItemStack existingStack);
+    default boolean canCombineToExistingStack(ItemStack givenStack, ItemStack existingStack){
+        return canCombineToExistingStack(givenStack, existingStack, false);
+    }
 
+    boolean canCombineToExistingStack(ItemStack givenStack, ItemStack existingStack, boolean allowOverflow);
     /**
      * @return The remaining stack of givenStack after combining.
      */

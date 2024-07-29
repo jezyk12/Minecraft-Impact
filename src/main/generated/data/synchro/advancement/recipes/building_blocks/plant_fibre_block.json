@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_plant_fibre": {
+      "conditions": {
+        "items": [
+          {
+            "items": "synchro:plant_fibre"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:plant_fibre_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_plant_fibre"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:plant_fibre_block"
+    ]
+  }
+}

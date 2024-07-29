@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "name.synchro.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ClientWorldMixin",
+    "MinecraftClientMixin",
+    "FluidConcerned.ChunkRendererRegionMixin",
+    "FluidConcerned.FluidRendererMixin",
+    "FluidConcerned.RenderedChunkMixin",
+    "hud.CameraMixin",
+    "hud.GameRendererMixin",
+    "hud.HeldItemRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
+}

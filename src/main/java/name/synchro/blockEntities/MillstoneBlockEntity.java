@@ -5,6 +5,7 @@ import name.synchro.employment.BlockEntityWorkerManager;
 import name.synchro.employment.Employer;
 import name.synchro.employment.Job;
 import name.synchro.registrations.ModBlockEntities;
+import name.synchro.registrations.ModItems;
 import name.synchro.screenHandlers.MillstoneScreenHandler;
 import name.synchro.specialRecipes.MillstoneRecipe;
 import name.synchro.util.*;
@@ -27,6 +28,8 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -72,11 +75,11 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup wrapperLookup) {
+        super.readNbt(nbt, wrapperLookup);
         NbtCompound inv = nbt.getCompound(NbtTags.INVENTORY);
         for (int i = 0; i < this.inventory.size(); i++) {
-            this.inventory.set(i, ItemStack.fromNbt(inv.getCompound(String.valueOf(i))));
+            this.inventory.set(i, ModItems.decode(inv.getCompound(String.valueOf(i)), wrapperLookup));
         }
         this.processingDegrees = nbt.getInt(NbtTags.PROCESSING_TICKS);
         this.setupRotationFromNbt(nbt.getCompound(NbtTags.ROTATION), world);
@@ -84,16 +87,16 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     }
 
     @Override
-    protected void writeNbt(NbtCompound toWriteNbt) {
+    protected void writeNbt(NbtCompound toWriteNbt, RegistryWrapper.WrapperLookup wrapperLookup) {
         NbtCompound inv = new NbtCompound();
         for (int i = 0; i < this.inventory.size(); i++) {
-            inv.put(String.valueOf(i), this.inventory.get(i).writeNbt(new NbtCompound()));
+            inv.put(String.valueOf(i), ModItems.encode(this.inventory.get(i), wrapperLookup));
         }
         toWriteNbt.put(NbtTags.INVENTORY, inv);
         toWriteNbt.putInt(NbtTags.PROCESSING_TICKS, this.processingDegrees);
         toWriteNbt.put(NbtTags.ROTATION, this.createRotationNbt(Objects.requireNonNull(world).getTime()));
         toWriteNbt.put(NbtTags.EMPLOYEES, this.workerManager.getEmploymentNbt());
-        super.writeNbt(toWriteNbt);
+        super.writeNbt(toWriteNbt, wrapperLookup);
     }
 
     @Override
@@ -135,14 +138,15 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
 
     public static boolean canInsertForProcessing(World world, ItemStack stack){
         if (world != null){
-            return world.getRecipeManager().listAllOfType(MillstoneRecipe.MILLING_RECIPE_TYPE).stream().anyMatch(recipe -> recipe.getInput().test(stack));
+            return world.getRecipeManager().listAllOfType(MillstoneRecipe.TYPE)
+                    .stream().anyMatch(recipe -> recipe.value().input().test(stack));
         }
         return false;
     }
 
     public static boolean isFeed(World world, ItemStack stack){
         if (world != null){
-            ModDataContainer<?> container = ModDataManager.get(world).getContents().get(CowWorkingFeedsData.ID);
+            ModDataContainer<?> container = ((ModDataManager.Provider)(world)).synchro$getModDataManager().getContents().get(CowWorkingFeedsData.ID);
             if (container instanceof CowWorkingFeedsData cowData){
                 return cowData.data().stream().anyMatch(entry -> entry.items().test(stack));
             }
@@ -152,7 +156,7 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
 
     public static int getFeedTime(World world, ItemStack stack){
         if (world != null){
-            ModDataContainer<?> container = ModDataManager.get(world).getContents().get(CowWorkingFeedsData.ID);
+            ModDataContainer<?> container = ((ModDataManager.Provider)(world)).synchro$getModDataManager().getContents().get(CowWorkingFeedsData.ID);
             if (container instanceof CowWorkingFeedsData cowData){
                 return Math.max(cowData.data().stream().filter(entry -> entry.items().test(stack)).map(CowWorkingFeedsData.Entry::time)
                         .max(Integer::compareTo).orElse(100), 100);
@@ -219,14 +223,15 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
             ItemStack inputStack = this.getStack(SLOT_INPUT);
             if (!inputStack.isOf(cacheInputStack.getItem())) {
                 if (!inputStack.isEmpty()) {
-                    this.processingRecipe = world.getRecipeManager().getFirstMatch(MillstoneRecipe.MILLING_RECIPE_TYPE, this, world).orElse(null);
+                    Optional<RecipeEntry<MillstoneRecipe>> entryOptional = world.getRecipeManager().getFirstMatch(MillstoneRecipe.TYPE, MillstoneRecipe.Input.of(this.getStack(SLOT_INPUT)), world);
+                    this.processingRecipe = entryOptional.map(RecipeEntry::value).orElse(null);
                 }
                 else this.processingRecipe = null;
                 this.cacheInputStack = inputStack.copy();
             }
             if (isWorking) {
                 if (this.processingRecipe != null) {
-                    ItemStack processing = this.processingRecipe.getOutput(world.getRegistryManager(), inputStack);
+                    ItemStack processing = this.processingRecipe.getActualOutput(MillstoneRecipe.Input.of(this.getStack(SLOT_INPUT)));
                     int degrees = this.processingRecipe.getDegrees();
                     ItemStack products = this.getStack(SLOT_OUTPUT).copy();
                     tryProcess(products, processing, processMultiplier, degrees);
@@ -280,8 +285,8 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return createNbt();
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup wrapperLookup) {
+        return createNbt(wrapperLookup);
     }
 
     @Override

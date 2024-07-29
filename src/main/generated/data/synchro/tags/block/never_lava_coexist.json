@@ -1,0 +1,62 @@
+{
+  "values": [
+    {
+      "id": "#minecraft:saplings",
+      "required": false
+    },
+    "minecraft:redstone_wire",
+    "minecraft:redstone_torch",
+    "minecraft:redstone_wall_torch",
+    "minecraft:repeater",
+    "minecraft:comparator",
+    "minecraft:lever",
+    "minecraft:tripwire",
+    "minecraft:tripwire_hook",
+    {
+      "id": "#minecraft:buttons",
+      "required": false
+    },
+    "minecraft:torch",
+    "minecraft:soul_torch",
+    "minecraft:wall_torch",
+    "minecraft:soul_wall_torch",
+    "minecraft:lily_pad",
+    "minecraft:vine",
+    "minecraft:sweet_berry_bush",
+    "minecraft:sugar_cane",
+    "minecraft:brown_mushroom",
+    "minecraft:red_mushroom",
+    "minecraft:snow",
+    "minecraft:powder_snow",
+    "minecraft:sculk_vein",
+    "minecraft:moss_carpet",
+    "minecraft:cobweb",
+    "minecraft:frogspawn",
+    "minecraft:spore_blossom",
+    "minecraft:dead_bush",
+    {
+      "id": "#minecraft:candles",
+      "required": false
+    },
+    {
+      "id": "#minecraft:wool_carpets",
+      "required": false
+    },
+    {
+      "id": "#minecraft:cave_vines",
+      "required": false
+    },
+    {
+      "id": "#minecraft:crops",
+      "required": false
+    },
+    {
+      "id": "#minecraft:flowers",
+      "required": false
+    },
+    {
+      "id": "#minecraft:replaceable",
+      "required": false
+    }
+  ]
+}

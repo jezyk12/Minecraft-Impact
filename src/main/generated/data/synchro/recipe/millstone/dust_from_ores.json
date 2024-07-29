@@ -1,0 +1,12 @@
+{
+  "type": "synchro:millstone",
+  "copy_nbt": true,
+  "degrees": 90,
+  "input": {
+    "tag": "synchro:raw_metal_ore"
+  },
+  "output": {
+    "count": 1,
+    "id": "synchro:ores_dust"
+  }
+}

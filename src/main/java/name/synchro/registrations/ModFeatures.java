@@ -35,7 +35,7 @@ public final class ModFeatures {
 
     private static RegistryKey<PlacedFeature> addPlacedFeature(String path, Predicate<BiomeSelectionContext> biomeSelector, GenerationStep.Feature step){
         RegistryKey<PlacedFeature> key =
-                RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(Synchro.MOD_ID, path));
+                RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(Synchro.MOD_ID, path));
         BiomeModifications.addFeature(biomeSelector, step, key);
         return key;
     }

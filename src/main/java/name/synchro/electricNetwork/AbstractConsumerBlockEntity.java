@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 
@@ -142,16 +143,16 @@ public abstract class AbstractConsumerBlockEntity extends AbstractNetworkBlockEn
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup wrapperLookup) {
+        super.readNbt(nbt, wrapperLookup);
         replaceCapacityWith(new ElectricCapacity(nbt.getFloat(CAPACITANCE), nbt.getFloat(VOLTAGE)));
     }
 
     @Override
-    protected void writeNbt(NbtCompound toWriteNbt) {
+    protected void writeNbt(NbtCompound toWriteNbt, RegistryWrapper.WrapperLookup wrapperLookup) {
         toWriteNbt.putFloat(CAPACITANCE,capacity.CAPACITANCE);
         toWriteNbt.putFloat(VOLTAGE,capacity.getVoltage());
-        super.writeNbt(toWriteNbt);
+        super.writeNbt(toWriteNbt, wrapperLookup);
     }
 
     @Override

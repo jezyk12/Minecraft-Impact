@@ -2,7 +2,6 @@ package name.synchro.util;
 
 import com.google.common.collect.ImmutableMap;
 import name.synchro.Synchro;
-import name.synchro.mixinHelper.MetalsProvider;
 import name.synchro.registrations.ModBlocks;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.block.Block;
@@ -61,7 +60,7 @@ public final class MetalsComponentsHelper {
 
     public static List<Integer> createComponentsList(World world, BlockPos pos){
         BiomesFunction biomesFunction = FUNCTIONS_VANILLA.getOrDefault(world.getBiomeAccess().getBiome(pos).getKey().orElse(BiomeKeys.THE_VOID), DEFAULT_BIOMES_FUNCTION);
-        Random posRandom = new Random(pos.asLong() ^ ((MetalsProvider) world).getMetals().seed);
+        Random posRandom = new Random(pos.asLong() ^ ((Metals.Provider) world).getMetals().seed);
         if (biomesFunction == null) {
             Synchro.LOGGER.error("Fail to create components list: Null Parameters");
             return List.of();
@@ -108,7 +107,7 @@ public final class MetalsComponentsHelper {
     }
 
     public static List<Metals.Metal> createMetalList(World world, BlockState state, BlockPos pos){
-        Metals metals = ((MetalsProvider) world).getMetals();
+        Metals metals = ((Metals.Provider) world).getMetals();
         RegistryKey<Biome> biomeKey = world.getBiomeAccess().getBiome(pos).getKey().orElse(BiomeKeys.THE_VOID);
         List<Metals.Metal> metalsList = new ArrayList<>(metals.getVariants());
         metalsList.sort((a, b) -> {

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 public final class FluidHelper {
 
-    public interface ForRenderedChunkSection {
+    public interface ForRenderedChunk {
         FluidState synchro$getFluidState(BlockPos pos);
     }
 
@@ -46,9 +46,7 @@ public final class FluidHelper {
 
     @Deprecated
     public interface ForClientPacketListener {
-        void synchro$onChunkUpdateWithFluid(ChunkDeltaUpdateWithFluidS2CPacket packet);
 
-        void synchro$onBlockUpdateWithFluid(BlockUpdateWithFluidS2CPacket packet);
     }
 
     @Deprecated

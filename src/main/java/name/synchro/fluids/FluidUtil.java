@@ -5,12 +5,9 @@ import com.google.common.math.DoubleMath;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import name.synchro.registrations.ModTags;
-import net.fabricmc.fabric.api.networking.v1.FabricPacket;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -22,10 +19,12 @@ import net.minecraft.item.ItemUsage;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkHolder;
+import net.minecraft.server.world.ChunkLevelType;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -85,7 +84,7 @@ public final class FluidUtil {
         if (nbtCompound.contains(KEY_FLUID_STATES, NbtElement.COMPOUND_TYPE)) {
             dataResult = CODEC.parse(NbtOps.INSTANCE, nbtCompound.getCompound(KEY_FLUID_STATES))
                     .promotePartial((errorMessage) -> logRecoverableError(chunkPos, yPos, errorMessage));
-            palettedContainer = dataResult.getOrThrow(false, LOGGER::error);
+            palettedContainer = dataResult.getOrThrow();
         } else {
             palettedContainer = createFluidStatePaletteContainer();
         }
@@ -94,7 +93,7 @@ public final class FluidUtil {
 
     public static void serialize(NbtCompound nbt, ChunkSection chunkSection) {
         DataResult<NbtElement> dataResult = CODEC.encodeStart(NbtOps.INSTANCE, ((FluidHelper.ForChunkSection) chunkSection).synchro$getFluidStateContainer());
-        nbt.put(KEY_FLUID_STATES, dataResult.getOrThrow(false, LOGGER::error));
+        nbt.put(KEY_FLUID_STATES, dataResult.getOrThrow());
     }
 
     private static void logRecoverableError(ChunkPos chunkPos, int y, String message) {
@@ -168,12 +167,6 @@ public final class FluidUtil {
                 return false;
             } else {
                 FluidState placedState = world.getFluidState(pos);
-                if ((flags & Block.SKIP_LIGHTING_UPDATES) == 0) {
-                    world.getProfiler().push("queueCheckLight");
-                    world.getChunkManager().getLightingProvider().checkBlock(pos);
-                    world.getProfiler().pop();
-                }
-
                 if (placedState == fluidState) {
                     if (replacedState != placedState) {
                         world.scheduleBlockRerenderIfNeeded(pos, replacedState.getBlockState(), fluidState.getBlockState());
@@ -181,7 +174,7 @@ public final class FluidUtil {
 
                     if ((flags & Block.NOTIFY_LISTENERS) != 0
                             && (!world.isClient() || (flags & Block.NO_REDRAW) == 0)
-                            && (world.isClient() || worldChunk.getLevelType() != null && worldChunk.getLevelType().isAfter(ChunkHolder.LevelType.TICKING))) {
+                            && (world.isClient() || worldChunk.getLevelType() != null && worldChunk.getLevelType().isAfter(ChunkLevelType.BLOCK_TICKING))) {
                         world.updateListeners(pos, replacedState.getBlockState(), fluidState.getBlockState(), flags);
                     }
 
@@ -260,17 +253,9 @@ public final class FluidUtil {
                 VoxelShapes.cuboid(0, 0, 0, 1, height, 1), BooleanBiFunction.AND);
     }
 
-    public static void sendToPlayersWatching(ChunkHolder.PlayersWatchingChunkProvider provider, ChunkPos chunkPos, FabricPacket packet) {
+    public static void sendToPlayersWatching(ChunkHolder.PlayersWatchingChunkProvider provider, ChunkPos chunkPos, CustomPayload payload) {
         provider.getPlayersWatchingChunk(chunkPos, false).forEach(player ->
-                ServerPlayNetworking.send(player, packet));
-    }
-
-    public static void onSingleFluidUpdate(SingleFluidUpdateS2CPacket packet, ClientPlayerEntity player, PacketSender responseSender){
-        ((FluidHelper.ForWorld) player.clientWorld).synchro$setFluidState(packet.pos, packet.fluidState, 0b10011, 512);
-    }
-
-    public static void onChunkFluidUpdate(ChunkFluidUpdateS2CPacket packet, ClientPlayerEntity player, PacketSender responseSender){
-        packet.forEach((pos, state) -> ((FluidHelper.ForWorld) player.clientWorld).synchro$setFluidState(pos, state, 0b10011, 512));
+                ServerPlayNetworking.send(player, payload));
     }
 
     public static Optional<TypedActionResult<ItemStack>> onBucketItemUse(BucketItem instanceItem, World world, PlayerEntity user, Hand hand, BlockHitResult blockHitResult) {

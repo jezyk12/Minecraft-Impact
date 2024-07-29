@@ -114,7 +114,7 @@ public class PushMillstoneGoal extends AbstractWorkingGoal{
     }
 
     private boolean isEffectivelyPushing(MillstoneBlockEntity millstoneBlockEntity) {
-        double avgWidth = (this.mob.getBoundingBox().getXLength() + this.mob.getBoundingBox().getZLength()) / 2;
+        double avgWidth = (this.mob.getBoundingBox().getLengthX() + this.mob.getBoundingBox().getLengthZ()) / 2;
         Vec3d centerPos = millstoneBlockEntity.getPos().toCenterPos();
         Vec3d eyePos = this.mob.getEyePos();
         Vec3d centerDiff = eyePos.subtract(centerPos);

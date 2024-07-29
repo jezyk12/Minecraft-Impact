@@ -68,6 +68,6 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
                 .addOptionalTag(BlockTags.CAVE_VINES)
                 .addOptionalTag(BlockTags.CROPS)
                 .addOptionalTag(BlockTags.FLOWERS)
-                .addOptionalTag(BlockTags.REPLACEABLE_PLANTS);
+                .addOptionalTag(BlockTags.REPLACEABLE);
     }
 }

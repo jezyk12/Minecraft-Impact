@@ -1,12 +1,8 @@
 package name.synchro.util;
 
-import name.synchro.SynchroClient;
 import name.synchro.blockEntities.MillstoneBlockEntity;
 import name.synchro.registrations.ModBlockEntities;
 import name.synchro.registrations.RegisterPointsOfInterest;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.ChunkPos;
@@ -39,14 +35,6 @@ public interface BlockEntityExtraCollisionProvider {
             });
         }
         return extraCollisions;
-    }
-
-
-    static void displayCollisions(Collection<VoxelShape> collections, MatrixStack matrices, VertexConsumer vertexConsumer){
-        if (SynchroClient.displayExtraCollisions){
-            collections.forEach((voxelShape) ->
-                    WorldRenderer.drawShapeOutline(matrices, vertexConsumer, voxelShape, 0, 0, 0, 0, 1, 0, 1.0f));
-        }
     }
 
     @Deprecated

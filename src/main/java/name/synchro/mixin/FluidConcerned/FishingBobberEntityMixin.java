@@ -23,6 +23,6 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity {
     private FluidState fixGetFluidState(BlockState instance, Operation<FluidState> original,
                                         @Local(argsOnly = true) BlockPos pos){
 
-        return this.world.getFluidState(pos);
+        return this.getWorld().getFluidState(pos);
     }
 }

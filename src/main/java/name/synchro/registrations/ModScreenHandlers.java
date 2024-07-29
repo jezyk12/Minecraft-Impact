@@ -3,7 +3,6 @@ package name.synchro.registrations;
 import name.synchro.Synchro;
 import name.synchro.screenHandlers.ElectricConsumerScreenHandler;
 import name.synchro.screenHandlers.ElectricSourceScreenHandler;
-import name.synchro.guidance.GuidanceScreenHandler;
 import name.synchro.screenHandlers.MillstoneScreenHandler;
 import name.synchro.screenHandlers.UniversalMeterScreenHandler;
 import net.minecraft.registry.Registries;
@@ -21,8 +20,8 @@ public final class ModScreenHandlers {
             registerScreenHandler(Identifier.of(Synchro.MOD_ID, "electric_source"), ElectricSourceScreenHandler::new);
     public static final ScreenHandlerType<UniversalMeterScreenHandler> UNIVERSAL_METER_SCREEN_HANDLER =
             registerScreenHandler(Identifier.of(Synchro.MOD_ID, "universal_meter"), UniversalMeterScreenHandler::new);
-    public static final ScreenHandlerType<GuidanceScreenHandler> GUIDANCE_SCREEN_HANDLER =
-            registerScreenHandler(Identifier.of(Synchro.MOD_ID, "introduction_screen_handler"), GuidanceScreenHandler::new);
+//    public static final ScreenHandlerType<GuidanceScreenHandler> GUIDANCE_SCREEN_HANDLER =
+//            registerScreenHandler(Identifier.of(Synchro.MOD_ID, "introduction_screen_handler"), GuidanceScreenHandler::new);
     public static final ScreenHandlerType<MillstoneScreenHandler> MILLSTONE_SCREEN_HANDLER =
             registerScreenHandler(Identifier.of(Synchro.MOD_ID, "millstone_screen_handler"), MillstoneScreenHandler::new);
 

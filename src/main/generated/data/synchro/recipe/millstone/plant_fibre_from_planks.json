@@ -1,0 +1,11 @@
+{
+  "type": "synchro:millstone",
+  "degrees": 180,
+  "input": {
+    "tag": "minecraft:planks"
+  },
+  "output": {
+    "count": 4,
+    "id": "synchro:plant_fibre"
+  }
+}

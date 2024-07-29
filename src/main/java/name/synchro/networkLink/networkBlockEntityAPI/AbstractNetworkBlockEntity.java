@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -49,8 +50,8 @@ public abstract class AbstractNetworkBlockEntity extends BlockEntity implements 
         }
     }
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup wrapperLookup) {
+        super.readNbt(nbt, wrapperLookup);
         if (nbt.contains(LINK)){
             for (Long source: nbt.getLongArray(LINK)){
                 linkedTerminals.add(BlockPos.fromLong(source));
@@ -58,12 +59,12 @@ public abstract class AbstractNetworkBlockEntity extends BlockEntity implements 
         }
     }
     @Override
-    protected void writeNbt(NbtCompound toWriteNbt) {
+    protected void writeNbt(NbtCompound toWriteNbt, RegistryWrapper.WrapperLookup wrapperLookup) {
         List<Long> terminals = new ArrayList<>();
         for (BlockPos source: linkedTerminals){
             terminals.add(source.asLong());
         }
         toWriteNbt.putLongArray(LINK,terminals);
-        super.writeNbt(toWriteNbt);
+        super.writeNbt(toWriteNbt, wrapperLookup);
     }
 }

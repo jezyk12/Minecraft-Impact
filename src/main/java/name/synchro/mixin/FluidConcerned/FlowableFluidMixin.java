@@ -1,10 +1,10 @@
 package name.synchro.mixin.FluidConcerned;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.datafixers.util.Pair;
-import it.unimi.dsi.fastutil.shorts.Short2ObjectFunction;
 import name.synchro.fluids.FluidHelper;
 import name.synchro.fluids.FluidUtil;
 import net.minecraft.block.Block;
@@ -16,12 +16,14 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.*;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -29,18 +31,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class FlowableFluidMixin {
     @Shadow protected abstract void beforeBreakingBlock(WorldAccess world, BlockPos pos, BlockState state);
 
-    @ModifyArg(method = "getSpread", at = @At(value = "INVOKE",
-            target = "Lit/unimi/dsi/fastutil/shorts/Short2ObjectMap;computeIfAbsent(SLit/unimi/dsi/fastutil/shorts/Short2ObjectFunction;)Ljava/lang/Object;",
-            ordinal = 0), index = 1)
-    private Short2ObjectFunction<? extends Pair<BlockState, FluidState>> fixGetFluidStateInGetSpread(
-            Short2ObjectFunction<? extends Pair<BlockState, FluidState>> mappingFunction,
-            @Local(argsOnly = true)World world, @Local(ordinal = 1) BlockPos blockPos){
-        return (sx) -> {
-            BlockState blockState = world.getBlockState(blockPos);
-            FluidState fluidState = world.getFluidState(blockPos);
-            return Pair.of(blockState, fluidState);
-        };
+    @ModifyReturnValue(method = "method_15734", at = @At("RETURN"))
+    private static Pair<BlockState, FluidState>
+    fixGetFluidStateInGetSpread(Pair<BlockState, FluidState> original,
+                                @Local(argsOnly = true)World world, @Local(argsOnly = true)BlockPos pos){
+        return original.mapSecond(fluidState -> world.getFluidState(pos));
     }
+
+//    @ModifyArg(method = "getSpread", at = @At(value = "INVOKE",
+//            target = "Lit/unimi/dsi/fastutil/shorts/Short2ObjectMap;computeIfAbsent(SLit/unimi/dsi/fastutil/shorts/Short2ObjectFunction;)Ljava/lang/Object;",
+//            ordinal = 0), index = 1)
+//    private Short2ObjectFunction<? extends Pair<BlockState, FluidState>> fixGetFluidStateInGetSpread(
+//            Short2ObjectFunction<? extends Pair<BlockState, FluidState>> mappingFunction,
+//            @Local(argsOnly = true)World world, @Local(ordinal = 1) BlockPos blockPos){
+//        return (sx) -> {
+//            BlockState blockState = world.getBlockState(blockPos);
+//            FluidState fluidState = world.getFluidState(blockPos);
+//            return Pair.of(blockState, fluidState);
+//        };
+//    }
 
     @WrapOperation(method = "canFlowDownTo", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getFluidState()Lnet/minecraft/fluid/FluidState;"))
     private FluidState fixGetFluidStateInCanFlowDownTo(
@@ -50,15 +59,11 @@ public abstract class FlowableFluidMixin {
         return world.getFluidState(fromPos);
     }
 
-    @ModifyArg(method = "getFlowSpeedBetween", at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/shorts/Short2ObjectMap;computeIfAbsent(SLit/unimi/dsi/fastutil/shorts/Short2ObjectFunction;)Ljava/lang/Object;", ordinal = 0), index = 1)
-    private Short2ObjectFunction<? extends Pair<BlockState, FluidState>> fixGetFluidStateInGetFlowSpeedBetween(
-            Short2ObjectFunction<? extends Pair<BlockState, FluidState>> mappingFunction,
-            @Local(argsOnly = true) WorldView world, @Local(ordinal = 2) BlockPos blockPos){
-        return (sx) -> {
-            BlockState blockState = world.getBlockState(blockPos);
-            FluidState fluidState = world.getFluidState(blockPos);
-            return Pair.of(blockState, fluidState);
-        };
+    @ModifyReturnValue(method = "method_15755", at = @At("RETURN"))
+    private static Pair<BlockState, FluidState>
+    fixGetFluidStateInGetMinFlowDowDistance(Pair<BlockState, FluidState> original,
+                                            @Local(argsOnly = true) WorldView world, @Local(argsOnly = true)BlockPos pos){
+        return original.mapSecond(fluidState -> world.getFluidState(pos));
     }
 
     @WrapOperation(method = "getUpdatedState", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getFluidState()Lnet/minecraft/fluid/FluidState;", ordinal = 0))

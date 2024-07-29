@@ -1,7 +1,6 @@
 package name.synchro.mixin;
 
 import com.google.common.collect.ImmutableMap;
-import name.synchro.mixinHelper.MetalsProvider;
 import name.synchro.util.ImportantPoints;
 import name.synchro.util.Metals;
 import net.minecraft.registry.DynamicRegistryManager;
@@ -22,7 +21,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 @Mixin(World.class)
-public abstract class WorldMixin implements MetalsProvider, ImportantPoints.Provider, WorldAccess {
+public abstract class WorldMixin implements Metals.Provider, ImportantPoints.Provider, WorldAccess {
     @Unique private Metals metals;
     @Unique private Map<ImportantPoints.Type, ImportantPoints> importantPoints = ImmutableMap.of(ImportantPoints.Type.EXTRA_COLLISION, new ImportantPoints((World)(Object)this, 100){}) ;
 

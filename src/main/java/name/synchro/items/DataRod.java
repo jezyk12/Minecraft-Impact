@@ -45,7 +45,7 @@ public class DataRod extends Item {
             BlockEntity blockEntity = world.getBlockEntity(context.getBlockPos());
             if (blockEntity != null) {
                 Objects.requireNonNull(context.getPlayer()).sendMessage(
-                        Text.of(new StringNbtWriter().apply(blockEntity.createNbtWithIdentifyingData())));
+                        Text.of(new StringNbtWriter().apply(blockEntity.createNbtWithIdentifyingData(context.getWorld().getRegistryManager()))));
             }
             else{
                 Objects.requireNonNull(context.getPlayer()).sendMessage(

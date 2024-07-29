@@ -20,7 +20,7 @@ public class OresBlock extends ExperienceDroppingBlock {
     public final Block baseBlock;
 
     public OresBlock(Block baseBlock, Settings settings) {
-        super(settings, UniformIntProvider.create(1, 6));
+        super(UniformIntProvider.create(1, 6), settings);
         this.baseBlock = baseBlock;
         setDefaultState(getDefaultState().with(TEXTURE, RawOresAdjective.SHINY).with(HARDNESS, RawOresAdjective.HARD).with(PURITY, RawOresAdjective.PURE).with(GLITTERY, false));
     }

@@ -1,15 +1,16 @@
 package name.synchro.items;
 
-import net.minecraft.client.item.TooltipContext;
+import name.synchro.registrations.ModItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Deprecated
 public class RawMixedOre extends Item {
     public static final String[] AVAILABLE_ORE_LIST =
             {"coal","copper","iron","gold","redstone"};
@@ -23,12 +24,13 @@ public class RawMixedOre extends Item {
        // oreColorMap.put("stone",0x); //stone content also decides color
     }
     public static final Short TOTAL_MASS = 1024;
+
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if(stack.hasNbt()) {
-            assert stack.getNbt() != null;
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        NbtCompound nbtCompound = ModItems.getNbt(stack);
+        if (nbtCompound != null) {
             for (String ore : AVAILABLE_ORE_LIST) {
-                int oreContent = stack.getNbt().getInt(ore);
+                int oreContent = nbtCompound.getInt(ore);
                 if(oreContent!=0){
                     tooltip.add(Text.translatable("ore.synchro." + ore)
                         .append(Text.translatable("info.synchro.content"))

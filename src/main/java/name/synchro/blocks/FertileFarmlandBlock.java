@@ -15,7 +15,7 @@ public class FertileFarmlandBlock extends AbstractFarmlandBlock {
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         super.randomTick(state, world, pos, random);
         BlockState upState = world.getBlockState(pos.up());
-        if (upState.getBlock() instanceof PlantBlock && upState.getBlock().hasRandomTicks(upState)){
+        if (upState.getBlock() instanceof PlantBlock && upState.hasRandomTicks()){
             upState.randomTick(world,pos.up(),random);
         }
     }

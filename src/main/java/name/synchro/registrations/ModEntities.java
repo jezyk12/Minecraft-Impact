@@ -18,7 +18,7 @@ public final class ModEntities {
             MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25));
 
     private static <T extends MobEntity> EntityType<T> registerMobEntity(String path, FabricEntityTypeBuilder<T> entityTypeBuilder, DefaultAttributeContainer.Builder attributeBuilder){
-        EntityType<T> self = Registry.register(Registries.ENTITY_TYPE, new Identifier(Synchro.MOD_ID, path), entityTypeBuilder.build());
+        EntityType<T> self = Registry.register(Registries.ENTITY_TYPE, Identifier.of(Synchro.MOD_ID, path), entityTypeBuilder.build());
         FabricDefaultAttributeRegistry.register(self, attributeBuilder);
         return self;
     }

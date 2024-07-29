@@ -20,8 +20,8 @@ public class FertileDirtBlock extends Block {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         BlockState upState = world.getBlockState(pos.up());
-        if (upState.getBlock() instanceof PlantBlock && upState.getBlock().hasRandomTicks(upState)){
-            upState.getBlock().randomTick(upState,world,pos.up(),random);
+        if (upState.getBlock() instanceof PlantBlock && upState.hasRandomTicks()){
+            upState.randomTick(world,pos.up(),random);
         }
     }
 }

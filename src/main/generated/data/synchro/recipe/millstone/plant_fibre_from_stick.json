@@ -1,0 +1,11 @@
+{
+  "type": "synchro:millstone",
+  "degrees": 45,
+  "input": {
+    "item": "minecraft:stick"
+  },
+  "output": {
+    "count": 1,
+    "id": "synchro:plant_fibre"
+  }
+}

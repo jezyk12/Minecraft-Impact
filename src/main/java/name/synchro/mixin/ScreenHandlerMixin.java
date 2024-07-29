@@ -23,8 +23,8 @@ public abstract class ScreenHandlerMixin {
     @Unique boolean insertItemReturn = false;
 
     @WrapOperation(method = "internalOnSlotClick",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;canCombine(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z", ordinal = 0))
-    private boolean warpCanCombine(ItemStack stack, ItemStack otherStack, Operation<Boolean> original){
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;areItemsAndComponentsEqual(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z"))
+    private boolean wrapCanCombine(ItemStack stack, ItemStack otherStack, Operation<Boolean> original){
         if (stack.getItem() instanceof ItemSpeciallyCombinable specialItem) {
             return specialItem.canCombineToExistingStack(stack, otherStack);
         }
@@ -32,7 +32,7 @@ public abstract class ScreenHandlerMixin {
     }
 
     @WrapOperation(method = "insertItem",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;canCombine(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z", ordinal = 0))
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;areItemsAndComponentsEqual(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z"))
     private boolean modifyInsertItem(ItemStack stack, ItemStack otherStack, Operation<Boolean> original,
                                      @Local Slot slot){
         if (stack.getItem() instanceof ItemSpeciallyCombinable specialItem) {
@@ -55,7 +55,7 @@ public abstract class ScreenHandlerMixin {
     @Inject(method = "canInsertItemIntoSlot", at = @At("HEAD"), cancellable = true)
     private static void modifyCanInsertItemIntoSlot(@Nullable Slot slot, ItemStack stack, boolean allowOverflow, CallbackInfoReturnable<Boolean> cir){
         if (stack.getItem() instanceof ItemSpeciallyCombinable specialItem && slot != null) {
-            if (slot.canInsert(stack) && specialItem.canCombineToExistingStack(stack, slot.getStack())) {
+            if (slot.canInsert(stack) && specialItem.canCombineToExistingStack(stack, slot.getStack(), allowOverflow)) {
                 cir.setReturnValue(true);
                 cir.cancel();
             }

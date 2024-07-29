@@ -1,0 +1,33 @@
+{
+  "criteria": {
+    "got_fertile_dirt": {
+      "conditions": {
+        "items": [
+          {
+            "items": "synchro:fertile_dirt"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "background": "synchro:textures/block/fertile_dirt.png",
+    "description": {
+      "translate": "advancements.farming.fertile_dirt.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "synchro:fertile_dirt"
+    },
+    "title": {
+      "translate": "advancements.farming.fertile_dirt.title"
+    }
+  },
+  "requirements": [
+    [
+      "got_fertile_dirt"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

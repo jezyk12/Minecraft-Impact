@@ -2,6 +2,7 @@ package name.synchro.blocks;
 
 import name.synchro.registrations.ModBlocks;
 import net.minecraft.block.*;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
@@ -9,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
@@ -58,7 +60,7 @@ public class DirtCanalBlock extends Block implements Waterloggable {
     public static final VoxelShape NORTH_CUBE = VoxelShapes.cuboid(0/16f,6/16f,0/16f,16/16f,16/16f,2/16f);
     public static final VoxelShape SOUTH_CUBE = VoxelShapes.cuboid(0/16f,6/16f,14/16f,16/16f,16/16f,16/16f);
     public DirtCanalBlock(Settings settings) {
-        super(settings);
+        super(settings.dropsLike(Blocks.DIRT).sounds(BlockSoundGroup.GRAVEL));
         init();
         setDefaultState(getDefaultState()
                 .with(NORTH_CANAL_STATE,CanalState.DEFAULT)
@@ -156,7 +158,7 @@ public class DirtCanalBlock extends Block implements Waterloggable {
     }
 
     @Override
-    public ItemStack tryDrainFluid(WorldAccess world, BlockPos pos, BlockState state) {
+    public ItemStack tryDrainFluid(@Nullable PlayerEntity player, WorldAccess world, BlockPos pos, BlockState state) {
         world.scheduleBlockTick(pos,this,1);
         if (state.get(Properties.WATERLOGGED)) {
             world.setBlockState(pos, state.with(Properties.WATERLOGGED, false), Block.NOTIFY_ALL);
@@ -164,7 +166,7 @@ public class DirtCanalBlock extends Block implements Waterloggable {
                 if (state.get(DIRECTION_CANAL_PROPERTY_MAP.get(direction))==CanalState.LINKED){
                     BlockPos neighborPos = pos.offset(direction);
                     if (world.getBlockState(neighborPos).isOf(ModBlocks.DIRT_CANAL)){
-                        tryDrainFluid(world,neighborPos,world.getBlockState(neighborPos));
+                        tryDrainFluid(player, world,neighborPos,world.getBlockState(neighborPos));
                     }
                 }
             }

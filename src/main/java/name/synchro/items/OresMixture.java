@@ -1,29 +1,25 @@
 package name.synchro.items;
 
-import name.synchro.api.ContextualItemTooltipData;
 import name.synchro.api.ItemSpeciallyCombinable;
 import name.synchro.registrations.ModItems;
 import name.synchro.util.Metals;
 import name.synchro.util.MetalsComponentsHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipData;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.ClickType;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class OresMixture extends Item implements ContextualItemTooltipData, ItemSpeciallyCombinable {
+public class OresMixture extends Item implements ItemSpeciallyCombinable {
     public OresMixture(Settings settings) {
         super(settings);
     }
@@ -78,42 +74,46 @@ public class OresMixture extends Item implements ContextualItemTooltipData, Item
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        super.appendTooltip(stack, world, tooltip, context);
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
     }
 
     @Override
-    public Optional<TooltipData> getTooltipDataConditionally(ItemStack stack, TooltipContext context, MinecraftClient client) {
-        if (stack.hasNbt()){
-            Map<Integer, Integer> contents = Metals.getMetalContentFromNbt(stack.getNbt());
-            return Optional.of(new CrackedOreTooltipData(contents, context.isAdvanced(), context.isCreative(), switch (Type.of(stack.getItem())){
+    public Optional<TooltipData> getTooltipData(ItemStack stack) {
+        NbtCompound nbtCompound = ModItems.getNbt(stack);
+        if (nbtCompound != null){
+            Map<Integer, Integer> contents = Metals.getMetalContentFromNbt(nbtCompound);
+            return Optional.of(new TooltipDataRecord(contents, switch (Type.of(stack.getItem())){
                 case LUMP -> MetalsComponentsHelper.DRP_LUMP_ORES;
                 case CRACKED -> MetalsComponentsHelper.DRP_CRACKED_ORES;
                 case CRUSHED -> MetalsComponentsHelper.DRP_CRUSHED_ORES;
                 case DUST -> MetalsComponentsHelper.DRP_ORES_DUST;
                 default -> MetalsComponentsHelper.DRP_BLOCK;
-            }, client));
+            }));
         }
         return Optional.empty();
     }
 
     @Override
-    public boolean canCombineToExistingStack(ItemStack givenStack, ItemStack existingStack) {
-        return givenStack.isOf(existingStack.getItem()) && givenStack.hasNbt() && existingStack.hasNbt() && existingStack.getCount() < this.getMaxCount();
+    public boolean canCombineToExistingStack(ItemStack givenStack, ItemStack existingStack, boolean allowOverflow) {
+        return givenStack.isOf(existingStack.getItem())
+                && ModItems.hasNbt(givenStack)
+                && ModItems.hasNbt(existingStack)
+                && (allowOverflow || existingStack.getCount() < this.getMaxCount());
     }
 
     @Override
     public ItemStack combineToExistingStack(ItemStack givenStack, ItemStack existingStack) {
-        if (givenStack.hasNbt() && existingStack.hasNbt()){
-            NbtCompound nbt1 = givenStack.getNbt();
-            NbtCompound nbt2 = existingStack.getNbt();
+        NbtCompound nbt1 = ModItems.getNbt(givenStack);
+        NbtCompound nbt2 = ModItems.getNbt(existingStack);
+        if (nbt1 != null && nbt2 != null){
             int transferCount;
             if (existingStack.getCount() + givenStack.getCount() > this.getMaxCount()) {
                 transferCount = this.getMaxCount() - existingStack.getCount();
             }
             else transferCount = givenStack.getCount();
             Metals.combineMetalsNbt(nbt2, existingStack.getCount(), nbt1, transferCount);
-            existingStack.setNbt(nbt2);
+            ModItems.setNbt(existingStack, nbt2);
             existingStack.setCount(transferCount + existingStack.getCount());
             givenStack.setCount(givenStack.getCount() - transferCount);
         }
@@ -135,6 +135,6 @@ public class OresMixture extends Item implements ContextualItemTooltipData, Item
         }
     }
 
-    public record CrackedOreTooltipData(Map<Integer, Integer> contents, boolean advanced, boolean creative, int drpTotal, MinecraftClient client) implements TooltipData {}
+    public record TooltipDataRecord(Map<Integer, Integer> contents, int drpTotal) implements TooltipData {}
 
 }

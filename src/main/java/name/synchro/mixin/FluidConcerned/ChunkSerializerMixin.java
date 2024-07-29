@@ -17,7 +17,6 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.PalettedContainer;
 import net.minecraft.world.chunk.ReadableContainer;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,20 +28,18 @@ public class ChunkSerializerMixin {
     @WrapOperation(method = "deserialize", at = @At(value = "NEW",
             target = "net/minecraft/world/chunk/ChunkSection"))
     private static ChunkSection deserializeFluidStatePaletteContainer(
-            int y, PalettedContainer<BlockState> blockStateContainer, ReadableContainer<RegistryEntry<Biome>> biomeContainer, Operation<ChunkSection> original,
-            @Local(ordinal = 1) NbtCompound nbtCompound, @Local(ordinal = 1) ChunkPos chunkPos){
-        ChunkSection instance = new ChunkSection(y, blockStateContainer, biomeContainer);
-        modifyNewChunkSection(instance, nbtCompound, chunkPos);
+            PalettedContainer<BlockState> blockStateContainer, ReadableContainer<RegistryEntry<Biome>> biomeContainer, Operation<ChunkSection> original,
+            @Local(ordinal = 1) NbtCompound nbtCompound, @Local(ordinal = 1) ChunkPos chunkPos, @Local(ordinal = 2)/*k*/int yPos){
+        ChunkSection instance = original.call(blockStateContainer, biomeContainer);
+        modifyNewChunkSection(instance, nbtCompound, chunkPos, yPos);
         return instance;
     }
 
     @Unique
-    private static @NotNull ChunkSection modifyNewChunkSection(ChunkSection chunkSection, NbtCompound nbtCompound, ChunkPos chunkPos) {
-        int yPos = chunkSection.getYOffset() >> 4;
+    private static void modifyNewChunkSection(ChunkSection chunkSection, NbtCompound nbtCompound, ChunkPos chunkPos, int yPos) {
         PalettedContainer<FluidState> fluidStateContainer = FluidUtil.deserialize(nbtCompound, chunkPos, yPos);
         ((FluidHelper.ForChunkSection) chunkSection).synchro$setFluidStateContainer(fluidStateContainer);
         ((FluidHelper.ForChunkSection) chunkSection).synchro$countFluidStates();
-        return chunkSection;
     }
 
     @Inject(method = "serialize", at = @At(value = "INVOKE",

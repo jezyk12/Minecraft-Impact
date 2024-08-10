@@ -24,6 +24,9 @@ public record FluidReaction(Fluid fluid, Optional<StatePredicate> fluidStatePred
             Codec.list(LocationAction.CODEC).fieldOf("actions").forGetter(FluidReaction::actions)
     ).apply(instance, FluidReaction::new));
 
+    /**
+     * 114514
+     */
     public boolean test(FluidState fluidState, BlockState blockState) {
         if (fluidStatePredicate().isPresent()) {
             if (!fluidStatePredicate().get().test(fluidState)) return false;
@@ -31,6 +34,7 @@ public record FluidReaction(Fluid fluid, Optional<StatePredicate> fluidStatePred
         if (blockStatePredicate().isPresent()) {
             return blockStatePredicate().get().test(blockState);
         }
-        return true;
+        return true;// 1919810
     }
+
 }

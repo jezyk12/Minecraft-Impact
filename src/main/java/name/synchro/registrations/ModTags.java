@@ -13,10 +13,10 @@ public final class ModTags {
             TagKey.of(RegistryKeys.BLOCK, Identifier.of(Synchro.MOD_ID, "can_store_fluid"));
     public static TagKey<Block> NEVER_FILL_FLUID =
             TagKey.of(RegistryKeys.BLOCK, Identifier.of(Synchro.MOD_ID, "never_fill_fluid"));
-    public static TagKey<Block> NEVER_WATER_COEXIST =
-            TagKey.of(RegistryKeys.BLOCK, Identifier.of(Synchro.MOD_ID, "never_water_coexist"));
-    public static TagKey<Block> NEVER_LAVA_COEXIST =
-            TagKey.of(RegistryKeys.BLOCK, Identifier.of(Synchro.MOD_ID, "never_lava_coexist"));
+    public static TagKey<Block> DESTROY_IN_WATER =
+            TagKey.of(RegistryKeys.BLOCK, Identifier.of(Synchro.MOD_ID, "destroy_in_water"));
+    public static TagKey<Block> BURN_AWAY_IN_LAVA =
+            TagKey.of(RegistryKeys.BLOCK, Identifier.of(Synchro.MOD_ID, "burn_away_in_lava"));
     public static TagKey<Block> WASH_AWAY_BY_WATER =
             TagKey.of(RegistryKeys.BLOCK, Identifier.of(Synchro.MOD_ID, "wash_away_by_water"));
     public static TagKey<Block> WASH_AWAY_BY_LAVA =

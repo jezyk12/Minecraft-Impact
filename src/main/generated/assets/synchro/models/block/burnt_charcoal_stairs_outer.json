@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "synchro:block/burnt_charcoal_block",
+    "side": "synchro:block/burnt_charcoal_block",
+    "top": "synchro:block/burnt_charcoal_block"
+  }
+}

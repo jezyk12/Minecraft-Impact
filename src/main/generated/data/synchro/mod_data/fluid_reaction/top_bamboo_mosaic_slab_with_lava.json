@@ -1,0 +1,34 @@
+{
+  "actions": [
+    {
+      "type": "synchro:set_block",
+      "block": {
+        "Name": "synchro:burnt_charcoal_slab",
+        "Properties": {
+          "type": "bottom",
+          "waterlogged": "false"
+        }
+      },
+      "follow_properties": true
+    },
+    {
+      "type": "synchro:active_events",
+      "events": [
+        {
+          "event_id": 1501
+        }
+      ]
+    }
+  ],
+  "block": "minecraft:bamboo_mosaic_slab",
+  "block_state_conditions": {
+    "type": "top"
+  },
+  "fluid": "minecraft:lava",
+  "fluid_state_conditions": {
+    "level": {
+      "max": "2147483647",
+      "min": "4"
+    }
+  }
+}

@@ -2,7 +2,7 @@ package name.synchro.mixin.FluidConcerned;
 
 import name.synchro.fluids.FluidHelper;
 import name.synchro.fluids.FluidUtil;
-import name.synchro.util.dataDriven.ModDataManager;
+import name.synchro.modUtilData.ModDataManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;

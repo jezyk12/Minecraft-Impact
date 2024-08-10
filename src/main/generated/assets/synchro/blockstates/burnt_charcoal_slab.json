@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "synchro:block/burnt_charcoal_slab"
+    },
+    "type=double": {
+      "model": "synchro:block/burnt_charcoal_block"
+    },
+    "type=top": {
+      "model": "synchro:block/burnt_charcoal_slab_top"
+    }
+  }
+}

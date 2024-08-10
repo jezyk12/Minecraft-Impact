@@ -1,6 +1,6 @@
 package name.synchro.mixin.client;
 
-import name.synchro.util.dataDriven.ModDataManager;
+import name.synchro.modUtilData.ModDataManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Final;

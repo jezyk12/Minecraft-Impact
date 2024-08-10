@@ -19,12 +19,13 @@
     "minecraft:crimson_fungus",
     "minecraft:warped_fungus",
     "minecraft:nether_wart",
+    "minecraft:crimson_roots",
+    "minecraft:warped_roots",
+    "minecraft:nether_sprouts",
     "minecraft:torch",
     "minecraft:soul_torch",
     "minecraft:wall_torch",
     "minecraft:soul_wall_torch",
-    "minecraft:lily_pad",
-    "minecraft:vine",
     "minecraft:sweet_berry_bush",
     "minecraft:sugar_cane",
     "minecraft:brown_mushroom",
@@ -37,6 +38,15 @@
     "minecraft:frogspawn",
     "minecraft:spore_blossom",
     "minecraft:dead_bush",
+    "minecraft:short_grass",
+    "minecraft:tall_grass",
+    "minecraft:fern",
+    "minecraft:large_fern",
+    "minecraft:lily_pad",
+    "minecraft:vine",
+    "minecraft:seagrass",
+    "minecraft:tall_seagrass",
+    "minecraft:turtle_egg",
     {
       "id": "#minecraft:candles",
       "required": false
@@ -55,10 +65,6 @@
     },
     {
       "id": "#minecraft:flowers",
-      "required": false
-    },
-    {
-      "id": "#minecraft:replaceable",
       "required": false
     }
   ]

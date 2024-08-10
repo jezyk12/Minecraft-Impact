@@ -8,6 +8,7 @@
     "FluidConcerned.ChunkRendererRegionMixin",
     "FluidConcerned.FluidRendererMixin",
     "FluidConcerned.RenderedChunkMixin",
+    "FluidConcerned.SectionBuilderMixin",
     "hud.CameraMixin",
     "hud.GameRendererMixin",
     "hud.HeldItemRendererMixin"

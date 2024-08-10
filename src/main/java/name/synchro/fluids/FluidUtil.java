@@ -4,6 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.math.DoubleMath;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import name.synchro.modUtilData.ModDataContainer;
+import name.synchro.modUtilData.ModDataManager;
+import name.synchro.modUtilData.dataEntries.FluidReactionData;
+import name.synchro.modUtilData.reactions.LocationAction;
 import name.synchro.registrations.ModTags;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.advancement.criterion.Criteria;
@@ -48,6 +52,7 @@ import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.PalettedContainer;
 import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.event.GameEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -360,10 +365,10 @@ public final class FluidUtil {
 
     public static boolean canBlockCoexistWith(BlockState state, Fluid fluid){
         if (fluid.matchesType(Fluids.WATER)){
-            return !state.isIn(ModTags.NEVER_WATER_COEXIST);
+            return !state.isIn(ModTags.DESTROY_IN_WATER);
         }
         else if (fluid.matchesType(Fluids.LAVA)){
-            return !state.isIn(ModTags.NEVER_LAVA_COEXIST);
+            return !state.isIn(ModTags.BURN_AWAY_IN_LAVA);
         }
         else return true;
     }
@@ -420,10 +425,18 @@ public final class FluidUtil {
     }
 
     public static void onBlockCoexistWithFluid(World world, BlockPos pos, FluidState state) {
+        BlockState blockState = blockOperation(world, pos, state);
+        fluidReact(world, pos, state, blockState);
+    }
+
+    private static @NotNull BlockState blockOperation(World world, BlockPos pos, FluidState state) {
         BlockState blockState = world.getBlockState(pos);
+        BlockState finalState = blockState;
         if (blockState.getBlock() instanceof CampfireBlock){
             if (blockState.get(CampfireBlock.LIT) && state.isIn(FluidTags.WATER) && state.getLevel() > 2){
-                world.setBlockState(pos, blockState.with(CampfireBlock.LIT, false));
+                BlockState unlitCampFire = blockState.with(CampfireBlock.LIT, false);
+                world.setBlockState(pos, unlitCampFire);
+                finalState = unlitCampFire;
             }
         }
         Fluid fluid = state.getFluid();
@@ -431,8 +444,29 @@ public final class FluidUtil {
             if (fluid.matchesType(Fluids.LAVA)){
                 world.setBlockState(pos, state.getBlockState(), Block.NOTIFY_ALL);
                 world.syncWorldEvent(WorldEvents.LAVA_EXTINGUISHED, pos, 0);
+                finalState = state.getBlockState();
             }
-            else world.breakBlock(pos, true);
+            else {
+                world.breakBlock(pos, true);
+                finalState = state.getBlockState();
+            }
+        }
+        return finalState;
+    }
+
+    public static void fluidReact(World world, BlockPos pos, FluidState fluidState, BlockState blockState){
+        if (blockState.isAir() || blockState.getBlock() instanceof FluidBlock) return;
+        ModDataContainer<?> container =  ((ModDataManager.Provider)world).synchro$getModDataManager().getContents().get(FluidReactionData.ID);
+        if (container instanceof FluidReactionData fluidReactionData){
+            Map<Long, FluidReactionData.Entry> map = fluidReactionData.data();
+            long key = FluidReactionData.longKey(fluidState.getFluid(), blockState.getBlock());
+            FluidReactionData.Entry entry = map.get(key);
+            if (entry == null) return;
+            if (!entry.test(fluidState, blockState)) return;
+            for (LocationAction action: entry.actions()){
+                action.act(world, pos);
+            }
         }
     }
+
 }

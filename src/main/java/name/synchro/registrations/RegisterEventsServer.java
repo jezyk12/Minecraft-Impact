@@ -1,8 +1,8 @@
 package name.synchro.registrations;
 
 import name.synchro.Synchro;
-import name.synchro.util.dataDriven.ModDataLoader;
-import name.synchro.util.dataDriven.ModDataManager;
+import name.synchro.modUtilData.ModDataLoader;
+import name.synchro.modUtilData.ModDataManager;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;

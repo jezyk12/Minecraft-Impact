@@ -1,7 +1,7 @@
 package name.synchro.mixin;
 
-import name.synchro.util.dataDriven.ModDataManager;
-import name.synchro.util.dataDriven.ServerModDataManager;
+import name.synchro.modUtilData.ModDataManager;
+import name.synchro.modUtilData.ServerModDataManager;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

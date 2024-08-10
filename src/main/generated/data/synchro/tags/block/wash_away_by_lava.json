@@ -1,7 +1,7 @@
 {
   "values": [
     {
-      "id": "#synchro:never_lava_coexist",
+      "id": "#synchro:burn_away_in_lava",
       "required": false
     },
     "minecraft:weeping_vines",
@@ -10,6 +10,9 @@
     "minecraft:twisting_vines_plant",
     "minecraft:crimson_fungus",
     "minecraft:warped_fungus",
-    "minecraft:nether_wart"
+    "minecraft:nether_wart",
+    "minecraft:crimson_roots",
+    "minecraft:warped_roots",
+    "minecraft:nether_sprouts"
   ]
 }

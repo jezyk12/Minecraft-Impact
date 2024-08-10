@@ -14,3 +14,8 @@ accessible class net/minecraft/client/render/chunk/RenderedChunk
 accessible field net/minecraft/world/ChunkSerializer BLOCK_TICKS Ljava/lang/String;
 accessible class net/minecraft/world/block/ChainRestrictedNeighborUpdater$SimpleEntry
 accessible class net/minecraft/world/block/ChainRestrictedNeighborUpdater$SixWayEntry
+accessible class net/minecraft/predicate/StatePredicate$Condition
+accessible method net/minecraft/predicate/StatePredicate$Condition <init> (Ljava/lang/String;Lnet/minecraft/predicate/StatePredicate$ValueMatcher;)V
+accessible class net/minecraft/predicate/StatePredicate$ValueMatcher
+accessible class net/minecraft/predicate/StatePredicate$RangedValueMatcher
+accessible method net/minecraft/predicate/StatePredicate$RangedValueMatcher <init> (Ljava/util/Optional;Ljava/util/Optional;)V

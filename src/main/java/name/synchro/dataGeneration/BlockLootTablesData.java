@@ -1,9 +1,9 @@
 package name.synchro.dataGeneration;
 
+import name.synchro.blocks.SlopeBlock;
+import name.synchro.modUtilData.DataUtil;
 import name.synchro.registrations.ModBlocks;
 import name.synchro.registrations.ModItems;
-import name.synchro.blocks.SlopeBlock;
-import name.synchro.util.dataDriven.DataUtil;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
@@ -38,6 +38,11 @@ public class BlockLootTablesData extends FabricBlockLootTableProvider {
         for (SlopeBlock slopeBlock : SlopeBlock.SLOPE_BLOCKS) {
             addDrop(slopeBlock);
         }
+        addDrop(ModBlocks.BURNT_CHARCOAL_BLOCK, drops(Items.CHARCOAL, ConstantLootNumberProvider.create(8.0f)));
+        addDrop(ModBlocks.BURNT_CHARCOAL_STAIRS, drops(Items.CHARCOAL, ConstantLootNumberProvider.create(6.0f)));
+        addDrop(ModBlocks.BURNT_CHARCOAL_SLAB, drops(Items.CHARCOAL, ConstantLootNumberProvider.create(4.0f)));
+        addDrop(ModBlocks.BURNT_CHARCOAL_FENCE, drops(Items.CHARCOAL, ConstantLootNumberProvider.create(3.0f)));
+        addDrop(ModBlocks.BURNT_CHARCOAL_PRESSURE_PLATE, drops(Items.CHARCOAL, ConstantLootNumberProvider.create(1.0f)));
     }
 
     @NotNull

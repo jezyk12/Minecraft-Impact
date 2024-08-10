@@ -2,8 +2,8 @@ package name.synchro.util;
 
 import name.synchro.Synchro;
 import name.synchro.playNetworking.ModDataPayload;
-import name.synchro.util.dataDriven.ModDataContainer;
-import name.synchro.util.dataDriven.ModDataManager;
+import name.synchro.modUtilData.ModDataContainer;
+import name.synchro.modUtilData.ModDataManager;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;

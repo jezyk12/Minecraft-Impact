@@ -3,7 +3,7 @@ package name.synchro;
 import name.synchro.networkLink.networkAlgorithm.NetworkSearchHandler;
 import name.synchro.registrations.*;
 import name.synchro.util.IrregularVoxelShapes;
-import name.synchro.util.dataDriven.ModDataLoader;
+import name.synchro.modUtilData.ModDataLoader;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +16,7 @@ public class Synchro implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ModRegistries.registerAll();
 		SynchroStandardStatic.initialAll();
 		NetworkSearchHandler.loadNetworkSearchHandler();
 		PayloadTypes.registerAll();

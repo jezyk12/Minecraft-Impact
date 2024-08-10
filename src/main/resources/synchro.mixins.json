@@ -43,6 +43,7 @@
     "FluidConcerned.SpongeBlockMixin",
     "FluidConcerned.SpreadableBlockMixin",
     "FluidConcerned.StriderEntityMixin",
+    "FluidConcerned.TallBlockItemMixin",
     "FluidConcerned.WorldChunkMixin",
     "FluidConcerned.WorldMixin",
     "FluidConcerned.WorldViewMixin"

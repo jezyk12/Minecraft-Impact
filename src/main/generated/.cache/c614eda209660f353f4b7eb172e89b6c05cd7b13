@@ -1,7 +1,9 @@
-// 1.21	2024-07-29T15:37:38.3984145	Synchro/Tags for minecraft:block
+// 1.21	2024-08-07T14:18:00.4750408	Synchro/Tags for minecraft:block
+5d0d344873362cf2559dbffa06cd15d859bf0bb0 data\synchro\tags\block\destroy_in_water.json
 784c3999787fc0a1f1aa02d684dcd5928e013112 data\synchro\tags\block\never_fill_fluid.json
-fd6a2285a7d89aeb4050c8c622d498f6dab8f3c0 data\synchro\tags\block\wash_away_by_water.json
+4381e6cc2d89af641762c55e3073b20eb13b2888 data\synchro\tags\block\burn_away_in_lava.json
+42690d032aa61e621b33ad1cc3d480f8c4cfd263 data\minecraft\tags\block\wooden_fences.json
+42690d032aa61e621b33ad1cc3d480f8c4cfd263 data\minecraft\tags\block\fences.json
+239d482467cea98ee764f8acca7d6720b2021875 data\synchro\tags\block\wash_away_by_water.json
 98d367028944f144308cfc0ce205e9aa9993258c data\synchro\tags\block\can_store_fluid.json
-9cfc2f7d254871dbf276bd4f5e03a36ca09a1c0f data\synchro\tags\block\wash_away_by_lava.json
-5d0d344873362cf2559dbffa06cd15d859bf0bb0 data\synchro\tags\block\never_water_coexist.json
-b6c204bc8c583de613ab8ac5acf17905a544a42d data\synchro\tags\block\never_lava_coexist.json
+8bc57a1af157fc59e5f87efba0baa737fda7ed03 data\synchro\tags\block\wash_away_by_lava.json

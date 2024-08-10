@@ -27,7 +27,7 @@ public abstract class ChunkRendererRegionMixin {
 
     @WrapOperation(method = "getFluidState", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;getFluidState()Lnet/minecraft/fluid/FluidState;"))
     private FluidState fixGetFluidState(BlockState instance, Operation<FluidState> original,
-                                        @Share("renderedChunkLocalRef") LocalRef<RenderedChunk> renderedChunkLocalRef,
+                                        @Share("renderedChunkRef") LocalRef<RenderedChunk> renderedChunkLocalRef,
                                         @Share("blockPosRef") LocalRef<BlockPos> blockPosLocalRef){
         return ((FluidHelper.ForRenderedChunk) renderedChunkLocalRef.get()).synchro$getFluidState(blockPosLocalRef.get());
     }

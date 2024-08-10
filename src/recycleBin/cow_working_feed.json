@@ -1,0 +1,44 @@
+[
+  {
+    "items": [
+      {
+        "item": "synchro:fresh_forage"
+      },
+      {
+        "item": "minecraft:golden_apple"
+      }
+    ],
+    "time": 3600
+  },
+  {
+    "items": [
+      {
+        "item": "minecraft:cake"
+      },
+      {
+        "item": "minecraft:hay_block"
+      },
+      {
+        "item": "minecraft:enchanted_golden_apple"
+      }
+    ],
+    "time": 7600
+  },
+  {
+    "items": {
+      "tag": "minecraft:cow_food"
+    },
+    "time": 800
+  },
+  {
+    "items": [
+      {
+        "item": "minecraft:short_grass"
+      },
+      {
+        "item": "minecraft:fern"
+      }
+    ],
+    "time": 300
+  }
+]

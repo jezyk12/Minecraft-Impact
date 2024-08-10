@@ -3,7 +3,7 @@ package name.synchro.mixin.FluidConcerned;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import name.synchro.util.dataDriven.ModDataManager;
+import name.synchro.modUtilData.ModDataManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.server.MinecraftServer;

@@ -2,7 +2,7 @@ package name.synchro.mixin.client;
 
 import name.synchro.util.FocusingProvider;
 import name.synchro.util.ClientModDataManager;
-import name.synchro.util.dataDriven.ModDataManager;
+import name.synchro.modUtilData.ModDataManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.HitResult;

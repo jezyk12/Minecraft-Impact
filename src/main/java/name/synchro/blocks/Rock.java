@@ -7,7 +7,7 @@ import name.synchro.registrations.ModBlockEntities;
 import name.synchro.registrations.ModItems;
 import name.synchro.util.Metals;
 import name.synchro.util.NbtTags;
-import name.synchro.util.dataDriven.DataUtil;
+import name.synchro.modUtilData.DataUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;

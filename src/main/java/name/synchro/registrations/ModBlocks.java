@@ -4,9 +4,7 @@ import name.synchro.Synchro;
 import name.synchro.blocks.*;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -60,6 +58,16 @@ public final class ModBlocks {
             new StrawNestBlock(AbstractBlock.Settings.create().strength(0.1f).sounds(BlockSoundGroup.GRASS)), SYNCHRO_BASIC);
 //    public static final ComplexLiquid COMPLEX_LIQUID = registerBlock("complex_liquid",
 //            new ComplexLiquid(AbstractBlock.Settings.create().noCollision().nonOpaque().dropsNothing()), SYNCHRO_BASIC);
+    public static final Block BURNT_CHARCOAL_BLOCK = registerBlock("burnt_charcoal_block",
+        new Block(AbstractBlock.Settings.create().strength(0.1f).sounds(BlockSoundGroup.BASALT)), SYNCHRO_BASIC);
+    public static final StairsBlock BURNT_CHARCOAL_STAIRS = registerBlock("burnt_charcoal_stairs",
+            new StairsBlock(BURNT_CHARCOAL_BLOCK.getDefaultState(), AbstractBlock.Settings.create().strength(0.1f).sounds(BlockSoundGroup.BASALT)), SYNCHRO_BASIC);
+    public static final SlabBlock BURNT_CHARCOAL_SLAB = registerBlock("burnt_charcoal_slab",
+            new SlabBlock(AbstractBlock.Settings.create().strength(0.1f).sounds(BlockSoundGroup.BASALT)), SYNCHRO_BASIC);
+    public static final FenceBlock BURNT_CHARCOAL_FENCE = registerBlock("burnt_charcoal_fence",
+            new FenceBlock(AbstractBlock.Settings.create().strength(0.1f).sounds(BlockSoundGroup.BASALT)), SYNCHRO_BASIC);
+    public static final PressurePlateBlock BURNT_CHARCOAL_PRESSURE_PLATE = registerBlock("burnt_charcoal_pressure_plate",
+            new PressurePlateBlock(BlockSetType.STONE, AbstractBlock.Settings.create().strength(0.1f).sounds(BlockSoundGroup.BASALT)), SYNCHRO_BASIC);
 
     //Gases
     public static final GasBlock WATER_VAPOR_BLOCK = registerBlock("water_vapor",

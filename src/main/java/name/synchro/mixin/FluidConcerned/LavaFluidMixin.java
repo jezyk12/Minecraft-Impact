@@ -14,6 +14,8 @@ import net.minecraft.world.WorldAccess;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LavaFluid.class)
 public class LavaFluidMixin {
@@ -36,5 +38,10 @@ public class LavaFluidMixin {
     @WrapOperation(method = "onRandomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;isAir(Lnet/minecraft/util/math/BlockPos;)Z"))
     private boolean lightFireTest1(World instance, BlockPos pos, Operation<Boolean> original){
         return original.call(instance, pos) || instance.getBlockState(pos).getBlock() instanceof FluidBlock && !instance.getFluidState(pos).isIn(FluidTags.WATER);
+    }
+
+    @Inject(method = "playExtinguishEvent", at = @At("HEAD"))
+    private void debug(WorldAccess world, BlockPos pos, CallbackInfo ci){
+        System.out.println("sss!");
     }
 }

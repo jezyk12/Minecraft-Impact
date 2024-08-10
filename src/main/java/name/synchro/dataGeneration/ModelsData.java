@@ -22,6 +22,11 @@ public class ModelsData extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.NGANITE);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.HAAKITE);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.BAAKITE);
+        blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.BURNT_CHARCOAL_BLOCK)
+                .stairs(ModBlocks.BURNT_CHARCOAL_STAIRS)
+                .slab(ModBlocks.BURNT_CHARCOAL_SLAB)
+                .fence(ModBlocks.BURNT_CHARCOAL_FENCE)
+                .pressurePlate(ModBlocks.BURNT_CHARCOAL_PRESSURE_PLATE);
     }
 
     @Override

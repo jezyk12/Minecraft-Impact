@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import name.synchro.Synchro;
 import name.synchro.modUtilData.dataEntries.CowWorkingFeedsData;
-import name.synchro.modUtilData.dataEntries.FluidReactionData;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.server.MinecraftServer;
@@ -24,7 +23,7 @@ public abstract class ModDataManager {
     private Map<Identifier, ModDataContainer<?>> init() {
         return ImmutableMap.<Identifier, ModDataContainer<?>>builder()
                 .put(CowWorkingFeedsData.ID, new CowWorkingFeedsData())
-                .put(FluidReactionData.ID, new FluidReactionData())
+                //.put(FluidReactionData.ID, new FluidReactionData())
                 .build();
     }
 

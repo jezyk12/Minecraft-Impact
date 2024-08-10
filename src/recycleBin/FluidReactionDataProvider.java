@@ -2,10 +2,9 @@ package name.synchro.api;
 
 import com.google.common.annotations.VisibleForTesting;
 import name.synchro.Synchro;
-import name.synchro.modUtilData.ModDataLoader;
 import name.synchro.modUtilData.dataEntries.FluidReaction;
-import name.synchro.modUtilData.dataEntries.FluidReactionData;
 import name.synchro.modUtilData.reactions.LocationAction;
+import name.synchro.registrations.ModRegistries;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider;
 import net.minecraft.block.Block;
@@ -24,12 +23,12 @@ import java.util.function.BiConsumer;
 
 public abstract class FluidReactionDataProvider extends FabricCodecDataProvider<FluidReaction> {
     protected static final String NAME = "Fluid Reaction";
+    protected static final String PATH = ModRegistries.filePathOf(ModRegistries.Keys.FLUID_REACTION);
     final Map<String, FluidReaction> entries = new HashMap<>();
 
     protected FluidReactionDataProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(dataOutput, registriesFuture, DataOutput.OutputType.DATA_PACK,
-                ModDataLoader.DICTIONARY_ROOT + "/" + FluidReactionData.FOLDER,
-                FluidReaction.CODEC.codec());
+                PATH, FluidReaction.CODEC.codec());
     }
 
     @Override

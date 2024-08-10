@@ -38,11 +38,40 @@ public record SetBlock(BlockState blockState, boolean destroyEffect, boolean fol
             }
         }catch (Exception e){
             toSetState = blockState();
-            Synchro.LOGGER.error("Exception occurred when applying blockState properties at {} with {}", blockPos, e);
+            Synchro.LOGGER.warn("Ignored argument follow_properties at {} due to {}", blockPos, e);
         }
         if (destroyEffect()) {
             world.breakBlock(blockPos, false);
         }
         world.setBlockState(blockPos, toSetState);
     }
+
+    public static Builder builder(BlockState state){
+        return new Builder(state);
+    }
+
+    public static class Builder{
+        private final BlockState state;
+        private boolean destroyEffect = false;
+        private boolean followProperties = false;
+
+        private Builder(BlockState state){
+            this.state = state;
+        }
+
+        public Builder destroyEffect(){
+            this.destroyEffect = true;
+            return this;
+        }
+
+        public Builder followProperties(){
+            this.followProperties = true;
+            return this;
+        }
+
+        public SetBlock build(){
+            return new SetBlock(state, destroyEffect, followProperties);
+        }
+    }
+
 }

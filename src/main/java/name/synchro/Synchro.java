@@ -5,6 +5,7 @@ import name.synchro.registrations.*;
 import name.synchro.util.IrregularVoxelShapes;
 import name.synchro.modUtilData.ModDataLoader;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +14,9 @@ public class Synchro implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final ModDataLoader MOD_DATA_LOADER = ModDataLoader.getInstance();
 
+	public static Identifier id(String path){
+		return Identifier.of(Synchro.MOD_ID, path);
+	}
 
 	@Override
 	public void onInitialize() {

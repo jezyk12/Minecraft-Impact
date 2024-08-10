@@ -1,0 +1,37 @@
+{
+  "actions": [
+    {
+      "type": "synchro:set_block",
+      "block": {
+        "Name": "synchro:burnt_charcoal_fence",
+        "Properties": {
+          "east": "false",
+          "north": "false",
+          "south": "false",
+          "waterlogged": "false",
+          "west": "false"
+        }
+      },
+      "follow_properties": true
+    },
+    {
+      "type": "synchro:active_events",
+      "events": [
+        {
+          "event_id": 1501
+        }
+      ]
+    }
+  ],
+  "block_state": {
+    "blocks": "#minecraft:wooden_fences"
+  },
+  "fluid_state": {
+    "fluids": "minecraft:flowing_lava",
+    "state": {
+      "level": {
+        "min": "4"
+      }
+    }
+  }
+}

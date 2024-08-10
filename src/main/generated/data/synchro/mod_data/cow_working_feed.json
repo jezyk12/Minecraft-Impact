@@ -1,16 +1,5 @@
 [
   {
-    "items": [
-      {
-        "item": "minecraft:short_grass"
-      },
-      {
-        "item": "minecraft:fern"
-      }
-    ],
-    "time": 300
-  },
-  {
     "items": {
       "tag": "minecraft:cow_food"
     },
@@ -48,6 +37,17 @@
       },
       {
         "item": "minecraft:brown_mushroom"
+      }
+    ],
+    "time": 300
+  },
+  {
+    "items": [
+      {
+        "item": "minecraft:short_grass"
+      },
+      {
+        "item": "minecraft:fern"
       }
     ],
     "time": 300

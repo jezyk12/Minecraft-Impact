@@ -109,7 +109,7 @@ public final class Metals {
 //    public List<Float> modifyMetalContentFromPos(ServerWorld world, BlockPos pos, BlockState state, Predicate<RegistryKey<World>> worldPredicate) {
 //        NoiseRouter noiseRouter = null;
 //        RegistryKey<World> registryKey = world.getRegistryKey();
-//        if (worldPredicate.test(registryKey)) {
+//        if (worldPredicate.match(registryKey)) {
 //            noiseRouter = world.getChunkManager().getNoiseConfig().getNoiseRouter();
 //        }
 //        if (noiseRouter != null) {

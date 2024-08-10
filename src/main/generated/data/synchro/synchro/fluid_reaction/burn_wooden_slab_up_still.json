@@ -3,11 +3,9 @@
     {
       "type": "synchro:set_block",
       "block": {
-        "Name": "synchro:burnt_charcoal_stairs",
+        "Name": "synchro:burnt_charcoal_slab",
         "Properties": {
-          "facing": "north",
-          "half": "bottom",
-          "shape": "straight",
+          "type": "bottom",
           "waterlogged": "false"
         }
       },
@@ -22,6 +20,13 @@
       ]
     }
   ],
-  "block": "minecraft:bamboo_stairs",
-  "fluid": "minecraft:flowing_lava"
+  "block_state": {
+    "blocks": "#minecraft:wooden_slabs",
+    "state": {
+      "type": "top"
+    }
+  },
+  "fluid_state": {
+    "fluids": "minecraft:lava"
+  }
 }

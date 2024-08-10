@@ -15,7 +15,7 @@ public class SynchroDataGenerator implements DataGeneratorEntrypoint {
 		myPack.addProvider(BlockTagsData::new);
 		myPack.addProvider(ItemTagsData::new);
 		myPack.addProvider(DefaultCowWorkingFeedsData::new);
-		myPack.addProvider(DefaultFluidReactionData::new);
+		myPack.addProvider(IntrinsicModData::new);
 	}
 
 }

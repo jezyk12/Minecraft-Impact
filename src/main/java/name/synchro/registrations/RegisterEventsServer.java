@@ -3,6 +3,7 @@ package name.synchro.registrations;
 import name.synchro.Synchro;
 import name.synchro.modUtilData.ModDataLoader;
 import name.synchro.modUtilData.ModDataManager;
+import name.synchro.modUtilData.dataEntries.FluidReaction;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
@@ -20,7 +21,8 @@ public final class RegisterEventsServer {
             }
 
             @Override
-            public void reload(ResourceManager manager) {;
+            public void reload(ResourceManager manager) {
+                FluidReaction.onReload();
                 ModDataLoader.getInstance().reload(manager);
             }
         });

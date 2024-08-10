@@ -4,11 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.math.DoubleMath;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import name.synchro.modUtilData.ModDataContainer;
-import name.synchro.modUtilData.ModDataManager;
 import name.synchro.modUtilData.dataEntries.FluidReaction;
-import name.synchro.modUtilData.dataEntries.FluidReactionData;
-import name.synchro.modUtilData.reactions.LocationAction;
 import name.synchro.registrations.ModTags;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.advancement.criterion.Criteria;
@@ -30,6 +26,7 @@ import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkHolder;
 import net.minecraft.server.world.ChunkLevelType;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -427,7 +424,7 @@ public final class FluidUtil {
 
     public static void onBlockCoexistWithFluid(World world, BlockPos pos, FluidState state) {
         BlockState blockState = blockOperation(world, pos, state);
-        fluidReact(world, pos, state, blockState);
+        fluidReact(world, pos, blockState);
     }
 
     private static @NotNull BlockState blockOperation(World world, BlockPos pos, FluidState state) {
@@ -455,19 +452,22 @@ public final class FluidUtil {
         return finalState;
     }
 
-    public static void fluidReact(World world, BlockPos pos, FluidState fluidState, BlockState blockState){
+    public static void fluidReact(World world, BlockPos pos, BlockState blockState){
+        if (world.isClient()) return;
         if (blockState.isAir() || blockState.getBlock() instanceof FluidBlock) return;
-        ModDataContainer<?> container =  ((ModDataManager.Provider)world).synchro$getModDataManager().getContents().get(FluidReactionData.ID);
-        if (container instanceof FluidReactionData fluidReactionData){
-            Map<Long, FluidReaction> map = fluidReactionData.data();
-            long key = FluidReactionData.longKey(fluidState.getFluid(), blockState.getBlock());
-            FluidReaction entry = map.get(key);
-            if (entry == null) return;
-            if (!entry.test(fluidState, blockState)) return;
-            for (LocationAction action: entry.actions()){
-                action.act(world, pos);
-            }
-        }
+        FluidReaction.match((ServerWorld) world, pos).forEach(action -> action.act(world, pos));
+
+//        ModDataContainer<?> container =  ((ModDataManager.Provider)world).synchro$getModDataManager().getContents().get(FluidReactionData.ID);
+//        if (container instanceof FluidReactionData fluidReactionData){
+//            Map<Long, FluidReaction> map = fluidReactionData.data();
+//            long key = FluidReactionData.longKey(fluidState.getFluid(), blockState.getBlock());
+//            FluidReaction entry = map.get(key);
+//            if (entry == null) return;
+//            if (!entry.match(fluidState, blockState)) return;
+//            for (LocationAction action: entry.actions()){
+//                action.act(world, pos);
+//            }
+//        }
     }
 
 }

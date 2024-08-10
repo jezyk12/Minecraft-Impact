@@ -18,6 +18,7 @@ public final class ModRegistries {
 
     public static final Registry<LocationAction.Type<?>> LOCATION_ACTION_TYPE =
             FabricRegistryBuilder.createSimple(Keys.LOCATION_ACTION_TYPE).attribute(RegistryAttribute.SYNCED).buildAndRegister();
+
     public static void registerAll(){
         Synchro.LOGGER.debug("Registered mod registries for " + Synchro.MOD_ID);
         LocationAction.registerAll();

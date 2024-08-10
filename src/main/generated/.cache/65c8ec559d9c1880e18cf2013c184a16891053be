@@ -1,4 +1,4 @@
-// 1.21	2024-08-07T14:18:00.473049	Synchro/Block Loot Tables
+// 1.21	2024-08-11T00:41:36.5694657	Synchro/Block Loot Tables
 054d63d74583c860ecbce5c3e25e83f33c7bfc05 data\synchro\loot_table\blocks\mossy_stone_bricks_slope.json
 fa4a43902a8ceebb24a519f6afa095e5d1631667 data\synchro\loot_table\blocks\quartz_block_slope.json
 18951f1b6b056928c3fa310acbdd7ed3d1130167 data\synchro\loot_table\blocks\sandstone_slope.json
@@ -12,8 +12,8 @@ ab7f8d04b79af453895804dd5e1d3b09a7297cc8 data\synchro\loot_table\blocks\birch_pl
 1989ed13aba3836e4b99931cda58db62ee6bbdcb data\synchro\loot_table\blocks\polished_deepslate_slope.json
 7811d8ce712661a87495c32d331f517edef6ab77 data\synchro\loot_table\blocks\cobblestone_slope.json
 7dd739c81ac1db7f319d62616c4411679fe66b6e data\synchro\loot_table\blocks\fertile_farmland.json
-78fdd3991dd064a07375f88c65e6e5146c44e944 data\synchro\loot_table\blocks\cobbled_deepslate_slope.json
 697369bd707d43b014171f920476860548b70e68 data\synchro\loot_table\blocks\polished_andesite_slope.json
+78fdd3991dd064a07375f88c65e6e5146c44e944 data\synchro\loot_table\blocks\cobbled_deepslate_slope.json
 3ea0a67d52878104c83a774d1ff6d9b4d9620380 data\synchro\loot_table\blocks\banana_block.json
 1c639d95147f300201abe3552f1b6b921444ccef data\synchro\loot_table\blocks\polished_granite_slope.json
 ace7670998913479968e30814b70f5e2ac7be95e data\synchro\loot_table\blocks\burnt_charcoal_fence.json

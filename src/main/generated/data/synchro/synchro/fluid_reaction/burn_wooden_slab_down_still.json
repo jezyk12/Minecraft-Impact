@@ -20,9 +20,13 @@
       ]
     }
   ],
-  "block": "minecraft:birch_slab",
-  "block_state_conditions": {
-    "type": "bottom"
+  "block_state": {
+    "blocks": "#minecraft:wooden_slabs",
+    "state": {
+      "type": "bottom"
+    }
   },
-  "fluid": "minecraft:lava"
+  "fluid_state": {
+    "fluids": "minecraft:lava"
+  }
 }

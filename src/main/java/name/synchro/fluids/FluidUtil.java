@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import name.synchro.modUtilData.ModDataContainer;
 import name.synchro.modUtilData.ModDataManager;
+import name.synchro.modUtilData.dataEntries.FluidReaction;
 import name.synchro.modUtilData.dataEntries.FluidReactionData;
 import name.synchro.modUtilData.reactions.LocationAction;
 import name.synchro.registrations.ModTags;
@@ -458,9 +459,9 @@ public final class FluidUtil {
         if (blockState.isAir() || blockState.getBlock() instanceof FluidBlock) return;
         ModDataContainer<?> container =  ((ModDataManager.Provider)world).synchro$getModDataManager().getContents().get(FluidReactionData.ID);
         if (container instanceof FluidReactionData fluidReactionData){
-            Map<Long, FluidReactionData.Entry> map = fluidReactionData.data();
+            Map<Long, FluidReaction> map = fluidReactionData.data();
             long key = FluidReactionData.longKey(fluidState.getFluid(), blockState.getBlock());
-            FluidReactionData.Entry entry = map.get(key);
+            FluidReaction entry = map.get(key);
             if (entry == null) return;
             if (!entry.test(fluidState, blockState)) return;
             for (LocationAction action: entry.actions()){

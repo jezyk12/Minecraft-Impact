@@ -4,15 +4,11 @@ import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import name.synchro.Synchro;
 import name.synchro.modUtilData.ModDataContainer;
 import name.synchro.modUtilData.reactions.LocationAction;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.predicate.StatePredicate;
@@ -22,10 +18,10 @@ import net.minecraft.util.Identifier;
 
 import java.util.*;
 
-public class FluidReactionData implements ModDataContainer<Map<Long, FluidReactionData.Entry>> {
+public class FluidReactionData implements ModDataContainer<Map<Long, FluidReaction>> {
     public static final String FOLDER = "fluid_reaction";
     public static final Identifier ID = Identifier.of(Synchro.MOD_ID, FOLDER);
-    private Map<Long, Entry> entries = new HashMap<>();
+    private Map<Long, FluidReaction> entries = new HashMap<>();
 
     public static long longKey(Fluid fluid, Block block){
         int f = Registries.FLUID.getRawId(fluid);
@@ -34,7 +30,7 @@ public class FluidReactionData implements ModDataContainer<Map<Long, FluidReacti
     }
 
     @Override
-    public Map<Long, Entry> data() {
+    public Map<Long, FluidReaction> data() {
         return entries;
     }
 
@@ -46,8 +42,8 @@ public class FluidReactionData implements ModDataContainer<Map<Long, FluidReacti
     @Override
     public void deserialize(JsonElement json, Identifier fileName) {
         try {
-            DataResult<Entry> result = Entry.CODEC.codec().parse(JsonOps.INSTANCE, json);
-            Entry entry = result.getOrThrow();
+            DataResult<FluidReaction> result = FluidReaction.CODEC.codec().parse(JsonOps.INSTANCE, json);
+            FluidReaction entry = result.getOrThrow();
             this.data().put(longKey(entry.fluid(), entry.block()), entry);
         } catch (Exception e) {
             Synchro.LOGGER.error("Unable to parse {}/{}: ", FOLDER, fileName, e);
@@ -56,7 +52,7 @@ public class FluidReactionData implements ModDataContainer<Map<Long, FluidReacti
 
     @Override
     public void readBuf(RegistryByteBuf buf) {
-        Map<Long, Entry> entries = new HashMap<>();
+        Map<Long, FluidReaction> entries = new HashMap<>();
         int size = buf.readInt();
         for (int i = 0; i < size; i++) {
             Fluid fluid = PacketCodecs.registryValue(RegistryKeys.FLUID).decode(buf);
@@ -64,16 +60,16 @@ public class FluidReactionData implements ModDataContainer<Map<Long, FluidReacti
             Block block = PacketCodecs.registryValue(RegistryKeys.BLOCK).decode(buf);
             Optional<StatePredicate> blockStatePredicate = PacketCodecs.optional(StatePredicate.PACKET_CODEC).decode(buf);
             List<LocationAction> actions = PacketCodecs.codec(Codec.list(LocationAction.CODEC)).decode(buf);
-            entries.put(longKey(fluid, block), new Entry(fluid, fluidStatePredicate, block, blockStatePredicate, actions));
+            entries.put(longKey(fluid, block), new FluidReaction(fluid, fluidStatePredicate, block, blockStatePredicate, actions));
         }
         this.entries = entries;
     }
 
     @Override
     public void writeBuf(RegistryByteBuf buf) {
-        Collection<Entry> entrySet = this.data().values();
+        Collection<FluidReaction> entrySet = this.data().values();
         buf.writeInt(entrySet.size());
-        for (Entry entry : entrySet){
+        for (FluidReaction entry : entrySet){
             PacketCodecs.registryValue(RegistryKeys.FLUID).encode(buf, entry.fluid());
             PacketCodecs.optional(StatePredicate.PACKET_CODEC).encode(buf, entry.fluidStatePredicate());
             PacketCodecs.registryValue(RegistryKeys.BLOCK).encode(buf, entry.block());
@@ -82,27 +78,7 @@ public class FluidReactionData implements ModDataContainer<Map<Long, FluidReacti
         }
     }
 
-    public record Entry(Fluid fluid, Optional<StatePredicate> fluidStatePredicate, Block block, Optional<StatePredicate> blockStatePredicate, List<LocationAction> actions){
-        public static final MapCodec<Entry> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                Registries.FLUID.getCodec().fieldOf("fluid").forGetter(Entry::fluid),
-                StatePredicate.CODEC.optionalFieldOf("fluid_state_conditions").forGetter(Entry::fluidStatePredicate),
-                Registries.BLOCK.getCodec().fieldOf("block").forGetter(Entry::block),
-                StatePredicate.CODEC.optionalFieldOf("block_state_conditions").forGetter(Entry::blockStatePredicate),
-                Codec.list(LocationAction.CODEC).fieldOf("actions").forGetter(Entry::actions)
-        ).apply(instance, Entry::new));
-
-        public boolean test(FluidState fluidState, BlockState blockState){
-            if (fluidStatePredicate().isPresent()){
-                if (!fluidStatePredicate().get().test(fluidState)) return false;
-            }
-            if (blockStatePredicate().isPresent()){
-                return blockStatePredicate().get().test(blockState);
-            }
-            return true;
-        }
-    }
-
-//    public record LocationActionEntry(Identifier type, LocationAction action){
+    //    public record LocationActionEntry(Identifier type, LocationAction action){
 //        public static final MapCodec<>
 //    }
 //

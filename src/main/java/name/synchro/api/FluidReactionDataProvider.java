@@ -3,6 +3,7 @@ package name.synchro.api;
 import com.google.common.annotations.VisibleForTesting;
 import name.synchro.Synchro;
 import name.synchro.modUtilData.ModDataLoader;
+import name.synchro.modUtilData.dataEntries.FluidReaction;
 import name.synchro.modUtilData.dataEntries.FluidReactionData;
 import name.synchro.modUtilData.reactions.LocationAction;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -21,20 +22,20 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
-public abstract class FluidReactionDataProvider extends FabricCodecDataProvider<FluidReactionData.Entry> {
+public abstract class FluidReactionDataProvider extends FabricCodecDataProvider<FluidReaction> {
     protected static final String NAME = "Fluid Reaction";
-    final Map<String, FluidReactionData.Entry> entries = new HashMap<>();
+    final Map<String, FluidReaction> entries = new HashMap<>();
 
     protected FluidReactionDataProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(dataOutput, registriesFuture, DataOutput.OutputType.DATA_PACK,
                 ModDataLoader.DICTIONARY_ROOT + "/" + FluidReactionData.FOLDER,
-                FluidReactionData.Entry.CODEC.codec());
+                FluidReaction.CODEC.codec());
     }
 
     @Override
-    protected void configure(BiConsumer<Identifier, FluidReactionData.Entry> provider, RegistryWrapper.WrapperLookup lookup) {
+    protected void configure(BiConsumer<Identifier, FluidReaction> provider, RegistryWrapper.WrapperLookup lookup) {
         generate(lookup);
-        for (Map.Entry<String, FluidReactionData.Entry> entry : entries.entrySet()) {
+        for (Map.Entry<String, FluidReaction> entry : entries.entrySet()) {
             Identifier filePath = Identifier.of(Synchro.MOD_ID, entry.getKey());
             provider.accept(filePath, entry.getValue());
         }
@@ -44,7 +45,7 @@ public abstract class FluidReactionDataProvider extends FabricCodecDataProvider<
     public abstract void generate(RegistryWrapper.WrapperLookup wrapperLookup);
 
     @VisibleForTesting
-    public void addEntry(String fileName, FluidReactionData.Entry entry){
+    public void addEntry(String fileName, FluidReaction entry){
         this.entries.put(fileName, entry);
     }
 
@@ -106,7 +107,7 @@ public abstract class FluidReactionDataProvider extends FabricCodecDataProvider<
                 String fileName = this.prefix + (blockId.getNamespace().equals(Identifier.DEFAULT_NAMESPACE) ? "" : blockId.getNamespace() + "_") + blockId.getPath()
                         + "_with_" + (blockId.getNamespace().equals(Identifier.DEFAULT_NAMESPACE) ? "" : blockId.getNamespace() + "_") + fluidId.getPath();
                 FluidReactionDataProvider.this.entries.put(fileName,
-                        new FluidReactionData.Entry(fluid, Optional.ofNullable(fluidPredicate),
+                        new FluidReaction(fluid, Optional.ofNullable(fluidPredicate),
                                 block, Optional.ofNullable(blockPredicate), actions));
             }
          }

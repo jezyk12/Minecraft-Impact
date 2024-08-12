@@ -1,4 +1,4 @@
-package name.synchro.mixin.FluidConcerned;
+package name.synchro.mixin.fluidConcerned;
 
 import name.synchro.fluids.FluidHelper;
 import net.minecraft.block.Block;

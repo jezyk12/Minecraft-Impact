@@ -1,5 +1,6 @@
 package name.synchro.entities;
 
+import name.synchro.mixin.accessor.MobEntityAccessor;
 import name.synchro.registrations.ModEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -24,14 +25,18 @@ public class DuckEntity extends AnimalEntity {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(1, new EscapeDangerGoal(this, 1.4));
-        this.goalSelector.add(2, new AnimalMateGoal(this, 1.0));
-        this.goalSelector.add(3, new TemptGoal(this, 1.0, this::isBreedingItem, false));
-        this.goalSelector.add(4, new FollowParentGoal(this, 1.1));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0f));
-        this.goalSelector.add(7, new LookAroundGoal(this));
+        goalSelector().add(0, new SwimGoal(this));
+        goalSelector().add(1, new EscapeDangerGoal(this, 1.4));
+        goalSelector().add(2, new AnimalMateGoal(this, 1.0));
+        goalSelector().add(3, new TemptGoal(this, 1.0, this::isBreedingItem, false));
+        goalSelector().add(4, new FollowParentGoal(this, 1.1));
+        goalSelector().add(5, new WanderAroundFarGoal(this, 1.0));
+        goalSelector().add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0f));
+        goalSelector().add(7, new LookAroundGoal(this));
+    }
+
+    private GoalSelector goalSelector() {
+        return ((MobEntityAccessor) this).getGoalSelector();
     }
 
     @Override

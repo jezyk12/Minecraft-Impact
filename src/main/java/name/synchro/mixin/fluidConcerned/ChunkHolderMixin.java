@@ -1,4 +1,4 @@
-package name.synchro.mixin.FluidConcerned;
+package name.synchro.mixin.fluidConcerned;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import it.unimi.dsi.fastutil.shorts.ShortSet;

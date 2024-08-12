@@ -1,10 +1,12 @@
 package name.synchro.employment;
 
 import name.synchro.Synchro;
+import name.synchro.mixin.accessor.MobEntityAccessor;
 import name.synchro.util.NbtTags;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
@@ -32,9 +34,9 @@ public abstract class AbstractWorkingHandler implements WorkingHandler {
             BlockPos blockPos = BlockPos.fromLong(nbt.getLong(NbtTags.TYPE_BLOCK));
             BlockEntity blockEntity = world.getBlockEntity(blockPos);
             if (blockEntity instanceof Employer blockEmployer) this.setEmployer(blockEmployer);
-            else Synchro.LOGGER.warn("Cannot identify a BlockEntity as an employer at " + blockPos);
+            else Synchro.LOGGER.warn("Cannot identify a BlockEntity as an employer at {}", blockPos);
         } else if (nbt.contains(NbtTags.TYPE_ENTITY)) {
-            Synchro.LOGGER.warn("Uncompleted feature: Entity as an employer");
+            Synchro.LOGGER.warn("Uncompleted feature at setEmploymentFromNbt: Entity as an employer");
         } else this.employer = null;
         this.workableTime = nbt.getInt(NbtTags.WORKABLE_TIME);
     }
@@ -46,7 +48,7 @@ public abstract class AbstractWorkingHandler implements WorkingHandler {
                 nbt.putLong(NbtTags.TYPE_BLOCK, blockEntity.getPos().asLong());
             }
             else if (this.employer instanceof Entity){
-                Synchro.LOGGER.warn("Uncompleted feature: Entity as an employer");
+                Synchro.LOGGER.warn("Uncompleted feature at getEmploymentNbt: Entity as an employer");
             }
             else Synchro.LOGGER.warn("Unacceptable employer type");
             nbt.putInt(NbtTags.WORKABLE_TIME, this.workableTime);
@@ -72,7 +74,7 @@ public abstract class AbstractWorkingHandler implements WorkingHandler {
     private void setEmployer(Employer employer){
         this.employer = employer;
         for (Goal goal : this.availableJob().working.getGoals(this.mob)) {
-            this.mob.goalSelector.add(this.workingGoalPriority(), goal);
+            goalSelector().add(this.workingGoalPriority(), goal);
         }
     }
 
@@ -81,10 +83,14 @@ public abstract class AbstractWorkingHandler implements WorkingHandler {
         if (this.employer != null) {
             this.employer.getWorkerManager().removeEmployee(this.mob.getUuid());
             for (Goal goal : this.availableJob().working.getGoals(this.mob)) {
-                this.mob.goalSelector.remove(goal);
+                goalSelector().remove(goal);
             }
             this.employer = null;
         }
+    }
+
+    protected GoalSelector goalSelector() {
+        return ((MobEntityAccessor) this.mob).getGoalSelector();
     }
 
     public boolean willingToWork(){

@@ -77,6 +77,5 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
 
     private void extendVanillaTags(){
         getOrCreateTagBuilder(BlockTags.FENCES).add(ModBlocks.BURNT_CHARCOAL_FENCE);
-        getOrCreateTagBuilder(BlockTags.WOODEN_FENCES).add(ModBlocks.BURNT_CHARCOAL_FENCE);
     }
 }

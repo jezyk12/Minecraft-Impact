@@ -30,7 +30,7 @@ public class CowWorkingHandler extends AbstractWorkingHandler {
         if (this.getEmployer() != null) {
             this.getEmployer().getWorkerManager().removeEmployee(this.mob.getUuid());
             Set<Goal> toRemoveGoals = new HashSet<>();
-            for (PrioritizedGoal prioritizedGoal : this.mob.goalSelector.getGoals()) {
+            for (PrioritizedGoal prioritizedGoal : goalSelector().getGoals()) {
                 Goal goal = prioritizedGoal.getGoal();
                 if (goal instanceof PushMillstoneGoal pushMillstoneGoal) {
                     pushMillstoneGoal.tryRelease((MillstoneBlockEntity) (this.getEmployer()));
@@ -40,7 +40,7 @@ public class CowWorkingHandler extends AbstractWorkingHandler {
                     toRemoveGoals.add(goal);
                 }
             }
-            toRemoveGoals.forEach(this.mob.goalSelector::remove);
+            toRemoveGoals.forEach(goalSelector()::remove);
             this.employer = null;
         }
     }

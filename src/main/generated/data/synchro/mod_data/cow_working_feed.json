@@ -1,5 +1,19 @@
 [
   {
+    "items": [
+      {
+        "item": "minecraft:cake"
+      },
+      {
+        "item": "minecraft:hay_block"
+      },
+      {
+        "item": "minecraft:enchanted_golden_apple"
+      }
+    ],
+    "time": 7600
+  },
+  {
     "items": {
       "tag": "minecraft:cow_food"
     },
@@ -19,16 +33,13 @@
   {
     "items": [
       {
-        "item": "minecraft:cake"
+        "item": "minecraft:short_grass"
       },
       {
-        "item": "minecraft:hay_block"
-      },
-      {
-        "item": "minecraft:enchanted_golden_apple"
+        "item": "minecraft:fern"
       }
     ],
-    "time": 7600
+    "time": 300
   },
   {
     "items": [
@@ -37,17 +48,6 @@
       },
       {
         "item": "minecraft:brown_mushroom"
-      }
-    ],
-    "time": 300
-  },
-  {
-    "items": [
-      {
-        "item": "minecraft:short_grass"
-      },
-      {
-        "item": "minecraft:fern"
       }
     ],
     "time": 300

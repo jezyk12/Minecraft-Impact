@@ -1,4 +1,4 @@
-package name.synchro.mixin.FluidConcerned;
+package name.synchro.mixin.fluidConcerned;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

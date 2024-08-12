@@ -1,4 +1,4 @@
-package name.synchro.mixin.FluidConcerned;
+package name.synchro.mixin.fluidConcerned;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -43,8 +43,8 @@ public class ChunkSerializerMixin {
     }
 
     @Inject(method = "serialize", at = @At(value = "INVOKE",
-            target = "Lcom/mojang/serialization/Codec;encodeStart(Lcom/mojang/serialization/DynamicOps;Ljava/lang/Object;)Lcom/mojang/serialization/DataResult;",
-            ordinal = 3, shift = At.Shift.BEFORE))
+            target = "Lnet/minecraft/nbt/NbtCompound;put(Ljava/lang/String;Lnet/minecraft/nbt/NbtElement;)Lnet/minecraft/nbt/NbtElement;",
+            ordinal = 2))
     private static void serializeFluidStatePaletteContainer(
             ServerWorld world, Chunk chunk, CallbackInfoReturnable<NbtCompound> cir,
             @Local ChunkSection chunkSection, @Local(ordinal = 1) NbtCompound nbtCompound){

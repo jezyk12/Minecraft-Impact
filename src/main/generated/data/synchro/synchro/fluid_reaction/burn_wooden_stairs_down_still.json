@@ -3,9 +3,11 @@
     {
       "type": "synchro:set_block",
       "block": {
-        "Name": "synchro:burnt_charcoal_slab",
+        "Name": "synchro:burnt_charcoal_stairs",
         "Properties": {
-          "type": "bottom",
+          "facing": "north",
+          "half": "bottom",
+          "shape": "straight",
           "waterlogged": "false"
         }
       },
@@ -21,17 +23,12 @@
     }
   ],
   "block_state": {
-    "blocks": "#synchro:burnable_slab",
+    "blocks": "#synchro:burnable_stairs",
     "state": {
-      "type": "bottom"
+      "half": "bottom"
     }
   },
   "fluid_state": {
-    "fluids": "minecraft:flowing_lava",
-    "state": {
-      "level": {
-        "min": "3"
-      }
-    }
+    "fluids": "minecraft:lava"
   }
 }

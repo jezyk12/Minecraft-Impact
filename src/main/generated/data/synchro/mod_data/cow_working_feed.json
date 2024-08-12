@@ -1,5 +1,11 @@
 [
   {
+    "items": {
+      "tag": "minecraft:cow_food"
+    },
+    "time": 800
+  },
+  {
     "items": [
       {
         "item": "minecraft:cake"
@@ -12,12 +18,6 @@
       }
     ],
     "time": 7600
-  },
-  {
-    "items": {
-      "tag": "minecraft:cow_food"
-    },
-    "time": 800
   },
   {
     "items": [

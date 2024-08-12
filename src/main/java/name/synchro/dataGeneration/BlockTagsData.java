@@ -20,6 +20,7 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
         extendVanillaTags();
+        createBurnableBlocks();
         getOrCreateTagBuilder(ModTags.CAN_STORE_FLUID)
                 .addOptionalTag(BlockTags.LEAVES)
                 .addOptionalTag(BlockTags.IMPERMEABLE)
@@ -77,5 +78,18 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
 
     private void extendVanillaTags(){
         getOrCreateTagBuilder(BlockTags.FENCES).add(ModBlocks.BURNT_CHARCOAL_FENCE);
+        getOrCreateTagBuilder(BlockTags.WOODEN_FENCES).add(ModBlocks.BURNT_CHARCOAL_FENCE);
+    }
+
+    private void createBurnableBlocks(){
+        getOrCreateTagBuilder(ModTags.BURNABLE_FENCE)
+                .add(Blocks.ACACIA_FENCE, Blocks.BIRCH_FENCE, Blocks.DARK_OAK_FENCE, Blocks.JUNGLE_FENCE,
+                        Blocks.OAK_FENCE, Blocks.SPRUCE_FENCE, Blocks.MANGROVE_FENCE, Blocks.BAMBOO_FENCE, Blocks.CHERRY_FENCE);
+        getOrCreateTagBuilder(ModTags.BURNABLE_SLAB)
+                .add(Blocks.ACACIA_SLAB, Blocks.BIRCH_SLAB, Blocks.DARK_OAK_SLAB, Blocks.JUNGLE_SLAB,
+                        Blocks.OAK_SLAB, Blocks.SPRUCE_SLAB, Blocks.MANGROVE_SLAB, Blocks.BAMBOO_SLAB, Blocks.CHERRY_SLAB);
+        getOrCreateTagBuilder(ModTags.BURNABLE_STAIRS)
+                .add(Blocks.ACACIA_STAIRS, Blocks.BIRCH_STAIRS, Blocks.DARK_OAK_STAIRS, Blocks.JUNGLE_STAIRS,
+                        Blocks.OAK_STAIRS, Blocks.SPRUCE_STAIRS, Blocks.MANGROVE_STAIRS, Blocks.BAMBOO_STAIRS, Blocks.CHERRY_STAIRS);
     }
 }

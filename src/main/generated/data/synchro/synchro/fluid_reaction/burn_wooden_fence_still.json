@@ -24,7 +24,8 @@
     }
   ],
   "block_state": {
-    "blocks": "#minecraft:wooden_fences"
+    "blocks": "#synchro:burnable_fence",
+    "state": {}
   },
   "fluid_state": {
     "fluids": "minecraft:lava"

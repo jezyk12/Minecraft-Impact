@@ -105,6 +105,7 @@
   "ore.synchro.gold": "金",
   "ore.synchro.iron": "铁",
   "ore.synchro.redstone": "红石",
+  "tag.item.synchro.raw_metal_ore": "粗矿石",
   "title.synchro.config_screen": "配置",
   "title.synchro.debug_screen": "调试",
   "title.synchro.electric_lamp": "电灯工作情况",

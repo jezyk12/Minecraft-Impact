@@ -43,6 +43,7 @@
   "ore.synchro.gold": "Gold",
   "ore.synchro.iron": "Iron",
   "ore.synchro.redstone": "Redstone",
+  "tag.item.synchro.raw_metal_ore": "Raw Metal Ore",
   "title.synchro.config_screen": "Config",
   "title.synchro.debug_screen": "Debug",
   "title.synchro.electric_lamp": "Electric Lamp Performance",

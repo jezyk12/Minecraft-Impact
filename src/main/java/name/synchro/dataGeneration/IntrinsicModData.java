@@ -5,15 +5,19 @@ import name.synchro.api.ModRegistryProvider;
 import name.synchro.modUtilData.reactions.ActiveEvents;
 import name.synchro.modUtilData.reactions.SetBlock;
 import name.synchro.registrations.ModBlocks;
+import name.synchro.registrations.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.block.enums.BlockHalf;
 import net.minecraft.block.enums.SlabType;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.predicate.BlockPredicate;
 import net.minecraft.predicate.FluidPredicate;
 import net.minecraft.predicate.StatePredicate;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.world.WorldEvents;
 
 import java.util.List;
@@ -26,52 +30,29 @@ public final class IntrinsicModData extends ModRegistryProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
-        addFluidReaction(entries, "burn_wooden_stairs_flowing", fluidReactionBuilder()
-                .fluid(FluidPredicate.Builder.create().fluid(Fluids.FLOWING_LAVA).state(fluidLevelBetween(4, null)).build())
-                .block(BlockPredicate.Builder.create().tag(BlockTags.WOODEN_STAIRS).build())
-                .action(SetBlock.builder(ModBlocks.BURNT_CHARCOAL_STAIRS.getDefaultState()).followProperties().build())
+        addLavaReactions(entries, "wooden_slab_down", ModTags.BURNABLE_SLAB, ModBlocks.BURNT_CHARCOAL_SLAB, 3,
+                StatePredicate.Builder.create().exactMatch(SlabBlock.TYPE, SlabType.BOTTOM));
+        addLavaReactions(entries, "wooden_slab_up", ModTags.BURNABLE_SLAB, ModBlocks.BURNT_CHARCOAL_SLAB, 6,
+                StatePredicate.Builder.create().exactMatch(SlabBlock.TYPE, SlabType.TOP));
+        addLavaReactions(entries, "wooden_stairs_down", ModTags.BURNABLE_STAIRS, ModBlocks.BURNT_CHARCOAL_STAIRS, 3,
+                StatePredicate.Builder.create().exactMatch(StairsBlock.HALF, BlockHalf.BOTTOM));
+        addLavaReactions(entries, "wooden_stairs_top", ModTags.BURNABLE_STAIRS, ModBlocks.BURNT_CHARCOAL_STAIRS, 6,
+                StatePredicate.Builder.create().exactMatch(StairsBlock.HALF, BlockHalf.TOP));
+        addLavaReactions(entries, "wooden_fence", ModTags.BURNABLE_FENCE, ModBlocks.BURNT_CHARCOAL_FENCE, 4,
+                StatePredicate.Builder.create());
+    }
+
+    private static void addLavaReactions(Entries entries, String name, TagKey<Block> tagKey, Block result, int minLevel, StatePredicate.Builder blockPredicate) {
+        addFluidReaction(entries,  "burn_" + name + "_flowing", fluidReactionBuilder()
+                .fluid(FluidPredicate.Builder.create().fluid(Fluids.FLOWING_LAVA).state(fluidLevelBetween(minLevel, null)).build())
+                .block(BlockPredicate.Builder.create().tag(tagKey).state(blockPredicate).build())
+                .action(SetBlock.builder(result.getDefaultState()).followProperties().build())
                 .action(new ActiveEvents(List.of(Pair.of(WorldEvents.LAVA_EXTINGUISHED, 0))))
                 .build());
-        addFluidReaction(entries, "burn_wooden_stairs_still", fluidReactionBuilder()
+        addFluidReaction(entries, "burn_" + name + "_still", fluidReactionBuilder()
                 .fluid(FluidPredicate.Builder.create().fluid(Fluids.LAVA).build())
-                .block(BlockPredicate.Builder.create().tag(BlockTags.WOODEN_STAIRS).build())
-                .action(SetBlock.builder(ModBlocks.BURNT_CHARCOAL_STAIRS.getDefaultState()).followProperties().build())
-                .action(new ActiveEvents(List.of(Pair.of(WorldEvents.LAVA_EXTINGUISHED, 0))))
-                .build());
-        addFluidReaction(entries, "burn_wooden_slab_down_flowing", fluidReactionBuilder()
-                .fluid(FluidPredicate.Builder.create().fluid(Fluids.FLOWING_LAVA).state(fluidLevelBetween(3, null)).build())
-                .block(BlockPredicate.Builder.create().tag(BlockTags.WOODEN_SLABS).state(StatePredicate.Builder.create().exactMatch(SlabBlock.TYPE, SlabType.BOTTOM)).build())
-                .action(SetBlock.builder(ModBlocks.BURNT_CHARCOAL_SLAB.getDefaultState()).followProperties().build())
-                .action(new ActiveEvents(List.of(Pair.of(WorldEvents.LAVA_EXTINGUISHED, 0))))
-                .build());
-        addFluidReaction(entries, "burn_wooden_slab_down_still", fluidReactionBuilder()
-                .fluid(FluidPredicate.Builder.create().fluid(Fluids.LAVA).build())
-                .block(BlockPredicate.Builder.create().tag(BlockTags.WOODEN_SLABS).state(StatePredicate.Builder.create().exactMatch(SlabBlock.TYPE, SlabType.BOTTOM)).build())
-                .action(SetBlock.builder(ModBlocks.BURNT_CHARCOAL_SLAB.getDefaultState()).followProperties().build())
-                .action(new ActiveEvents(List.of(Pair.of(WorldEvents.LAVA_EXTINGUISHED, 0))))
-                .build());
-        addFluidReaction(entries, "burn_wooden_slab_up_flowing", fluidReactionBuilder()
-                .fluid(FluidPredicate.Builder.create().fluid(Fluids.FLOWING_LAVA).state(fluidLevelBetween(6, null)).build())
-                .block(BlockPredicate.Builder.create().tag(BlockTags.WOODEN_SLABS).state(StatePredicate.Builder.create().exactMatch(SlabBlock.TYPE, SlabType.TOP)).build())
-                .action(SetBlock.builder(ModBlocks.BURNT_CHARCOAL_SLAB.getDefaultState()).followProperties().build())
-                .action(new ActiveEvents(List.of(Pair.of(WorldEvents.LAVA_EXTINGUISHED, 0))))
-                .build());
-        addFluidReaction(entries, "burn_wooden_slab_up_still", fluidReactionBuilder()
-                .fluid(FluidPredicate.Builder.create().fluid(Fluids.LAVA).build())
-                .block(BlockPredicate.Builder.create().tag(BlockTags.WOODEN_SLABS).state(StatePredicate.Builder.create().exactMatch(SlabBlock.TYPE, SlabType.TOP)).build())
-                .action(SetBlock.builder(ModBlocks.BURNT_CHARCOAL_SLAB.getDefaultState()).followProperties().build())
-                .action(new ActiveEvents(List.of(Pair.of(WorldEvents.LAVA_EXTINGUISHED, 0))))
-                .build());
-        addFluidReaction(entries, "burn_wooden_fence_flowing", fluidReactionBuilder()
-                .fluid(FluidPredicate.Builder.create().fluid(Fluids.FLOWING_LAVA).state(fluidLevelBetween(4, null)).build())
-                .block(BlockPredicate.Builder.create().tag(BlockTags.WOODEN_FENCES).build())
-                .action(SetBlock.builder(ModBlocks.BURNT_CHARCOAL_FENCE.getDefaultState()).followProperties().build())
-                .action(new ActiveEvents(List.of(Pair.of(WorldEvents.LAVA_EXTINGUISHED, 0))))
-                .build());
-        addFluidReaction(entries, "burn_wooden_fence_still", fluidReactionBuilder()
-                .fluid(FluidPredicate.Builder.create().fluid(Fluids.LAVA).build())
-                .block(BlockPredicate.Builder.create().tag(BlockTags.WOODEN_FENCES).build())
-                .action(SetBlock.builder(ModBlocks.BURNT_CHARCOAL_FENCE.getDefaultState()).followProperties().build())
+                .block(BlockPredicate.Builder.create().tag(tagKey).state(blockPredicate).build())
+                .action(SetBlock.builder(result.getDefaultState()).followProperties().build())
                 .action(new ActiveEvents(List.of(Pair.of(WorldEvents.LAVA_EXTINGUISHED, 0))))
                 .build());
     }

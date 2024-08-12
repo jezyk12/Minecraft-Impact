@@ -21,7 +21,7 @@
     }
   ],
   "block_state": {
-    "blocks": "#minecraft:wooden_slabs",
+    "blocks": "#synchro:burnable_slab",
     "state": {
       "type": "top"
     }

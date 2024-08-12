@@ -23,14 +23,12 @@
     }
   ],
   "block_state": {
-    "blocks": "#minecraft:wooden_stairs"
+    "blocks": "#synchro:burnable_stairs",
+    "state": {
+      "half": "top"
+    }
   },
   "fluid_state": {
-    "fluids": "minecraft:flowing_lava",
-    "state": {
-      "level": {
-        "min": "4"
-      }
-    }
+    "fluids": "minecraft:lava"
   }
 }

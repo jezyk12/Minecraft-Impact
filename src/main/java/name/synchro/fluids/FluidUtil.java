@@ -146,18 +146,30 @@ public final class FluidUtil {
     }
 
     public static boolean worldSetFluidState(World world, BlockPos pos, FluidState fluidState, int flags, int maxDepth) {
-        BlockState blockState = world.getBlockState(pos);
-        if (blockState.isAir() || blockState.getBlock() instanceof FluidBlock){
-            if (fluidState.isEmpty()) return world.setBlockState(pos, Blocks.AIR.getDefaultState(), flags, maxDepth);
-            else return world.setBlockState(pos, fluidState.getBlockState(), flags, maxDepth);
+        BlockState originalBlockState = world.getBlockState(pos);
+        BlockState finalBlockState = originalBlockState;
+        boolean skipSetFluidState = false;
+        if (originalBlockState.isAir() || originalBlockState.getBlock() instanceof FluidBlock){
+            if (fluidState.isEmpty()) {
+                finalBlockState = Blocks.AIR.getDefaultState();
+            }
+            else {
+                finalBlockState = fluidState.getBlockState();
+            }
+            skipSetFluidState = true;
         }
-        else if (blockState.getBlock() instanceof Waterloggable){
+        else if (originalBlockState.getBlock() instanceof Waterloggable){
             if (fluidState.isEqualAndStill(Fluids.WATER)){
-                return world.setBlockState(pos, blockState.with(Properties.WATERLOGGED, true), flags, maxDepth);
+                finalBlockState = originalBlockState.with(Properties.WATERLOGGED, true);
+                skipSetFluidState = true;
             }
-            else if (blockState.get(Properties.WATERLOGGED)){
-                world.setBlockState(pos, blockState.with(Properties.WATERLOGGED, false));
+            else if (originalBlockState.get(Properties.WATERLOGGED)){
+                finalBlockState = originalBlockState.with(Properties.WATERLOGGED, false);
+                world.setBlockState(pos, finalBlockState);
             }
+        }
+        if (skipSetFluidState){
+            return world.setBlockState(pos, finalBlockState);
         }
         if (world.isOutOfHeightLimit(pos)) {
             return false;
@@ -178,16 +190,16 @@ public final class FluidUtil {
                     if ((flags & Block.NOTIFY_LISTENERS) != 0
                             && (!world.isClient() || (flags & Block.NO_REDRAW) == 0)
                             && (world.isClient() || worldChunk.getLevelType() != null && worldChunk.getLevelType().isAfter(ChunkLevelType.BLOCK_TICKING))) {
-                        world.updateListeners(pos, replacedState.getBlockState(), fluidState.getBlockState(), flags);
+                        world.updateListeners(pos, originalBlockState, finalBlockState, flags);
                     }
 
                     if ((flags & Block.NOTIFY_NEIGHBORS) != 0) {
-                        world.updateNeighbors(pos, replacedState.getBlockState().getBlock());
+                        world.updateNeighbors(pos, finalBlockState.getBlock());
                     }
 
                     if ((flags & Block.FORCE_STATE) == 0 && maxDepth > 0) {
                         int i = flags & ~(Block.NOTIFY_NEIGHBORS | Block.SKIP_DROPS);
-                        fluidState.getBlockState().updateNeighbors(world, pos, i, maxDepth - 1);
+                        finalBlockState.updateNeighbors(world, pos, i, maxDepth - 1);
                     }
                     world.onBlockChanged(pos, replacedState.getBlockState(), placedState.getBlockState());
                 }
@@ -460,10 +472,10 @@ public final class FluidUtil {
 //        ModDataContainer<?> container =  ((ModDataManager.Provider)world).synchro$getModDataManager().getContents().get(FluidReactionData.ID);
 //        if (container instanceof FluidReactionData fluidReactionData){
 //            Map<Long, FluidReaction> map = fluidReactionData.data();
-//            long key = FluidReactionData.longKey(fluidState.getFluid(), blockState.getBlock());
+//            long key = FluidReactionData.longKey(fluidState.getFluid(), originalBlockState.getBlock());
 //            FluidReaction entry = map.get(key);
 //            if (entry == null) return;
-//            if (!entry.match(fluidState, blockState)) return;
+//            if (!entry.match(fluidState, originalBlockState)) return;
 //            for (LocationAction action: entry.actions()){
 //                action.act(world, pos);
 //            }

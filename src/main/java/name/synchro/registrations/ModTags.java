@@ -26,6 +26,11 @@ public final class ModTags {
             TagKey.of(RegistryKeys.BLOCK, Synchro.id("burnable_slab"));
     public static TagKey<Block> BURNABLE_STAIRS =
             TagKey.of(RegistryKeys.BLOCK, Synchro.id("burnable_stairs"));
+    public static TagKey<Block> BURNABLE_PRESSURE_PlATE =
+            TagKey.of(RegistryKeys.BLOCK, Synchro.id("burnable_pressure_plate"));
+    public static TagKey<Block> BURNABLE_SLOPE =
+            TagKey.of(RegistryKeys.BLOCK, Synchro.id("burnable_slope"));
+
     //Item Tags
     public static TagKey<Item> RAW_METAL_ORE =
             TagKey.of(RegistryKeys.ITEM, Synchro.id( "raw_metal_ore"));

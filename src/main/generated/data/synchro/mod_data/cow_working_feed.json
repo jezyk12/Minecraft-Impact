@@ -8,6 +8,28 @@
   {
     "items": [
       {
+        "item": "minecraft:short_grass"
+      },
+      {
+        "item": "minecraft:fern"
+      }
+    ],
+    "time": 300
+  },
+  {
+    "items": [
+      {
+        "item": "minecraft:red_mushroom"
+      },
+      {
+        "item": "minecraft:brown_mushroom"
+      }
+    ],
+    "time": 300
+  },
+  {
+    "items": [
+      {
         "item": "minecraft:cake"
       },
       {
@@ -29,27 +51,5 @@
       }
     ],
     "time": 3600
-  },
-  {
-    "items": [
-      {
-        "item": "minecraft:short_grass"
-      },
-      {
-        "item": "minecraft:fern"
-      }
-    ],
-    "time": 300
-  },
-  {
-    "items": [
-      {
-        "item": "minecraft:red_mushroom"
-      },
-      {
-        "item": "minecraft:brown_mushroom"
-      }
-    ],
-    "time": 300
   }
 ]

@@ -1,0 +1,39 @@
+{
+  "actions": [
+    {
+      "type": "synchro:set_block",
+      "block": {
+        "Name": "synchro:burnt_charcoal_slope",
+        "Properties": {
+          "facing": "north",
+          "half": "bottom",
+          "shape": "straight",
+          "waterlogged": "false"
+        }
+      },
+      "follow_properties": true
+    },
+    {
+      "type": "synchro:active_events",
+      "events": [
+        {
+          "event_id": 1501
+        }
+      ]
+    }
+  ],
+  "block_state": {
+    "blocks": "#synchro:burnable_slope",
+    "state": {
+      "half": "bottom"
+    }
+  },
+  "fluid_state": {
+    "fluids": "minecraft:flowing_lava",
+    "state": {
+      "level": {
+        "min": "3"
+      }
+    }
+  }
+}

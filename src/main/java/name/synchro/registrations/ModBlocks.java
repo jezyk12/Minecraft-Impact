@@ -68,6 +68,8 @@ public final class ModBlocks {
             new FenceBlock(AbstractBlock.Settings.create().strength(0.1f).sounds(BlockSoundGroup.BASALT)), SYNCHRO_BASIC);
     public static final PressurePlateBlock BURNT_CHARCOAL_PRESSURE_PLATE = registerBlock("burnt_charcoal_pressure_plate",
             new PressurePlateBlock(BlockSetType.STONE, AbstractBlock.Settings.create().strength(0.1f).sounds(BlockSoundGroup.BASALT)), SYNCHRO_BASIC);
+    public static final SlopeBlock BURNT_CHARCOAL_SLOPE = registerBlock("burnt_charcoal_slope",
+            new SlopeBlock(ModBlocks.BURNT_CHARCOAL_BLOCK.getDefaultState(), AbstractBlock.Settings.create().strength(0.1f).sounds(BlockSoundGroup.BASALT)), SYNCHRO_BASIC);
 
     //Gases
     public static final GasBlock WATER_VAPOR_BLOCK = registerBlock("water_vapor",

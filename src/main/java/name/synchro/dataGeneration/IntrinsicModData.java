@@ -2,6 +2,7 @@ package name.synchro.dataGeneration;
 
 import com.mojang.datafixers.util.Pair;
 import name.synchro.api.ModRegistryProvider;
+import name.synchro.blocks.SlopeBlock;
 import name.synchro.modUtilData.reactions.ActiveEvents;
 import name.synchro.modUtilData.reactions.SetBlock;
 import name.synchro.registrations.ModBlocks;
@@ -40,6 +41,12 @@ public final class IntrinsicModData extends ModRegistryProvider {
                 StatePredicate.Builder.create().exactMatch(StairsBlock.HALF, BlockHalf.TOP));
         addLavaReactions(entries, "wooden_fence", ModTags.BURNABLE_FENCE, ModBlocks.BURNT_CHARCOAL_FENCE, 4,
                 StatePredicate.Builder.create());
+        addLavaReactions(entries, "wooden_pressure_plate", ModTags.BURNABLE_PRESSURE_PlATE, ModBlocks.BURNT_CHARCOAL_PRESSURE_PLATE, 1,
+                StatePredicate.Builder.create());
+        addLavaReactions(entries, "wooden_slope_down", ModTags.BURNABLE_SLOPE, ModBlocks.BURNT_CHARCOAL_SLOPE, 3,
+                StatePredicate.Builder.create().exactMatch(SlopeBlock.HALF, BlockHalf.BOTTOM));
+        addLavaReactions(entries, "wooden_slope_top", ModTags.BURNABLE_SLOPE, ModBlocks.BURNT_CHARCOAL_SLOPE, 6,
+                StatePredicate.Builder.create().exactMatch(SlopeBlock.HALF, BlockHalf.TOP));
     }
 
     private static void addLavaReactions(Entries entries, String name, TagKey<Block> tagKey, Block result, int minLevel, StatePredicate.Builder blockPredicate) {

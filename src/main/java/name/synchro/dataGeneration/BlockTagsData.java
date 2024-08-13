@@ -79,6 +79,9 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
     private void extendVanillaTags(){
         getOrCreateTagBuilder(BlockTags.FENCES).add(ModBlocks.BURNT_CHARCOAL_FENCE);
         getOrCreateTagBuilder(BlockTags.WOODEN_FENCES).add(ModBlocks.BURNT_CHARCOAL_FENCE);
+        getOrCreateTagBuilder(BlockTags.WOODEN_SLABS).add(ModBlocks.BURNT_CHARCOAL_SLAB);
+        getOrCreateTagBuilder(BlockTags.WOODEN_STAIRS).add(ModBlocks.BURNT_CHARCOAL_STAIRS);
+        getOrCreateTagBuilder(BlockTags.PRESSURE_PLATES).add(ModBlocks.BURNT_CHARCOAL_PRESSURE_PLATE);
     }
 
     private void createBurnableBlocks(){
@@ -91,5 +94,11 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
         getOrCreateTagBuilder(ModTags.BURNABLE_STAIRS)
                 .add(Blocks.ACACIA_STAIRS, Blocks.BIRCH_STAIRS, Blocks.DARK_OAK_STAIRS, Blocks.JUNGLE_STAIRS,
                         Blocks.OAK_STAIRS, Blocks.SPRUCE_STAIRS, Blocks.MANGROVE_STAIRS, Blocks.BAMBOO_STAIRS, Blocks.CHERRY_STAIRS);
+        getOrCreateTagBuilder(ModTags.BURNABLE_PRESSURE_PlATE)
+                .add(Blocks.ACACIA_PRESSURE_PLATE, Blocks.BIRCH_PRESSURE_PLATE, Blocks.DARK_OAK_PRESSURE_PLATE, Blocks.JUNGLE_PRESSURE_PLATE,
+                        Blocks.OAK_PRESSURE_PLATE, Blocks.SPRUCE_PRESSURE_PLATE, Blocks.MANGROVE_PRESSURE_PLATE, Blocks.BAMBOO_PRESSURE_PLATE, Blocks.CHERRY_PRESSURE_PLATE);
+        getOrCreateTagBuilder(ModTags.BURNABLE_SLOPE)
+                .add(ModBlocks.ACACIA_PLANKS_SLOPE, ModBlocks.BIRCH_PLANKS_SLOPE, ModBlocks.DARK_OAK_PLANKS_SLOPE, ModBlocks.JUNGLE_PLANKS_SLOPE,
+                        ModBlocks.OAK_PLANKS_SLOPE, ModBlocks.SPRUCE_PLANKS_SLOPE, ModBlocks.BAMBOO_PLANKS_SLOPE, ModBlocks.CHERRY_PLANKS_SLOPE);
     }
 }

@@ -31,7 +31,7 @@ import java.util.function.Function;
 public class UnbakedSlopeModel implements UnbakedModel {
     private final SlopeShape slopeShape;
     private Sprite sprite;
-    private final SpriteIdentifier spriteID;
+    private SpriteIdentifier spriteId = ModelPlugin.DEFAULT_SPRITE_ID;
     private static final Vector3f CENTERED_VECTOR = new Vector3f(0.5f, 0.5f, 0.5f);
     private static final Vector3f STANDARD_VECTOR = new Vector3f(1f, 1f, 1f);
 
@@ -43,8 +43,17 @@ public class UnbakedSlopeModel implements UnbakedModel {
 
     public UnbakedSlopeModel(SlopeShape slopeShape, SpriteIdentifier spriteId) {
         this.slopeShape = slopeShape;
-        this.spriteID = spriteId;
+        this.spriteId = spriteId;
     }
+
+    public UnbakedSlopeModel(SlopeShape slopeShape) {
+        this.slopeShape = slopeShape;
+    }
+
+    public void setSprite(SpriteIdentifier spriteId) {
+        this.spriteId = spriteId;
+    }
+
 
     @Override
     public Collection<Identifier> getModelDependencies() {
@@ -57,7 +66,7 @@ public class UnbakedSlopeModel implements UnbakedModel {
     @Nullable
     @Override
     public BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer) {
-        sprite = textureGetter.apply(spriteID);
+        sprite = textureGetter.apply(spriteId);
         AffineTransformation transformation = rotationContainer.getRotation();
         Renderer renderer = Objects.requireNonNull(RendererAccess.INSTANCE.getRenderer());
         MeshBuilder builder = renderer.meshBuilder();

@@ -1,17 +1,17 @@
-// 1.21	2024-08-13T10:47:38.3794465	Synchro/Tags for minecraft:block
+// 1.21	2024-08-15T15:17:50.6655615	Synchro/Tags for minecraft:block
 8a0123baeb84ad9347677242108f6dff3e214de1 data\minecraft\tags\block\pressure_plates.json
 74d091f57e6d643aee9b0e061225e8e9cb4ed46d data\minecraft\tags\block\wooden_slabs.json
 a3202c015d70ce296694e9adfdb99fc053b45078 data\synchro\tags\block\burnable_pressure_plate.json
 239d482467cea98ee764f8acca7d6720b2021875 data\synchro\tags\block\wash_away_by_water.json
 8bc57a1af157fc59e5f87efba0baa737fda7ed03 data\synchro\tags\block\wash_away_by_lava.json
-00d651055318358a96b3eed377da0ea9881c8740 data\synchro\tags\block\burnable_slope.json
+280bc07beab5587503b57b1244268c37e46ab0f5 data\synchro\tags\block\burnable_slope.json
 5d0d344873362cf2559dbffa06cd15d859bf0bb0 data\synchro\tags\block\destroy_in_water.json
 784c3999787fc0a1f1aa02d684dcd5928e013112 data\synchro\tags\block\never_fill_fluid.json
 4381e6cc2d89af641762c55e3073b20eb13b2888 data\synchro\tags\block\burn_away_in_lava.json
 42690d032aa61e621b33ad1cc3d480f8c4cfd263 data\minecraft\tags\block\wooden_fences.json
-42690d032aa61e621b33ad1cc3d480f8c4cfd263 data\minecraft\tags\block\fences.json
-f9728ef22b65543dff8ce39e8cab43b7acdb6af0 data\minecraft\tags\block\wooden_stairs.json
 d4e378fbfd70713f31bbf74e7f73b70bca06536b data\synchro\tags\block\burnable_slab.json
+f9728ef22b65543dff8ce39e8cab43b7acdb6af0 data\minecraft\tags\block\wooden_stairs.json
+42690d032aa61e621b33ad1cc3d480f8c4cfd263 data\minecraft\tags\block\fences.json
 ce37590911d61633b851a95cf012709a93ee57f0 data\synchro\tags\block\burnable_fence.json
 98d367028944f144308cfc0ce205e9aa9993258c data\synchro\tags\block\can_store_fluid.json
 3cea4a3d30701f154e66d74258f8472c1c1e6cd9 data\synchro\tags\block\burnable_stairs.json

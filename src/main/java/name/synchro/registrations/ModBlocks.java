@@ -86,25 +86,29 @@ public final class ModBlocks {
             new GasBlock(AbstractBlock.Settings.create().noCollision().nonOpaque().dropsNothing(), ModFluids.STRONGLY_OXIDIZING_GAS), SYNCHRO_BASIC);
 
     // Slope Blocks
-    public static final SlopeBlock OAK_PLANKS_SLOPE = registerFlammableBlock("oak_planks_slope",
+    public static final SlopeBlock OAK_SLOPE = registerFlammableBlock("oak_planks_slope",
             new SlopeBlock(Blocks.OAK_PLANKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION, 5, 20);
-    public static final SlopeBlock SPRUCE_PLANKS_SLOPE = registerFlammableBlock("spruce_planks_slope",
+    public static final SlopeBlock SPRUCE_SLOPE = registerFlammableBlock("spruce_planks_slope",
             new SlopeBlock(Blocks.SPRUCE_PLANKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION, 5, 20);
-    public static final SlopeBlock BIRCH_PLANKS_SLOPE = registerFlammableBlock("birch_planks_slope",
+    public static final SlopeBlock BIRCH_SLOPE = registerFlammableBlock("birch_slope",
             new SlopeBlock(Blocks.BIRCH_PLANKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION, 5, 20);
-    public static final SlopeBlock JUNGLE_PLANKS_SLOPE = registerFlammableBlock("jungle_planks_slope",
+    public static final SlopeBlock JUNGLE_SLOPE = registerFlammableBlock("jungle_slope",
             new SlopeBlock(Blocks.JUNGLE_PLANKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION, 5, 20);
-    public static final SlopeBlock ACACIA_PLANKS_SLOPE = registerFlammableBlock("acacia_planks_slope",
+    public static final SlopeBlock ACACIA_SLOPE = registerFlammableBlock("acacia_slope",
             new SlopeBlock(Blocks.ACACIA_PLANKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION, 5, 20);
-    public static final SlopeBlock DARK_OAK_PLANKS_SLOPE = registerFlammableBlock("dark_oak_planks_slope",
+    public static final SlopeBlock DARK_OAK_SLOPE = registerFlammableBlock("dark_oak_slope",
             new SlopeBlock(Blocks.DARK_OAK_PLANKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION, 5, 20);
-    public static final SlopeBlock CHERRY_PLANKS_SLOPE = registerFlammableBlock("cherry_planks_slope",
+    public static final SlopeBlock CHERRY_SLOPE = registerFlammableBlock("cherry_slope",
             new SlopeBlock(Blocks.CHERRY_PLANKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION, 5, 20);
-    public static final SlopeBlock BAMBOO_PLANKS_SLOPE = registerFlammableBlock("bamboo_planks_slope",
+    public static final SlopeBlock BAMBOO_SLOPE = registerFlammableBlock("bamboo_slope",
             new SlopeBlock(Blocks.BAMBOO_PLANKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION, 5, 20);
-    public static final SlopeBlock CRIMSON_PLANKS_SLOPE = registerBlock("crimson_planks_slope",
+    public static final SlopeBlock BAMBOO_MOSAIC_SLOPE = registerFlammableBlock("bamboo_mosaic_slope",
+            new SlopeBlock(Blocks.BAMBOO_MOSAIC.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION, 5, 20);
+    public static final SlopeBlock MANGROVE_SLOPE = registerFlammableBlock("mangrove_slope",
+            new SlopeBlock(Blocks.MANGROVE_PLANKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION, 5, 20);
+    public static final SlopeBlock CRIMSON_SLOPE = registerBlock("crimson_slope",
             new SlopeBlock(Blocks.CRIMSON_PLANKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
-    public static final SlopeBlock WARPED_PLANKS_SLOPE = registerBlock("warped_planks_slope",
+    public static final SlopeBlock WARPED_SLOPE = registerBlock("warped_slope",
             new SlopeBlock(Blocks.WARPED_PLANKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
     public static final SlopeBlock STONE_SLOPE = registerBlock("stone_slope",
             new SlopeBlock(Blocks.STONE.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
@@ -139,15 +143,15 @@ public final class ModBlocks {
     public static final SlopeBlock SANDSTONE_SLOPE = registerBlock("sandstone_slope",
             new SlopeBlock(Blocks.SANDSTONE.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
     public static final SlopeBlock SMOOTH_SANDSTONE_SLOPE = registerBlock("smooth_sandstone_slope",
-            new SlopeBlock(Blocks.SMOOTH_SANDSTONE.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.SMOOTH_SANDSTONE.getDefaultState(), AbstractBlock.Settings.create(), Identifier.ofVanilla("block/sandstone_top")), SYNCHRO_DECORATION);
     public static final SlopeBlock RED_SANDSTONE_SLOPE = registerBlock("red_sandstone_slope",
             new SlopeBlock(Blocks.RED_SANDSTONE.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
     public static final SlopeBlock SMOOTH_RED_SANDSTONE_SLOPE = registerBlock("smooth_red_sandstone_slope",
-            new SlopeBlock(Blocks.SMOOTH_RED_SANDSTONE.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.SMOOTH_RED_SANDSTONE.getDefaultState(), AbstractBlock.Settings.create(), Identifier.ofVanilla("block/red_sandstone_top")), SYNCHRO_DECORATION);
     public static final SlopeBlock QUARTZ_BLOCK_SLOPE = registerBlock("quartz_block_slope",
-            new SlopeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.QUARTZ_BLOCK.getDefaultState(), AbstractBlock.Settings.create(), Identifier.ofVanilla("block/quartz_block_side")), SYNCHRO_DECORATION);
     public static final SlopeBlock SMOOTH_QUARTZ_SLOPE = registerBlock("smooth_quartz_slope",
-            new SlopeBlock(Blocks.SMOOTH_QUARTZ.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.SMOOTH_QUARTZ.getDefaultState(), AbstractBlock.Settings.create(), Identifier.ofVanilla("block/quartz_block_bottom")), SYNCHRO_DECORATION);
     public static final SlopeBlock PURPUR_BLOCK_SLOPE = registerBlock("purpur_block_slope",
             new SlopeBlock(Blocks.PURPUR_BLOCK.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
     public static final SlopeBlock PRISMARINE_SLOPE = registerBlock("prismarine_slope",
@@ -172,24 +176,28 @@ public final class ModBlocks {
             new SlopeBlock(Blocks.MUD_BRICKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
     public static final SlopeBlock TUFF_SLOPE = registerBlock("tuff_slope",
             new SlopeBlock(Blocks.TUFF.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
+    public static final SlopeBlock POLISHED_TUFF_SLOPE = registerBlock("polished_tuff_slope",
+            new SlopeBlock(Blocks.POLISHED_TUFF.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
+    public static final SlopeBlock TUFF_BRICK_SLOPE = registerBlock("tuff_brick_slope",
+            new SlopeBlock(Blocks.TUFF_BRICKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
     public static final SlopeBlock DEEPSLATE_BRICKS_SLOPE = registerBlock("deepslate_bricks_slope",
             new SlopeBlock(Blocks.DEEPSLATE_BRICKS.getDefaultState(), AbstractBlock.Settings.create()), SYNCHRO_DECORATION);
     public static final SlopeBlock CUT_COPPER_SLOPE = registerBlock("cut_copper_slope",
-            new SlopeBlock(Blocks.CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).nonOpaque()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().nonOpaque()), SYNCHRO_DECORATION);
     public static final SlopeBlock EXPOSED_CUT_COPPER_SLOPE = registerBlock("exposed_cut_copper_slope",
-            new SlopeBlock(Blocks.EXPOSED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).nonOpaque()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.EXPOSED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().nonOpaque()), SYNCHRO_DECORATION);
     public static final SlopeBlock WEATHERED_CUT_COPPER_SLOPE = registerBlock("weathered_cut_copper_slope",
-            new SlopeBlock(Blocks.WEATHERED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).nonOpaque()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.WEATHERED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().nonOpaque()), SYNCHRO_DECORATION);
     public static final SlopeBlock OXIDIZED_CUT_COPPER_SLOPE = registerBlock("oxidized_cut_copper_slope",
-            new SlopeBlock(Blocks.OXIDIZED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).nonOpaque()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.OXIDIZED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().nonOpaque()), SYNCHRO_DECORATION);
     public static final SlopeBlock WAXED_CUT_COPPER_SLOPE = registerBlock("waxed_cut_copper_slope",
-            new SlopeBlock(Blocks.WAXED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).nonOpaque()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.WAXED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().nonOpaque(), Identifier.ofVanilla("block/cut_copper")), SYNCHRO_DECORATION);
     public static final SlopeBlock WAXED_EXPOSED_CUT_COPPER_SLOPE = registerBlock("waxed_exposed_cut_copper_slope",
-            new SlopeBlock(Blocks.WAXED_EXPOSED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).nonOpaque()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.WAXED_EXPOSED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().nonOpaque(), Identifier.ofVanilla("block/exposed_cut_copper")), SYNCHRO_DECORATION);
     public static final SlopeBlock WAXED_WEATHERED_CUT_COPPER_SLOPE = registerBlock("waxed_weathered_cut_copper_slope",
-            new SlopeBlock(Blocks.WAXED_WEATHERED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).nonOpaque()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.WAXED_WEATHERED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().nonOpaque(), Identifier.ofVanilla("block/weathered_cut_copper")), SYNCHRO_DECORATION);
     public static final SlopeBlock WAXED_OXIDIZED_CUT_COPPER_SLOPE = registerBlock("waxed_oxidized_cut_copper_slope",
-            new SlopeBlock(Blocks.WAXED_OXIDIZED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).nonOpaque()), SYNCHRO_DECORATION);
+            new SlopeBlock(Blocks.WAXED_OXIDIZED_CUT_COPPER.getDefaultState(), AbstractBlock.Settings.create().nonOpaque(), Identifier.ofVanilla("block/oxidized_cut_copper")), SYNCHRO_DECORATION);
 
     // Ores
     public static final OresRockBlock SEKITE = registerBlock("sekite",

@@ -21,7 +21,7 @@ public final class ModItemGroups {
             register(Identifier.of(Synchro.MOD_ID, "decoration"),
             FabricItemGroup.builder()
                     .displayName(Text.translatable("itemgroup.synchro.synchro_decoration"))
-                    .icon(() -> new ItemStack(ModBlocks.OAK_PLANKS_SLOPE)).build());
+                    .icon(() -> new ItemStack(ModBlocks.OAK_SLOPE)).build());
 
     private static RegistryKey<ItemGroup> register(Identifier id, ItemGroup itemGroup) {
         RegistryKey<ItemGroup> key = RegistryKey.of(RegistryKeys.ITEM_GROUP, id);

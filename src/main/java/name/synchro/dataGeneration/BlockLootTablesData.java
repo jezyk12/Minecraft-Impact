@@ -43,6 +43,7 @@ public class BlockLootTablesData extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.BURNT_CHARCOAL_SLAB, drops(Items.CHARCOAL, ConstantLootNumberProvider.create(4.0f)));
         addDrop(ModBlocks.BURNT_CHARCOAL_FENCE, drops(Items.CHARCOAL, ConstantLootNumberProvider.create(3.0f)));
         addDrop(ModBlocks.BURNT_CHARCOAL_PRESSURE_PLATE, drops(Items.CHARCOAL, ConstantLootNumberProvider.create(1.0f)));
+        SlopeBlock.SLOPE_BLOCKS.forEach(this::addDrop);
     }
 
     @NotNull
@@ -54,5 +55,4 @@ public class BlockLootTablesData extends FabricBlockLootTableProvider {
                                 ItemEntry.builder(ModItems.BANANA).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0.0f, 2.0f))))
                                 .conditionally(TableBonusLootCondition.builder(DataUtil.entryOf(Enchantments.FORTUNE, registryLookup), LEAVES_STICK_DROP_CHANCE))));
     }
-
 }

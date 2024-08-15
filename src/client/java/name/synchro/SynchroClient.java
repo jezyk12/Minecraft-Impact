@@ -1,6 +1,6 @@
 package name.synchro;
 
-import name.synchro.blockModels.SynchroModelLoadingPlugin;
+import name.synchro.blockModels.ModelPlugin;
 import name.synchro.guidance.Guidance;
 import name.synchro.registries.*;
 import net.fabricmc.api.ClientModInitializer;
@@ -37,7 +37,7 @@ public class SynchroClient implements ClientModInitializer {
         //DebugRendering.renderAll();
         BlockEntityRenderers.registerAll();
         ColorProviders.registerAll();
-        ModelLoadingPlugin.register(new SynchroModelLoadingPlugin());
+        ModelLoadingPlugin.register(new ModelPlugin());
         ClientNetworking.registerAll();
         SetupRenderLayer.setupAll();
         FluidRenderers.registerAll();

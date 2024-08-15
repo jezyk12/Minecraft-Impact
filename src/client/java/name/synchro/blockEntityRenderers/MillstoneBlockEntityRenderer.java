@@ -1,7 +1,7 @@
 package name.synchro.blockEntityRenderers;
 
 import name.synchro.blockEntities.MillstoneBlockEntity;
-import name.synchro.blockModels.SynchroModelLoadingPlugin;
+import name.synchro.blockModels.ModelPlugin;
 import name.synchro.util.BlockEntityExtraCollisionDisplay;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -28,8 +28,8 @@ public class MillstoneBlockEntityRenderer implements BlockEntityRenderer<Millsto
 
     @Override
     public void render(MillstoneBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        BakedModel movableModel = this.bakedModelManager.getModel(SynchroModelLoadingPlugin.MILLSTONE_MOVABLE_ID);
-        BakedModel woodModel = this.bakedModelManager.getModel(SynchroModelLoadingPlugin.MILLSTONE_WOOD_ID);
+        BakedModel movableModel = this.bakedModelManager.getModel(ModelPlugin.MILLSTONE_MOVABLE_ID);
+        BakedModel woodModel = this.bakedModelManager.getModel(ModelPlugin.MILLSTONE_WOOD_ID);
         BlockEntityExtraCollisionDisplay.displayCollisions(entity.getExtraCollisionsOrigin(tickDelta), matrices, vertexConsumers.getBuffer(RenderLayer.getLines()));
         matrices.push();
         matrices.translate(0f, 12 / 16f, 0f);

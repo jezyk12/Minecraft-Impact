@@ -1,13 +1,15 @@
 package name.synchro.dataGeneration;
 
+import name.synchro.api.ModModelDataProvider;
+import name.synchro.blocks.SlopeBlock;
 import name.synchro.registrations.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 
-public class ModelsData extends FabricModelProvider {
-    public ModelsData(FabricDataOutput output) {
+public class ModelsData extends ModModelDataProvider {
+
+	public ModelsData(FabricDataOutput output) {
         super(output);
     }
 
@@ -27,10 +29,12 @@ public class ModelsData extends FabricModelProvider {
                 .slab(ModBlocks.BURNT_CHARCOAL_SLAB)
                 .fence(ModBlocks.BURNT_CHARCOAL_FENCE)
                 .pressurePlate(ModBlocks.BURNT_CHARCOAL_PRESSURE_PLATE);
+        SlopeBlock.SLOPE_BLOCKS.forEach(block -> registerSlope(blockStateModelGenerator, block));
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
 
     }
+
 }

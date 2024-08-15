@@ -98,7 +98,7 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
                 .add(Blocks.ACACIA_PRESSURE_PLATE, Blocks.BIRCH_PRESSURE_PLATE, Blocks.DARK_OAK_PRESSURE_PLATE, Blocks.JUNGLE_PRESSURE_PLATE,
                         Blocks.OAK_PRESSURE_PLATE, Blocks.SPRUCE_PRESSURE_PLATE, Blocks.MANGROVE_PRESSURE_PLATE, Blocks.BAMBOO_PRESSURE_PLATE, Blocks.CHERRY_PRESSURE_PLATE);
         getOrCreateTagBuilder(ModTags.BURNABLE_SLOPE)
-                .add(ModBlocks.ACACIA_PLANKS_SLOPE, ModBlocks.BIRCH_PLANKS_SLOPE, ModBlocks.DARK_OAK_PLANKS_SLOPE, ModBlocks.JUNGLE_PLANKS_SLOPE,
-                        ModBlocks.OAK_PLANKS_SLOPE, ModBlocks.SPRUCE_PLANKS_SLOPE, ModBlocks.BAMBOO_PLANKS_SLOPE, ModBlocks.CHERRY_PLANKS_SLOPE);
+                .add(ModBlocks.ACACIA_SLOPE, ModBlocks.BIRCH_SLOPE, ModBlocks.DARK_OAK_SLOPE, ModBlocks.JUNGLE_SLOPE,
+                        ModBlocks.OAK_SLOPE, ModBlocks.SPRUCE_SLOPE, ModBlocks.BAMBOO_SLOPE, ModBlocks.CHERRY_SLOPE);
     }
 }

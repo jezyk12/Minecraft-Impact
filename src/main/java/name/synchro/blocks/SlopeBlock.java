@@ -5,6 +5,7 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.enums.BlockHalf;
 import net.minecraft.block.enums.StairShape;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -12,6 +13,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,6 +21,9 @@ import java.util.Objects;
 import java.util.Set;
 
 public class SlopeBlock extends StairsBlock {
+    private final BlockState base;
+    @Nullable
+    private final Identifier texture;
     public static final Set<SlopeBlock> SLOPE_BLOCKS = new HashSet<>();
     private static final int SLOPE_PART_AMOUNT = 16;
     private static final HashMap<SlopeState, VoxelShape> SLOPE_SHAPES;
@@ -49,11 +54,26 @@ public class SlopeBlock extends StairsBlock {
     }
 
     public SlopeBlock(BlockState baseBlockState, Settings settings) {
+        this(baseBlockState, settings, null);
+    }
+
+    public SlopeBlock(BlockState baseBlockState, Settings settings, @Nullable Identifier texture) {
         super(baseBlockState, settings.hardness(baseBlockState.getBlock().getHardness())
                 .resistance(baseBlockState.getBlock().getBlastResistance())
                 .sounds(baseBlockState.getSoundGroup())
                 .nonOpaque());
+        this.base = baseBlockState;
+        this.texture = texture;
         SLOPE_BLOCKS.add(this);
+    }
+
+    public BlockState getBaseBlockState(){
+        return this.base;
+    }
+
+    @Nullable
+    public Identifier getTexture(){
+        return this.texture;
     }
 
     @Override

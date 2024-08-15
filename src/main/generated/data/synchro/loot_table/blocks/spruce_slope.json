@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "synchro:spruce_planks_slope"
+          "name": "synchro:spruce_slope"
         }
       ],
       "rolls": 1.0

@@ -16,14 +16,17 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.function.Supplier;
 
 import static name.synchro.registrations.ModItemGroups.SYNCHRO_BASIC;
 @SuppressWarnings("unused")
 public final class ModItems {
-    public static final RawMixedOre RAW_MIXED_ORE = registerItem("raw_mixed_ore",
-            new RawMixedOre(new Item.Settings()),SYNCHRO_BASIC);
+    // Used by dataGen
+    public static final HashSet<Item> ALL = new HashSet<>();
+//    public static final RawMixedOre RAW_MIXED_ORE = registerItem("raw_mixed_ore",
+//            new RawMixedOre(new Item.Settings()),SYNCHRO_BASIC);
 //    public static final Item CABLE_ITEM = registerItem("cable_item",
 //            new BlockItem(ModBlocks.CABLE,new Item.Settings()),SYNCHRO_BASIC);
     public static final DataRod DATA_ROD = registerItem("data_rod",
@@ -56,15 +59,15 @@ public final class ModItems {
             new OresMixture(new Item.Settings()));
 
     static <T extends Item> T registerItem(String path, T item, RegistryKey<ItemGroup> itemGroupKey) {
-        T registeredItem = Registry.register(
-                Registries.ITEM, Identifier.of(Synchro.MOD_ID, path), item);
+        T registeredItem = registerItem(path, item);
         ItemGroupEvents.modifyEntriesEvent(itemGroupKey).register(entries -> entries.add(registeredItem));
         return registeredItem;
     }
 
     static <T extends Item> T registerItem(String path, T item) {
-        return Registry.register(
-                Registries.ITEM, Identifier.of(Synchro.MOD_ID, path), item);
+        T registeredItem = Registry.register(Registries.ITEM, Identifier.of(Synchro.MOD_ID, path), item);
+        if (!(registeredItem instanceof BlockItem)) ALL.add(registeredItem);
+        return registeredItem;
     }
 
     private static void addItemsToItemGroup(){

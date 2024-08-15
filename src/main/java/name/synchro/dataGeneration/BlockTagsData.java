@@ -87,18 +87,23 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
     private void createBurnableBlocks(){
         getOrCreateTagBuilder(ModTags.BURNABLE_FENCE)
                 .add(Blocks.ACACIA_FENCE, Blocks.BIRCH_FENCE, Blocks.DARK_OAK_FENCE, Blocks.JUNGLE_FENCE,
-                        Blocks.OAK_FENCE, Blocks.SPRUCE_FENCE, Blocks.MANGROVE_FENCE, Blocks.BAMBOO_FENCE, Blocks.CHERRY_FENCE);
+                        Blocks.OAK_FENCE, Blocks.SPRUCE_FENCE, Blocks.MANGROVE_FENCE, Blocks.BAMBOO_FENCE,
+                        Blocks.CHERRY_FENCE);
         getOrCreateTagBuilder(ModTags.BURNABLE_SLAB)
                 .add(Blocks.ACACIA_SLAB, Blocks.BIRCH_SLAB, Blocks.DARK_OAK_SLAB, Blocks.JUNGLE_SLAB,
-                        Blocks.OAK_SLAB, Blocks.SPRUCE_SLAB, Blocks.MANGROVE_SLAB, Blocks.BAMBOO_SLAB, Blocks.CHERRY_SLAB);
+                        Blocks.OAK_SLAB, Blocks.SPRUCE_SLAB, Blocks.MANGROVE_SLAB, Blocks.BAMBOO_SLAB,
+                        Blocks.CHERRY_SLAB, Blocks.BAMBOO_MOSAIC_SLAB);
         getOrCreateTagBuilder(ModTags.BURNABLE_STAIRS)
                 .add(Blocks.ACACIA_STAIRS, Blocks.BIRCH_STAIRS, Blocks.DARK_OAK_STAIRS, Blocks.JUNGLE_STAIRS,
-                        Blocks.OAK_STAIRS, Blocks.SPRUCE_STAIRS, Blocks.MANGROVE_STAIRS, Blocks.BAMBOO_STAIRS, Blocks.CHERRY_STAIRS);
+                        Blocks.OAK_STAIRS, Blocks.SPRUCE_STAIRS, Blocks.MANGROVE_STAIRS, Blocks.BAMBOO_STAIRS,
+                        Blocks.CHERRY_STAIRS, Blocks.BAMBOO_MOSAIC_STAIRS);
         getOrCreateTagBuilder(ModTags.BURNABLE_PRESSURE_PlATE)
-                .add(Blocks.ACACIA_PRESSURE_PLATE, Blocks.BIRCH_PRESSURE_PLATE, Blocks.DARK_OAK_PRESSURE_PLATE, Blocks.JUNGLE_PRESSURE_PLATE,
-                        Blocks.OAK_PRESSURE_PLATE, Blocks.SPRUCE_PRESSURE_PLATE, Blocks.MANGROVE_PRESSURE_PLATE, Blocks.BAMBOO_PRESSURE_PLATE, Blocks.CHERRY_PRESSURE_PLATE);
+                .add(Blocks.ACACIA_PRESSURE_PLATE, Blocks.BIRCH_PRESSURE_PLATE, Blocks.DARK_OAK_PRESSURE_PLATE,
+                        Blocks.JUNGLE_PRESSURE_PLATE, Blocks.OAK_PRESSURE_PLATE, Blocks.SPRUCE_PRESSURE_PLATE,
+                        Blocks.MANGROVE_PRESSURE_PLATE, Blocks.BAMBOO_PRESSURE_PLATE, Blocks.CHERRY_PRESSURE_PLATE);
         getOrCreateTagBuilder(ModTags.BURNABLE_SLOPE)
                 .add(ModBlocks.ACACIA_SLOPE, ModBlocks.BIRCH_SLOPE, ModBlocks.DARK_OAK_SLOPE, ModBlocks.JUNGLE_SLOPE,
-                        ModBlocks.OAK_SLOPE, ModBlocks.SPRUCE_SLOPE, ModBlocks.BAMBOO_SLOPE, ModBlocks.CHERRY_SLOPE);
+                        ModBlocks.OAK_SLOPE, ModBlocks.SPRUCE_SLOPE, ModBlocks.BAMBOO_SLOPE, ModBlocks.CHERRY_SLOPE,
+                        ModBlocks.BAMBOO_MOSAIC_SLOPE, ModBlocks.MANGROVE_SLOPE);
     }
 }

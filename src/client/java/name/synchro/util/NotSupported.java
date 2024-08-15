@@ -2,7 +2,6 @@ package name.synchro.util;
 
 import com.google.common.collect.ImmutableSet;
 import name.synchro.registrations.ModBlocks;
-import name.synchro.registrations.ModItems;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.item.Item;
 import net.minecraft.text.Text;
@@ -11,7 +10,6 @@ import java.util.Set;
 
 public final class NotSupported {
     private static final Set<Item> entries = ImmutableSet.of(
-            ModItems.RAW_MIXED_ORE,
             ModBlocks.DIRT_CANAL.asItem(),
             ModBlocks.AOITE.asItem(),
             ModBlocks.SEKITE.asItem(),

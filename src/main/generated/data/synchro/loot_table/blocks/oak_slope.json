@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "synchro:oak_planks_slope"
+          "name": "synchro:oak_slope"
         }
       ],
       "rolls": 1.0

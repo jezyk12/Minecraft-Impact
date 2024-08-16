@@ -1,4 +1,4 @@
-package name.synchro.modUtilData.reactions;
+package name.synchro.modUtilData.locationAction;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

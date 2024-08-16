@@ -13,7 +13,6 @@
     "FarmerVillagerTaskMixin",
     "HoeItemMixin",
     "HopperBlockMixin",
-    "MinecraftServerMixin",
     "PlayerEntityMixin",
     "PlayerInventoryMixin",
     "ScreenHandlerMixin",

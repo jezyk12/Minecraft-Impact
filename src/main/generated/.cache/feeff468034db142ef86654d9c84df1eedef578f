@@ -1,4 +1,4 @@
-// 1.21	2024-08-15T17:21:09.023675	Synchro/Model Definitions
+// 1.21	2024-08-16T23:25:26.5419825	Synchro/Model Definitions
 7c36707d416821199c32b447c8671dd45c801f1d assets\synchro\models\block\slopes\weathered_cut_copper_slope_outer.json
 dc4d213060ebb22a25c50ab3e9279fb44984ad03 assets\synchro\models\item\nganite.json
 e22908f068fffaefb64f42c8b59def7e64509c8c assets\synchro\models\block\slopes\end_stone_bricks_slope_straight.json
@@ -130,9 +130,9 @@ db2750dcf32ef736c70f77f0b4794ea33de136e9 assets\synchro\blockstates\polished_tuf
 9b437b8ed0b1c55a5f0f6dfc8fc291ebd54dad8d assets\synchro\blockstates\mossy_cobblestone_slope.json
 9031cae94307a4c3ae8ed197d46b3136983be914 assets\synchro\models\block\slopes\diorite_slope_straight.json
 bd59937c32e116065749b7f5cfb94b0fe0203ee7 assets\synchro\models\block\slopes\polished_deepslate_slope_straight.json
-15f0de71508e986d78c5d8b4cdab65b8c952f9d2 assets\synchro\models\item\burnt_charcoal_slab.json
 cad5676f99cec0a14c57ba3972c58b66810c02e3 assets\synchro\blockstates\dark_prismarine_slope.json
 eab3311abad01fa28b7b81bb250b9b04b38aae88 assets\synchro\blockstates\baakite.json
+15f0de71508e986d78c5d8b4cdab65b8c952f9d2 assets\synchro\models\item\burnt_charcoal_slab.json
 f90df101865827f06cae38211bf008376c6ecb3c assets\synchro\models\item\deepslate_tiles_slope.json
 6e0c859c24d6f4dbdde8a2345cde547d021558df assets\synchro\models\item\sekite.json
 6a2033affe2444a566681cde859bf2c1783b2ad1 assets\synchro\blockstates\burnt_charcoal_slope.json

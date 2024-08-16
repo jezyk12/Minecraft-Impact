@@ -3,7 +3,6 @@ package name.synchro.mixin.fluidConcerned;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import name.synchro.modUtilData.ModDataManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.server.MinecraftServer;
@@ -16,7 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ServerWorld.class)
-public abstract class ServerWorldMixin implements ModDataManager.Provider {
+public abstract class ServerWorldMixin {
     @Shadow @NotNull public abstract MinecraftServer getServer();
 
     @WrapOperation(method = "tickChunk", at = @At(value = "INVOKE", target= "Lnet/minecraft/block/BlockState;getFluidState()Lnet/minecraft/fluid/FluidState;"))
@@ -25,8 +24,4 @@ public abstract class ServerWorldMixin implements ModDataManager.Provider {
         return chunkSection.getFluidState(blockPos.getX() & 15, blockPos.getY() & 15, blockPos.getZ() & 15);
     }
 
-    @Override
-    public ModDataManager synchro$getModDataManager() {
-        return ((ModDataManager.Provider) this.getServer()).synchro$getModDataManager();
-    }
 }

@@ -4,6 +4,7 @@ import name.synchro.blockEntities.MillstoneBlockEntity;
 import name.synchro.employment.CowWorkingHandler;
 import name.synchro.employment.Employer;
 import name.synchro.employment.WorkingHandler;
+import name.synchro.modUtilData.dataEntries.CowFeedDataEntry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
@@ -78,8 +79,8 @@ public class PushMillstoneGoal extends AbstractWorkingGoal{
                 boolean hungry = false;
                 if (cowWorkingHandler.workableTime < 100){
                     ItemStack feed = millstoneBlockEntity.getStack(MillstoneBlockEntity.SLOT_FEED);
-                    if (MillstoneBlockEntity.isFeed(this.mob.getWorld(), feed)){
-                        int feedTime = MillstoneBlockEntity.getFeedTime(this.mob.getWorld(), feed);
+                    if (CowFeedDataEntry.isFeed(this.mob.getWorld(), feed)){
+                        int feedTime = CowFeedDataEntry.getFeedTime(this.mob.getWorld(), feed);
                         feed.decrement(1);
                         cowWorkingHandler.workableTime += feedTime - 100 + random.nextInt(200);
                         mob.getWorld().playSoundFromEntity(null, mob, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.NEUTRAL, 1.0F, 1.0F);

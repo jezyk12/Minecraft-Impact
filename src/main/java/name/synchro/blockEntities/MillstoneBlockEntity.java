@@ -4,14 +4,12 @@ import name.synchro.Synchro;
 import name.synchro.employment.BlockEntityWorkerManager;
 import name.synchro.employment.Employer;
 import name.synchro.employment.Job;
+import name.synchro.modUtilData.dataEntries.CowFeedDataEntry;
 import name.synchro.registrations.ModBlockEntities;
 import name.synchro.registrations.ModItems;
 import name.synchro.screenHandlers.MillstoneScreenHandler;
 import name.synchro.specialRecipes.MillstoneRecipe;
 import name.synchro.util.*;
-import name.synchro.modUtilData.dataEntries.CowWorkingFeedsData;
-import name.synchro.modUtilData.ModDataContainer;
-import name.synchro.modUtilData.ModDataManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -130,7 +128,7 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
                 return canInsertForProcessing(world, stack);
             }
             else if (slot == SLOT_FEED && world != null) {
-                return isFeed(world, stack);
+                return CowFeedDataEntry.isFeed(world, stack);
             }
         }
         return false;
@@ -142,27 +140,6 @@ public class MillstoneBlockEntity extends BlockEntity implements SidedInventory,
                     .stream().anyMatch(recipe -> recipe.value().input().test(stack));
         }
         return false;
-    }
-
-    public static boolean isFeed(World world, ItemStack stack){
-        if (world != null){
-            ModDataContainer<?> container = ((ModDataManager.Provider)(world)).synchro$getModDataManager().getContents().get(CowWorkingFeedsData.ID);
-            if (container instanceof CowWorkingFeedsData cowData){
-                return cowData.data().stream().anyMatch(entry -> entry.items().test(stack));
-            }
-        }
-        return false;
-    }
-
-    public static int getFeedTime(World world, ItemStack stack){
-        if (world != null){
-            ModDataContainer<?> container = ((ModDataManager.Provider)(world)).synchro$getModDataManager().getContents().get(CowWorkingFeedsData.ID);
-            if (container instanceof CowWorkingFeedsData cowData){
-                return Math.max(cowData.data().stream().filter(entry -> entry.items().test(stack)).map(CowWorkingFeedsData.Entry::time)
-                        .max(Integer::compareTo).orElse(100), 100);
-            }
-        }
-        return 100;
     }
 
     @Override

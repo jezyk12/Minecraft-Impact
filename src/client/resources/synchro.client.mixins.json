@@ -3,7 +3,6 @@
   "package": "name.synchro.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "ClientWorldMixin",
     "MinecraftClientMixin",
     "FluidConcerned.ChunkRendererRegionMixin",
     "FluidConcerned.FluidRendererMixin",

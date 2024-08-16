@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import name.synchro.Synchro;
-import name.synchro.modUtilData.reactions.LocationAction;
+import name.synchro.modUtilData.locationAction.LocationAction;
 import name.synchro.registrations.ModRegistries;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

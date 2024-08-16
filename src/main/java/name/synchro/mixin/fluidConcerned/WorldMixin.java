@@ -2,7 +2,6 @@ package name.synchro.mixin.fluidConcerned;
 
 import name.synchro.fluids.FluidHelper;
 import name.synchro.fluids.FluidUtil;
-import name.synchro.modUtilData.ModDataManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -19,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(World.class)
-public abstract class WorldMixin implements WorldAccess, FluidHelper.ForWorld, ModDataManager.Provider {
+public abstract class WorldMixin implements WorldAccess, FluidHelper.ForWorld {
     @Shadow public abstract boolean isClient();
     @Shadow public abstract FluidState getFluidState(BlockPos pos);
 
@@ -36,11 +35,6 @@ public abstract class WorldMixin implements WorldAccess, FluidHelper.ForWorld, M
     @Override
     public boolean synchro$setFluidState(BlockPos pos, FluidState state, int flags, int maxDepth) {
         return FluidUtil.worldSetFluidState(((World) (Object) this), pos, state, flags, maxDepth);
-    }
-
-    @Override
-    public ModDataManager synchro$getModDataManager() {
-        return ModDataManager.DUMMY;
     }
 
     @Inject(method = "setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;II)Z",

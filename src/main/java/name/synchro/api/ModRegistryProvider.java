@@ -1,6 +1,7 @@
 package name.synchro.api;
 
 import name.synchro.Synchro;
+import name.synchro.modUtilData.dataEntries.CowFeedDataEntry;
 import name.synchro.modUtilData.dataEntries.FluidReaction;
 import name.synchro.registrations.ModRegistries;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -21,6 +22,11 @@ public abstract class ModRegistryProvider extends FabricDynamicRegistryProvider 
         super(output, registriesFuture);
     }
 
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
     public static void addFluidReaction(Entries entries, String path, FluidReaction fluidReaction){
         entries.add(RegistryKey.of(ModRegistries.Keys.FLUID_REACTION, Synchro.id(path)), fluidReaction);
     }
@@ -33,13 +39,12 @@ public abstract class ModRegistryProvider extends FabricDynamicRegistryProvider 
                                 Optional.ofNullable(max == null ? null : String.valueOf(max))))));
     }
 
-
     public static FluidReaction.Builder fluidReactionBuilder(){
         return FluidReaction.builder();
     }
 
-    @Override
-    public String getName() {
-        return NAME;
+    public static void addCowWorkingFeedsData(Entries entries, String path, CowFeedDataEntry entry){
+        entries.add(RegistryKey.of(ModRegistries.Keys.COW_FEEDS_DATA_ENTRIES, Synchro.id(path)), entry);
     }
+
 }

@@ -335,31 +335,28 @@ public final class FluidUtil {
         }
     }
 
-    /**
-     * @return whether original operation should be called
-     */
     public static boolean onLavaFormsStone(WorldAccess world, BlockPos pos) {
-        return true;
+        return onSolidifyLava(world, pos);
     }
 
-    /**
-     * @return whether original operation should be called
-     */
     public static boolean onLavaFormsObsidian(World world, BlockPos pos) {
-        return !world.getBlockState(pos).isFullCube(world, pos);
+        return onSolidifyLava(world, pos);
     }
 
-    /**
-     * @return whether original operation should be called
-     */
     public static boolean onLavaFormsCobblestone(World world, BlockPos pos) {
-        return true;
+        return onSolidifyLava(world, pos);
     }
 
-    /**
-     * @return whether original operation should be called
-     */
     public static boolean onLavaFormsBasalt(World world, BlockPos pos) {
+        return onSolidifyLava(world, pos);
+    }
+
+    private static boolean onSolidifyLava(WorldAccess world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+        if (!state.isAir() && !(state.getBlock() instanceof FluidBlock)) {
+            if (state.isFullCube(world, pos)) return false;
+            world.breakBlock(pos, true);
+        }
         return true;
     }
 

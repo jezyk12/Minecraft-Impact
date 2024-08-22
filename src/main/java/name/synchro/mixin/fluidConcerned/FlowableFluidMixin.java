@@ -106,7 +106,7 @@ public abstract class FlowableFluidMixin {
 
     @Inject(method = "canFill", at = @At("HEAD"), cancellable = true)
     private void modifyCanFill(BlockView world, BlockPos pos, BlockState state, Fluid fluid, CallbackInfoReturnable<Boolean> cir){
-        boolean covered = FluidUtil.canBlockCoverFluid(world, pos, state, 1.0f);
+        boolean covered = FluidUtil.canBlockReplaceFluid(world, pos, state, 1.0f);
         cir.setReturnValue(!covered);
         cir.cancel();
     }

@@ -47,7 +47,8 @@ public final class BlockTagsData extends FabricTagProvider.BlockTagProvider {
         addUnstableNonburnable(tag_WashAwayByLava);
 
         getOrCreateTagBuilder(ModTags.NEVER_FILL_FLUID)
-                .add(Blocks.DIRT_PATH, Blocks.FARMLAND, Blocks.SOUL_SAND, Blocks.MUD, Blocks.HONEY_BLOCK);
+                .add(Blocks.DIRT_PATH, Blocks.FARMLAND, Blocks.SOUL_SAND, Blocks.MUD, Blocks.HONEY_BLOCK)
+                .add(Blocks.END_PORTAL_FRAME, Blocks.END_PORTAL, Blocks.END_GATEWAY);
     }
 
     private static void addVanillaSmallRedstoneComponents(FabricTagBuilder builder){

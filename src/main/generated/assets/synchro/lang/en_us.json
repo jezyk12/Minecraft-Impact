@@ -1,6 +1,7 @@
 {
   "advancements.farming.fertile_dirt.description": "Got a fertile dirt",
   "advancements.farming.fertile_dirt.title": "Dark Gold",
+  "argument.synchro.fluid.id.unknown": "Unknown fluid '%s'",
   "block.synchro.acacia_slope": "Acacia Slope",
   "block.synchro.andesite_slope": "Andesite Slope",
   "block.synchro.aoite": "Aoite",
@@ -139,5 +140,13 @@
   "tooltip.synchro.metal": "Metal",
   "tooltip.synchro.metal_content": "Content:",
   "tooltip.synchro.not_supported": "This item is not yet completed or have already been deprecated",
-  "tooltip.synchro.rock": "Rocks"
+  "tooltip.synchro.rock": "Rocks",
+  "argument.synchro.fluid.property.unknown": "Fluid '%s' doesn't have property '%s'",
+  "argument.synchro.fluid.property.duplicate": "Property '%s' can only be set once for fluid '%s'",
+  "argument.synchro.fluid.property.unclosed": "Expected closing ']' for fluid state properties",
+  "argument.synchro.fluid.property.empty": "Expected value for property '%s' on fluid '%s'",
+  "argument.synchro.fluid.property.invalid": "Fluid '%s' does not accept '%s' for property '%s'",
+  "commands.synchro.fluid.blocked": "Cannot place given fluid due to block %s occupying the space",
+  "commands.synchro.fluid.set": "Target fluid has been set",
+  "commands.synchro.fluid.unsuccessful": "Cannot place given fluid"
 }

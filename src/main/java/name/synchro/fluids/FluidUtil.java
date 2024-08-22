@@ -252,12 +252,12 @@ public final class FluidUtil {
     }
 
     public static void onChunkSetBlockState(WorldChunk worldChunk, BlockPos pos, BlockState blockState) {
-        if (canBlockCoverFluid(worldChunk.getWorld(), pos, blockState, worldChunk.getFluidState(pos).getHeight())) {
+        if (canBlockReplaceFluid(worldChunk.getWorld(), pos, blockState, worldChunk.getFluidState(pos).getHeight())) {
             ((FluidHelper.ForChunk) worldChunk).synchro$setFluidState(pos, Fluids.EMPTY.getDefaultState());
         }
     }
 
-    public static boolean canBlockCoverFluid(BlockView world, BlockPos pos, BlockState blockState, float height){
+    public static boolean canBlockReplaceFluid(BlockView world, BlockPos pos, BlockState blockState, float height){
         if (blockState.isAir()) return false;
         if (blockState.isIn(ModTags.CAN_STORE_FLUID)) return false;
         if (blockState.isIn(ModTags.NEVER_FILL_FLUID)) return true;
@@ -306,7 +306,7 @@ public final class FluidUtil {
         boolean nullHit = hitResult == null;
         if (!nullHit) pos = hitResult.getBlockPos();
         BlockState blockState = world.getBlockState(pos);
-        boolean covered = canBlockCoverFluid(world, pos, blockState, 8 / 9f);
+        boolean covered = canBlockReplaceFluid(world, pos, blockState, 8 / 9f);
         Fluid fluid = ((FluidHelper.ForBucketItem) instanceItem).synchro$getFluid();
         if (covered) {
             if (nullHit) return Optional.of(false);
